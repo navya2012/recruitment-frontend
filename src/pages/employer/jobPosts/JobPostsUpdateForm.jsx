@@ -4,7 +4,7 @@ import React from 'react'
 import '../../../CSSModules/formStyles/formPageStyles.css'
 import { useDispatch } from 'react-redux';
 import '../../../CSSModules/pageStyles/jobPostsStyles.css'
-import { createJobPosts, updateJobPostsData } from '../../../api\'s/employerApi\'s';
+import {  updateJobPostsData } from '../../../api\'s/employerApi\'s';
 import CloseIcon from '@mui/icons-material/Close';
 
 
