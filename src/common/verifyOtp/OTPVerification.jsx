@@ -20,7 +20,6 @@ const OTPVerification = () => {
 
     const [otp, setOtp] = useState(Array(6).fill(''));
     const [timer, setTimer] = useState(60)
-    const [isResendDisabled, setIsResendDisabled] = useState(false);
 
     // Function to format time in mm:ss
     const formatTime = (seconds) => {
@@ -31,7 +30,6 @@ const OTPVerification = () => {
 
     useState(() => {
         if (timer === 0) {
-            setIsResendDisabled(false);
             toast.error("OTP has expired. Please Resend Code ", {
                 position: "top-center",
                 autoClose: 3000,
@@ -83,26 +81,6 @@ const OTPVerification = () => {
         }
     };
 
-    //   const handleResendCode = async (e) => {
-    //     setIsResendDisabled(true);
-    //     setTimer(60); // Reset the timer
-
-    //     const otpString = otp.join('');
-    //     try {
-    //         // Pass a special parameter or flag to indicate resend
-    //         await verifyOtp(otpString, navigate, true); // Assume `true` indicates resend
-    //         toast.success("OTP resent successfully. Please check your email.", {
-    //             position: "top-center",
-    //             autoClose: 3000,
-    //         });
-    //     } catch (error) {
-    //         toast.error("Failed to resend OTP. Please try again.", {
-    //             position: "top-center",
-    //             autoClose: 3000,
-    //         });
-    //     }
-
-    //   }
     return (
         <>
             <Grid container height="100vh">
