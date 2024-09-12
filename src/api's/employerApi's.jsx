@@ -2,7 +2,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import '../CSSModules/formStyles/formPageStyles.css'
 import { loginSuccess, setLoading } from '../redux/slices/authSlice'
-import { addJobPost, setDeleteJobPosts, setJobAppliedUsers, setJobPosts, setUpdateJobPost } from '../redux/slices/employerSlice'
+import { addJobPost, setDeleteJobPosts, setJobPosts, setUpdateJobPost } from '../redux/slices/employerSlice'
 
 
 const BASE_URL = "http://localhost:5000/api"
@@ -69,7 +69,6 @@ export const updateEmployerDetails = (formData) => async (dispatch) => {
     }
 }
 
-
 //create job posts
 export const createJobPosts = (jobPosts) => async (dispatch) => {
     dispatch(setLoading(true));
@@ -82,7 +81,7 @@ export const createJobPosts = (jobPosts) => async (dispatch) => {
                 },
             }
         )
-        if (response && response.data && response.status === 201) {
+        if (response && response.data && response.status === 200) {
             const newJobPost = response.data.newJobPostData
             dispatch(addJobPost(newJobPost))
             toast.success(response.data.message, {
@@ -113,7 +112,6 @@ export const createJobPosts = (jobPosts) => async (dispatch) => {
     }
 
 }
-
 
 //update job posts
 export const updateJobPostsData = (jobPosts) => async (dispatch) => {
@@ -159,7 +157,7 @@ export const updateJobPostsData = (jobPosts) => async (dispatch) => {
 }
 
 //get job posts
-export const getJobPostsData = () => async (dispatch) => {
+export const getAllJobPostsPostedByEmployer = () => async (dispatch) => {
     dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
@@ -238,22 +236,19 @@ export const deleteJobPostsData = (jobId) => async (dispatch) => {
     }
 }
 
-
-// get job applied lists
-export const getJobAppliedPostsList = () => async(dispatch) => {
+//get all job posts applied by employee posted by employer
+export const getAllAppliedJobPostsPostedByEmployer = () => async(dispatch) => {
     dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
-        const response = await axios.get(`${BASE_URL}/employer/applied-job-posts`,
+        const response = await axios.get(`${BASE_URL}/employer/get-job-applied-posts`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             }
         )
-
         if (response && response.data && response.status === 200) {
-            dispatch(setJobAppliedUsers(response.data.jobAppliedPostsList))
             toast.success(response.data.message, {
                 position: "top-center",
                 autoClose: 3000,

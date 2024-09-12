@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, Grid, Modal, Paper, styled, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import JobPostsForm from './JobPostsForm';
-import { deleteJobPostsData, getJobPostsData } from '../../../api\'s/employerApi\'s';
+import { deleteJobPostsData, getAllJobPostsPostedByEmployer } from '../../../api\'s/employerApi\'s';
 import { useDispatch, useSelector } from 'react-redux';
 import JobPostsUpdateForm from './JobPostsUpdateForm';
 
@@ -18,14 +18,14 @@ const JobPosts = () => {
     const [open, setOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [updateJobPosts, setUpdateJobPosts] = useState({
-        companyName:'',
-        role:'',
-        technologies:'',
-        experience:'',
-        graduation:'',
-        location:'',
-        languages:'',
-        noticePeriod:''
+        companyName: '',
+        role: '',
+        technologies: '',
+        experience: '',
+        graduation: '',
+        location: '',
+        languages: '',
+        noticePeriod: ''
     })
 
     const { jobPosts } = useSelector((state) => state.employerReducer)
@@ -33,7 +33,7 @@ const JobPosts = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getJobPostsData())
+        dispatch(getAllJobPostsPostedByEmployer())
     }, [dispatch])
 
     const handleAddData = () => {
@@ -42,7 +42,6 @@ const JobPosts = () => {
     }
 
     const handleDelete = (jobId) => {
-        console.log(jobId)
         dispatch(deleteJobPostsData(jobId))
     }
 
@@ -50,8 +49,8 @@ const JobPosts = () => {
         setIsEditing(true);
         setUpdateJobPosts({
             _id: jobData._id,
-            companyName:jobData.companyName,
-            role:jobData.role,
+            companyName: jobData.companyName,
+            role: jobData.role,
             technologies: jobData.technologies,
             experience: jobData.experience,
             graduation: jobData.graduation,
@@ -65,6 +64,7 @@ const JobPosts = () => {
     const handleClose = () => {
         setOpen(false);
     };
+
     return (
         <>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -76,64 +76,72 @@ const JobPosts = () => {
                                 Add Job Posts
                             </StyledButton>
                         </Box>
-                        <Grid container spacing={3}>
-                            {jobPosts.length > 0 && jobPosts.map((job) => (
-                                <Grid item xs={12} key={job._id}>
-                                    <Card sx={{ padding: ' 30px' }}>
-                                        <CardContent>
-                                            <Grid container spacing={3}>
-                                                <Grid item xs={12} sm={4}>
-                                                    <Typography variant="body1">
-                                                        <strong>Company Name:</strong> {job.companyName}
-                                                    </Typography>
+
+                        {/* Display "No Posts Found" if there are no job posts */}
+                        {jobPosts.length === 0 ? (
+                            <Typography variant="h5" sx={{ textAlign: 'center', textTransform:'uppercase', paddingTop: '20px' }}>
+                                No posts found.
+                            </Typography>
+                        ) : (
+                            <Grid container spacing={3}>
+                                {jobPosts.map((job) => (
+                                    <Grid item xs={12} key={job._id}>
+                                        <Card sx={{ padding: '30px' }}>
+                                            <CardContent>
+                                                <Grid container spacing={3}>
+                                                    <Grid item xs={12} sm={4}>
+                                                        <Typography variant="body1">
+                                                            <strong>Company Name:</strong> {job.companyName}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={4}>
+                                                        <Typography variant="body1">
+                                                            <strong>Role:</strong> {job.role}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={4}>
+                                                        <Typography variant="body1">
+                                                            <strong>Technologies:</strong> {job.technologies}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={4}>
+                                                        <Typography variant="body1">
+                                                            <strong>Experience:</strong> {job.experience}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={4}>
+                                                        <Typography variant="body1">
+                                                            <strong>Location:</strong> {job.location}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={4}>
+                                                        <Typography variant="body1">
+                                                            <strong>Graduation:</strong> {job.graduation}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={4}>
+                                                        <Typography variant="body1">
+                                                            <strong>Languages:</strong> {job.languages}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={4}>
+                                                        <Typography variant="body1">
+                                                            <strong>Notice Period:</strong> {job.noticePeriod}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={12}>
+                                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '20px' }}>
+                                                            <StyledButton type="submit" onClick={() => handleEdit(job)} variant="contained">Edit</StyledButton>
+                                                            <StyledButton type="submit" onClick={() => handleDelete(job._id)} variant="contained">Delete</StyledButton>
+                                                        </Box>
+                                                    </Grid>
                                                 </Grid>
-                                                <Grid item xs={12} sm={4}>
-                                                    <Typography variant="body1">
-                                                        <strong>Role:</strong> {job.role}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item xs={12} sm={4}>
-                                                    <Typography variant="body1">
-                                                        <strong>Technologies:</strong> {job.technologies}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item xs={12} sm={4}>
-                                                    <Typography variant="body1">
-                                                        <strong>Experience:</strong> {job.experience}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item xs={12} sm={4}>
-                                                    <Typography variant="body1">
-                                                        <strong>Location:</strong> {job.location}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item xs={12} sm={4}>
-                                                    <Typography variant="body1">
-                                                        <strong>Graduation:</strong> {job.graduation}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item xs={12} sm={4}>
-                                                    <Typography variant="body1">
-                                                        <strong>Languages:</strong> {job.languages}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item xs={12} sm={4}>
-                                                    <Typography variant="body1">
-                                                        <strong>Notice Period:</strong> {job.noticePeriod}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item xs={12} sm={12}>
-                                                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '20px' }}>
-                                                        <StyledButton type="submit" onClick={() => handleEdit(job)} variant="contained">Edit</StyledButton>
-                                                        <StyledButton type="submit" onClick={() => handleDelete(job._id)} variant="contained">Delete</StyledButton>
-                                                    </Box>
-                                                </Grid>
-                                            </Grid>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        )}
                     </Box>
                 </Paper>
 
@@ -155,7 +163,6 @@ const JobPosts = () => {
                         maxWidth: '750px'
                     }}
                     >
-
                         {isEditing ? (
                             <JobPostsUpdateForm handleClose={handleClose} setOpen={setOpen} updateJobPosts={updateJobPosts} setUpdateJobPosts={setUpdateJobPosts} />
                         ) : (
@@ -168,5 +175,4 @@ const JobPosts = () => {
     )
 }
 
-
-export default JobPosts
+export default JobPosts;

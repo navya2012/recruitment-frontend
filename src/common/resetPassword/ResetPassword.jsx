@@ -3,9 +3,9 @@ import { Box, Button, Grid, TextField, Typography, InputAdornment, IconButton } 
 import AuthCoverPage from '../authCoverPage/AuthCoverPage';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import { setLoading } from '../../redux/slices/authSlice';
+import { logout, setLoading } from '../../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { resetPassword } from '../../api\'s/authApi\'s';
+import { changePassword } from '../../api\'s/authApi\'s';
 
 
 const ResetPassword = () => {
@@ -20,7 +20,7 @@ const ResetPassword = () => {
         }
     };
 
-    const [state, dispatch] = useReducer(passwordReducer, {oldPassword: '', newPassword: '',  showPassword: false });
+    const [state, dispatch] = useReducer(passwordReducer, { oldPassword: '', newPassword: '', showPassword: false });
     const navigate = useNavigate()
     const oldPasswordRef = useRef(null);
     const newPasswordRef = useRef(null);
@@ -45,10 +45,13 @@ const ResetPassword = () => {
         try {
             const oldPassword = oldPasswordRef.current.value;
             const newPassword = newPasswordRef.current.value;
-            const response = await resetPassword(oldPassword, newPassword, navigate);
+            const response = await changePassword(oldPassword, newPassword, navigate);
             if (response.success) {
-                dispatch({ type: 'SET_FIELD', field: 'oldPassword', payload: '' });
-                dispatch({ type: 'SET_FIELD', field: 'newPassword', payload: '' });
+                console.log('....logging out')
+                // dispatch({ type: 'SET_FIELD', field: 'oldPassword', payload: '' });
+                // dispatch({ type: 'SET_FIELD', field: 'newPassword', payload: '' });
+                dispatch(logout())
+                console.log('Logged out');
             }
         } finally {
             setLoading(false);
@@ -68,10 +71,10 @@ const ResetPassword = () => {
                         </Typography>
                         <Box component='form' onSubmit={handleSubmit}>
                             <TextField variant="outlined" fullWidth margin="normal"
-                                label="Old Password" name="oldPassword" 
+                                label="Old Password" name="oldPassword"
                                 type={state.showPassword ? "text" : "password"}
                                 inputRef={oldPasswordRef}
-                            onChange={handleChange}  
+                                onChange={handleChange}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position='end'>
@@ -89,10 +92,10 @@ const ResetPassword = () => {
                             />
 
                             <TextField variant="outlined" fullWidth margin="normal"
-                                label="New Password" name="newPassword" 
+                                label="New Password" name="newPassword"
                                 type={state.showPassword ? "text" : "password"}
                                 inputRef={newPasswordRef}
-                            onChange={handleChange} 
+                                onChange={handleChange}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position='end'>

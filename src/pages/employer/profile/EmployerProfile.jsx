@@ -12,7 +12,6 @@ const EmployerProfile = () => {
     const [open, setOpen] = useState(false);
 
     const handleEdit = () => {
-        console.log('UserData:', userData);
         setOpen(true);
         setUpdateEmployerFormData({
             _id: userData._id,

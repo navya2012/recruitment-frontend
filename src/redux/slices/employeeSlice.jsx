@@ -4,6 +4,7 @@ const initialState = {
     loading: false,
     experienceData: {},
     allJobPosts: [],
+    jobAppliedPosts:[],
     error: null
 }
 
@@ -38,20 +39,19 @@ const employeeSlice = createSlice({
                 error: null
             }
         },
-        updateJobPostStatus: (state, action) => {
-            const { jobId, status } = action.payload;
-            state.allJobPosts = state.allJobPosts.map(job =>
-                job._id === jobId ? 
-                {
-                    ...job,
-                    jobAppliedStatus: {
-                        ...job.jobAppliedStatus,
-                        status: status, 
-                    }
-                } 
-                : job
-            );
-            state.error = null;
+        setAddJobAppliedPosts: (state, action) => {
+            return {
+                ...state,
+                jobAppliedPosts: [...state.jobAppliedPosts, action.payload],
+                error: null,
+            };
+        },        
+        setJobAppliedPosts: (state, action) => {
+            return {
+                ...state,
+                jobAppliedPosts: action.payload,
+                error: null
+            }
         },
         clearError: (state) => {
             state.error = null;
@@ -59,13 +59,13 @@ const employeeSlice = createSlice({
     }
 })
 
-
 export const {
     setLoading,
     setAllJobPosts,
-    updateJobPostStatus,
+    setJobAppliedPosts,
     setAllExperienceData,
     setExperienceSuccess,
+    setAddJobAppliedPosts,
     clearError
 }
 

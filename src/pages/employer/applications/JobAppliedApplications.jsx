@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getJobAppliedPostsList } from '../../../api\'s/employerApi\'s'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { getAllAppliedJobPostsPostedByEmployer } from '../../../api\'s/employerApi\'s'
 import TableContainer from '@mui/material/TableContainer';
 import { Box, Paper, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography, } from "@mui/material";
-
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -23,17 +22,23 @@ const Headings = [
 
 
 const JobAppliedApplications = () => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const { jobAppliedUsers } = useSelector((state) => state.employerReducer)
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(6);
+  const [appliedJobs, setAppliedJobs] = useState([]);
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log('Dispatching API call...');
-    dispatch(getJobAppliedPostsList())
-  }, [dispatch])
+    const fetchAppliedJobs = async () => {
+      try {
+        const response = await dispatch(getAllAppliedJobPostsPostedByEmployer()); 
+        setAppliedJobs(response.data.jobAppliedPostsList);
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    };
+    fetchAppliedJobs();
+  }, [dispatch]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -74,20 +79,20 @@ const JobAppliedApplications = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {jobAppliedUsers.length > 0 ? (
-                  jobAppliedUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data, id) => (
+                {appliedJobs.length > 0 ? (
+                  appliedJobs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data, id) => (
                     <TableRow key={id} >
                       <StyledTableCell >
-                        {data.jobAppliedStatus.employeeDetails.firstName === "" ? ("-") : data.jobAppliedStatus.employeeDetails.firstName}{"  "}
-                        {data.jobAppliedStatus.employeeDetails.lastName === "" ? ("-") : data.jobAppliedStatus.employeeDetails.lastName}
+                        {data.firstName === "" ? ("-") : data.firstName}{"  "}
+                        {data.lastName === "" ? ("-") : data.lastName}
                       </StyledTableCell>
                       <StyledTableCell >
-                        {data.jobAppliedStatus.employeeDetails.email === "" ? ("-") : data.jobAppliedStatus.employeeDetails.email} 
+                        {data.email === "" ? ("-") : data.email} 
                       </StyledTableCell>
                       <StyledTableCell >{data.companyName === "" ? ("-") : data.companyName}</StyledTableCell>
                       <StyledTableCell >{data.role === "" ? ("-") : data.role}</StyledTableCell>
                       <StyledTableCell >
-                        {data.jobAppliedStatus.employeeDetails.jobAppliedDate === "" ? ("-") : formatDate(data.jobAppliedStatus.employeeDetails.jobAppliedDate)}
+                        {data.jobAppliedDate === "" ? ("-") : formatDate(data.jobAppliedDate)}
                         </StyledTableCell>
                     </TableRow>
                   ))
@@ -96,9 +101,9 @@ const JobAppliedApplications = () => {
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[ 5, 10, 15, 20]}
+            rowsPerPageOptions={[ 6, 12, 18]}
             component="div"
-            count={jobAppliedUsers.length}
+            count={appliedJobs.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

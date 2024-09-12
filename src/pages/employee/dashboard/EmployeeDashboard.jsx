@@ -1,6 +1,7 @@
 import React from 'react'
 import EmployeeProfile from '../profile/EmployeeProfile'
 import WorkingExperience from '../workingExperience/WorkingExperience'
+import AppliedJobPostsList from '../appliedJobPosts/AppliedJobPostsList'
 
 
 const EmployeeDashboard = () => {
@@ -8,6 +9,7 @@ const EmployeeDashboard = () => {
     <>
     <EmployeeProfile/>
     <WorkingExperience/>
+    <AppliedJobPostsList/>
     </>
   )
 }

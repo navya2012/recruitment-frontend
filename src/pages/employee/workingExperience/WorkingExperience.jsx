@@ -15,7 +15,7 @@ const WorkingExperience = () => {
   const { setUpdateExperienceData } = useExperienceContextData();
 
   const { experienceData } = useSelector((state) => state.employeeReducer);
-console.log(experienceData)
+  
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -122,6 +122,7 @@ console.log(experienceData)
         onClose={handleClose}
         aria-labelledby="edit-profile-modal-title"
         aria-describedby="edit-profile-modal-description"
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '50px', position: 'relative' }}>
         {isEditing ? (

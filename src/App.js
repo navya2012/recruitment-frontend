@@ -18,11 +18,11 @@ import ExperienceProvider from './context/ExperienceProvider';
 import JobPosts from './pages/employer/jobPosts/JobPosts';
 import JobPostsData from './pages/employee/jobPosts/JobPostsData';
 import JobAppliedApplications from './pages/employer/applications/JobAppliedApplications';
+import UpdatePassword from './common/updatePassword/UpdatePassword';
 
 
 
 function App() {
-
   return (
     <>
       <AuthProvider>
@@ -36,6 +36,7 @@ function App() {
               <Route path='/employee/signup' element={<EmployeeSignUpPage />} />
               <Route path='/login' element={<LoginPage />} />
               <Route path='/forgot-password' element={<ForgotPassword />} />
+              <Route path='/update-password' element={<UpdatePassword />} />
               <Route path='/reset-password' element={<ResetPassword />} />
               <Route path='/verify-otp' element={<OTPVerification />} />
               <Route path='/employer/dashboard' element={<PrivatePath><EmployerDashboard /></PrivatePath> } />

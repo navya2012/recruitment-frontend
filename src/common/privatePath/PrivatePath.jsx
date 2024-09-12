@@ -1,13 +1,12 @@
-// ProtectedRoute.js
-import React from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 const PrivatePath = ({ children }) => {
-  const token = localStorage.getItem('loginToken'); // Adjust this based on your token storage
+  const loginData = useSelector(state => state.authReducer.userData);
 
-  if (!token) {
-    // If not authenticated, redirect to login
-    return <Navigate to="/login" replace />;
+  // Redirect to login page if no user is logged in
+  if (!loginData.email) {
+    return <Navigate to="/login" />;
   }
 
   return children;

@@ -46,7 +46,6 @@ const employerSlice = createSlice({
             }
         },
         setJobAppliedUsers :(state, action) => {
-            console.log('Updating jobAppliedUsers:', action.payload);
             return{
                 ...state,
                 jobAppliedUsers: action.payload,

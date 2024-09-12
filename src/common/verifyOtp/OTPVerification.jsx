@@ -1,25 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import { Box, Button, Grid, styled, TextField, Typography } from '@mui/material';
-import '../../CSSModules/formStyles/formPageStyles.css'
+import '../../CSSModules/formStyles/formPageStyles.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import AuthCoverPage from '../authCoverPage/AuthCoverPage';
 import { setLoading } from '../../redux/slices/authSlice';
-import { verifyOtp } from '../../api\'s/authApi\'s';
+import { resendOtp, verifyOtp } from '../../api\'s/authApi\'s';
 
 const TimerStyle = styled(Typography)(({ theme }) => ({
     color: "#0557A2",
     fontSize: "16px",
     fontWeight: "700",
     padding: '30px 0'
-
 }));
 
 const OTPVerification = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const [otp, setOtp] = useState(Array(6).fill(''));
-    const [timer, setTimer] = useState(60)
+    const [timer, setTimer] = useState(60);
+    const [canResend, setCanResend] = useState(false);
 
     // Function to format time in mm:ss
     const formatTime = (seconds) => {
@@ -28,12 +28,13 @@ const OTPVerification = () => {
         return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
     };
 
-    useState(() => {
+    useEffect(() => {
         if (timer === 0) {
-            toast.error("OTP has expired. Please Resend Code ", {
+            toast.error("OTP has expired. Please Resend Code.", {
                 position: "top-center",
                 autoClose: 3000,
             });
+            setCanResend(true);
             return;
         }
         const intervalId = setInterval(() => {
@@ -46,7 +47,7 @@ const OTPVerification = () => {
             });
         }, 1000);
         return () => clearInterval(intervalId);
-    }, [timer])
+    }, [timer]);
 
     const handleOtpChange = (e, index) => {
         const newOtp = [...otp];
@@ -63,7 +64,7 @@ const OTPVerification = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (timer === 0) {
-            toast.error("OTP has expired. Please Resend Code ", {
+            toast.error("OTP has expired. Please Resend Code.", {
                 position: "top-center",
                 autoClose: 3000,
             });
@@ -81,22 +82,33 @@ const OTPVerification = () => {
         }
     };
 
+    const handleResendOtp = async () => {
+        setLoading(true);
+        const response = await resendOtp();
+        if (response.success) {
+            setTimer(120); // Reset timer
+            setOtp(Array(6).fill('')); // Clear OTP fields if needed
+            setCanResend(false); // Disable resend button while timer is active
+        }
+        setLoading(false);
+    };
+
     return (
         <>
             <Grid container height="100vh">
                 <Grid item xs={12} sm={6}>
                     <AuthCoverPage />
                 </Grid>
-                <Grid item xs={12} sm={6} display="flex" alignItems="center" justifyContent="center" >
-                    <Box className='form-page-styles' >
-                        <Typography variant="h4" sx={{ paddingBottom: '15px' }} >
+                <Grid item xs={12} sm={6} display="flex" alignItems="center" justifyContent="center">
+                    <Box className='form-page-styles'>
+                        <Typography variant="h4" sx={{ paddingBottom: '15px' }}>
                             Verify your email address
                         </Typography>
-                        <Box component='form' onSubmit={handleSubmit} >
-                            <Typography variant="body2" sx={{ paddingBottom: '20px', color: '#7D8FB3' }} >
-                                Please enter 6-digit code that has sent to your email:
+                        <Box component='form' onSubmit={handleSubmit}>
+                            <Typography variant="body2" sx={{ paddingBottom: '20px', color: '#7D8FB3' }}>
+                                Please enter the 6-digit code sent to your email:
                             </Typography>
-                            <Box display="flex" gap={1} >
+                            <Box display="flex" gap={1}>
                                 {otp.map((value, index) => (
                                     <TextField
                                         key={index}
@@ -109,15 +121,17 @@ const OTPVerification = () => {
                                     />
                                 ))}
                             </Box>
-                            <Box display='flex' alignItems="center" justifyContent="space-between" flexWrap="wrap" >
+                            <Box display='flex' alignItems="center" justifyContent="space-between" flexWrap="wrap">
                                 <TimerStyle variant="body2">
                                     {formatTime(timer)}
                                 </TimerStyle>
-                                <TimerStyle variant="body2"
-
+                                <Button 
+                                    variant="text" 
+                                    onClick={handleResendOtp} 
+                                    disabled={!canResend}
                                 >
-                                    Resend Otp
-                                </TimerStyle>
+                                    Resend OTP
+                                </Button>
                             </Box>
                             <Button type="submit" variant="contained">Submit</Button>
                         </Box>
@@ -125,7 +139,7 @@ const OTPVerification = () => {
                 </Grid>
             </Grid>
         </>
-    )
+    );
 }
 
-export default OTPVerification
+export default OTPVerification;

@@ -28,7 +28,6 @@ const EmployerProfileUpdateForm = ({ handleClose, setOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const response = await dispatch(updateEmployerDetails(updateEmployerFormData, navigate));
-console.log(response)
     if (response.success) {
       setOpen(false)
       setUpdateEmployerFormData({

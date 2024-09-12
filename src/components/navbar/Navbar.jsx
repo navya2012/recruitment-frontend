@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/slices/authSlice'; 
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const pages = {
   employee: [
@@ -148,7 +149,9 @@ const Navbar = ()  => {
                     onClick={handleOpenUserMenu}
                     sx={{ my: 2, color: 'white', display: 'block' }}
                   >
-                    {loginData.email}
+                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <AccountCircleIcon sx={{ color: 'white', fontSize: 40 }} />
+              </IconButton>
                   </Button>
                   <Menu
                     sx={{ mt: '45px' }}
@@ -166,6 +169,12 @@ const Navbar = ()  => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
+                   <MenuItem disabled>
+                   <Typography textAlign="center">{loginData.email}</Typography>
+                   </MenuItem>
+                   <MenuItem onClick={() => navigate('/reset-password')}>
+                      <Typography textAlign="center">Change Password</Typography>
+                    </MenuItem>
                     <MenuItem onClick={handleLogout}>
                       <Typography textAlign="center">Logout</Typography>
                     </MenuItem>

@@ -60,7 +60,11 @@ export const signUp = (formData, navigate) => async (dispatch) => {
 //verify otp
 export const verifyOtp =  async ( otp, navigate) => {
     try{
-        const token = localStorage.getItem('signUpToken');
+        const signUpToken = localStorage.getItem('signUpToken');
+        const passwordToken = localStorage.getItem('passwordToken');
+
+        const token = signUpToken ? signUpToken : passwordToken;
+
         const response = await axios.post(`${BASE_URL}/verify-otp`, 
             {
                 "otp" : otp
@@ -77,7 +81,12 @@ export const verifyOtp =  async ( otp, navigate) => {
                 autoClose: 3000 ,
                  className: 'custom-toast'
             });
-            navigate('/login')
+              if (signUpToken) {
+                localStorage.removeItem('signUpToken')
+                navigate('/login');
+            } else if (passwordToken) {
+                navigate('/update-password'); 
+            }
             return  { 
                 success: true, 
                 data: response.data 
@@ -85,6 +94,47 @@ export const verifyOtp =  async ( otp, navigate) => {
         }
     }
     catch (error) {
+        const errors = error.response.data.error 
+        toast.error(errors, {
+            position: "top-center",
+            autoClose: 3000,
+             className: 'custom-toast'
+          });
+          return { 
+            success: false, 
+            errors: errors 
+        };
+    }
+}
+
+//resend otp
+export const resendOtp =  async() => {
+    try{
+        const signUpToken = localStorage.getItem('signUpToken');
+        const passwordToken = localStorage.getItem('passwordToken');
+
+        const token = signUpToken ? signUpToken : passwordToken;
+
+        const response = await axios.post(`${BASE_URL}/resend-otp`,{ },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+            }
+        )
+        if (response &&  response.status === 200) {
+            toast.success(response.data.message, {
+                position: "top-center",
+                autoClose: 3000 ,
+                 className: 'custom-toast'
+            });
+            return  { 
+                success: true, 
+                data: response.data 
+            };
+        }
+    }
+    catch(error){
         const errors = error.response.data.error 
         toast.error(errors, {
             position: "top-center",
@@ -138,7 +188,6 @@ export const login =  ( formData, navigate) => async (dispatch) => {
                 errorMessages = ['An unknown error occurred'];
             }
         } else {
-            // Handle cases where error.response is undefined
             errorMessages = ['A network error occurred. Please try again later.'];
         }
         errorMessages.forEach(message => {
@@ -162,18 +211,14 @@ export const login =  ( formData, navigate) => async (dispatch) => {
 //forgot password
 export const forgotPassword =  async( email, navigate) => {
     try{
-        const token = localStorage.getItem('signUpToken');
         const response = await axios.post(`${BASE_URL}/forgot-password`,
             {
                 "email":email
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
             }
         )
         if (response &&  response.status === 200) {
+            const { token } = response.data
+            localStorage.setItem('passwordToken', token)
             toast.success(response.data.message, {
                 position: "top-center",
                 autoClose: 3000 ,
@@ -188,7 +233,6 @@ export const forgotPassword =  async( email, navigate) => {
     }
     catch(error){
         const errors = error.response.data.error 
-        console.log('forgot pwd error', errors)
         toast.error(errors, {
             position: "top-center",
             autoClose: 3000,
@@ -201,19 +245,17 @@ export const forgotPassword =  async( email, navigate) => {
     }
 }
 
-//reset password
-export const resetPassword =async  (  oldPassword, newPassword, navigate)  => {
-    console.log(oldPassword, newPassword)
+//update password
+export const updatePassword =async  ( newPassword, navigate)  => {
     try{
-        const token = localStorage.getItem('signUpToken');
-        const response = await axios.post(`${BASE_URL}/reset-password`,
+        const token = localStorage.getItem('passwordToken');
+        const response = await axios.post(`${BASE_URL}/update-password`,
             {
-                "oldPassword":oldPassword,
                 "newPassword":newPassword
             },
             {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`
                   },
             }
         )
@@ -223,7 +265,60 @@ export const resetPassword =async  (  oldPassword, newPassword, navigate)  => {
                 autoClose: 3000 ,
                  className: 'custom-toast'
             });
-            // navigate('/verify-otp')
+            navigate('/login')
+            return  { 
+                success: true, 
+                data: response.data 
+            };
+        }
+    }
+    catch(error){ 
+        let errorMessages = [];
+        if (error.response && error.response.data && error.response.data.error) {
+            if (Array.isArray(error.response.data.error)) {
+                errorMessages = error.response.data.error.map(err => err.msg);
+            } else if (typeof error.response.data.error === 'string') {
+                errorMessages = [error.response.data.error];
+            } else {
+                errorMessages = ['An unknown error occurred'];
+            }
+        } else {            
+            errorMessages = ['A network error occurred. Please try again later.'];
+        }
+        toast.error(errorMessages.join(', '), {
+            position: "top-center",
+            autoClose: 3000,
+             className: 'custom-toast'
+          });
+          return { 
+            success: false, 
+            errors: errorMessages 
+        };
+    }
+}
+
+//reset password
+export const changePassword =async  (  oldPassword, newPassword, navigate)  => {
+    try{
+        const token = localStorage.getItem('loginToken');
+        const response = await axios.post(`${BASE_URL}/change-password`,
+            {
+                "oldPassword":oldPassword,
+                "newPassword":newPassword
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                  },
+            }
+        )
+        if (response &&  response.status === 200) {
+            toast.success(response.data.message, {
+                position: "top-center",
+                autoClose: 3000 ,
+                 className: 'custom-toast'
+            });
+            //navigate('/login')
             return  { 
                 success: true, 
                 data: response.data 
@@ -244,8 +339,7 @@ export const resetPassword =async  (  oldPassword, newPassword, navigate)  => {
             // Handle cases where error.response is undefined
             errorMessages = ['A network error occurred. Please try again later.'];
         }
-
-        toast.error(errorMessages, {
+        toast.error(errorMessages.join(', '), {
             position: "top-center",
             autoClose: 3000,
              className: 'custom-toast'
