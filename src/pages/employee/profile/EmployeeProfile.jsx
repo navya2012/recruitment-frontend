@@ -1,11 +1,9 @@
-import { Box, Paper, Typography, Grid, Modal } from '@mui/material';
+import { Box, Typography, Grid, Modal } from '@mui/material';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAuthContextData } from '../../../context/AuthProvider';
 import EditIcon from '@mui/icons-material/Edit';
 import EmployeeProfileUpdateForm from './EmployeeProfileUpdateForm';
-
-
 
 const EmployeeProfile = () => {
   const { setUpdateEmployeeFormData } = useAuthContextData();
@@ -36,65 +34,76 @@ const EmployeeProfile = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Paper elevation={3} sx={{ width: '100%', padding: '60px 0' }}>
-        <Box sx={{ maxWidth: '600px', margin: '0 auto' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '30px' }}>
-            <Typography variant="h4">Personal Information</Typography>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding:'60px 0' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: '0 50px' }}>
+
+        <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              justifyContent: { xs: 'center', sm: 'space-between' },
+              alignItems: 'center',
+              paddingBottom: '40px',
+              gap: { xs: '15px', sm: '50px' },
+            }}>
+
+            <Typography variant="h4" fontWeight="bold">Personal Information</Typography>
             <EditIcon onClick={handleEdit} fontSize="large" sx={{ color: '#0557A2', cursor: 'pointer' }} />
           </Box>
+
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                Name of the Employee
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6">{userData.firstName} {userData.lastName}</Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                Email
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6">{userData.email}</Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                Mobile Number
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6">{userData.mobileNumber}</Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                Role
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6">{userData.position}</Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                Current Company
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6">{userData.currentCompany}</Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                Location
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6">{userData.location}</Typography>
-            </Grid>
+            {[
+              { label: 'Name of the Employee', value: `${userData.firstName} ${userData.lastName}` },
+              { label: 'Email', value: userData.email },
+              { label: 'Mobile Number', value: userData.mobileNumber },
+              { label: 'Role', value: userData.position },
+              { label: 'Current Company', value: userData.currentCompany },
+              { label: 'Location', value: userData.location },
+            ].map((item, index) => (
+              <Grid item xs={12} sm={6} key={index}>
+                <Box
+                  sx={{
+                    padding: '20px',
+                    border: '2px solid #0557A2',
+                    borderRadius: '15px',
+                    backgroundColor: '#fff',
+                    transition: 'transform 0.3s ease',
+                    '&:hover': {
+                      transform: 'scale(1.05)',
+                    },
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      fontWeight: 'bold',
+                      marginBottom: '10px',
+                      color: '#0557A2',
+                      fontSize: '18px',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {item.label}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontSize: '16px',
+                      color: '#333',
+                      fontWeight: 'normal',
+                      overflowWrap: 'break-word',
+                    }}
+                  >
+                    {item.value}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
           </Grid>
         </Box>
-      </Paper>
 
       <Modal
         open={open}
@@ -102,18 +111,17 @@ const EmployeeProfile = () => {
         aria-labelledby="edit-profile-modal-title"
         aria-describedby="edit-profile-modal-description"
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-            <Box sx={{
-            maxHeight: '90vh',  
-            overflowY: 'auto',
-            backgroundColor: 'white',
-            padding: '40px',  
-            borderRadius: '8px',  
-            boxShadow: 24,  
-            width: '90%',  
-            maxWidth: '750px'  
-            }}
-            >
+      >
+        <Box sx={{
+          maxHeight: '90vh',
+          overflowY: 'auto',
+          backgroundColor: 'white',
+          padding: '40px',
+          borderRadius: '8px',
+          boxShadow: 24,
+          width: '90%',
+          maxWidth: '750px',
+        }}>
           <EmployeeProfileUpdateForm handleClose={handleClose} setOpen={setOpen} />
         </Box>
       </Modal>

@@ -17,7 +17,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const pages = {
   employee: [
     { name: ' Home', path: '/employee/dashboard' },
-    { name: ' Jobs', path: '/employee/jobs' },
+    { name: ' Find a Job', path: '/employee/jobs' },
   ],
   employer: [
     { name: ' Home', path: '/employer/dashboard' },
@@ -61,22 +61,35 @@ const Navbar = ()  => {
 
   const userPages = loginData.role === 'employee' ? pages.employee : pages.employer;
 
+  const handleLogoClick = () => {
+    if (loginData.role === 'employee') {
+      navigate('/employee/dashboard');
+    } else if (loginData.role === 'employer') {
+      navigate('/employer/dashboard');
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
+        <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="#"
+            component="button"
+            onClick={handleLogoClick}
             sx={{
               mr: 2,
               display: { md: 'flex' },
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
+              background: 'none',
+              border: 'none',
               textDecoration: 'none',
+              cursor: 'pointer',
             }}
           >
             INKPROG

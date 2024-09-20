@@ -1,10 +1,9 @@
-import { Box, Paper, Typography, Grid, Modal } from '@mui/material';
+import { Box, Typography, Grid, Modal } from '@mui/material';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAuthContextData } from '../../../context/AuthProvider';
 import EditIcon from '@mui/icons-material/Edit';
 import EmployerProfileUpdateForm from './EmployerProfileUpdateForm';
-
 
 const EmployerProfile = () => {
     const { setUpdateEmployerFormData } = useAuthContextData();
@@ -26,7 +25,7 @@ const EmployerProfile = () => {
                 city: userData.address.city,
                 state: userData.address.state,
                 country: userData.address.country,
-                zipCode: userData.address.zipCode
+                zipCode: userData.address.zipCode,
             },
             employeesCount: userData.employeesCount,
             headQuarters: userData.headQuarters,
@@ -38,84 +37,85 @@ const EmployerProfile = () => {
 
     const formatAddress = (address) => {
         return [address.street, address.city, address.state, address.country, address.zipCode]
-          .filter(Boolean)  // Filter out any falsey values like null, undefined, ''
-          .join(', ');      
-      };
+            .filter(Boolean)
+            .join(', ');
+    };
 
     const handleClose = () => {
         setOpen(false);
     };
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Paper elevation={3} sx={{ width: '100%', padding: '60px 0' }}>
-                <Box sx={{ maxWidth: '650px', margin: '0 auto' }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '30px' }}>
-                        <Typography variant="h4">Personal Information</Typography>
-                        <EditIcon onClick={handleEdit} fontSize="large" sx={{ color: '#0557A2', cursor: 'pointer' }} />
-                    </Box>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                                Company Name
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6">{userData.companyName}</Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                                Email
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6">{userData.email}</Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                                Mobile Number
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6">{userData.mobileNumber}</Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                                Company Type
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6">{userData.companyType}</Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                                Address
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6">
-                            {formatAddress(userData.address)}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                                No of Employees
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6">{userData.employeesCount}</Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                                Head Quarters
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6">{userData.headQuarters}</Typography>
-                        </Grid>
-                    </Grid>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '60px 0' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: '0 50px' }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: { xs: 'column', sm: 'row' },
+                        justifyContent: { xs: 'center', sm: 'space-between' },
+                        alignItems: 'center',
+                        paddingBottom: '40px',
+                        gap: { xs: '15px', sm: '50px' },
+                    }}
+                >
+                    <Typography variant="h4" fontWeight="bold">Personal Information</Typography>
+                    <EditIcon onClick={handleEdit} fontSize="large" sx={{ color: '#0557A2', cursor: 'pointer' }} />
                 </Box>
-            </Paper>
+
+                <Grid container spacing={2}>
+                    {[
+                        { label: 'Company Name', value: userData.companyName },
+                        { label: 'Email', value: userData.email },
+                        { label: 'Mobile Number', value: userData.mobileNumber },
+                        { label: 'Company Type', value: userData.companyType },
+                        { label: 'Address', value: formatAddress(userData.address) },
+                        { label: 'No of Employees', value: userData.employeesCount },
+                        { label: 'Head Quarters', value: userData.headQuarters },
+                    ].map((item, index) => (
+                        <Grid item xs={12} sm={6} key={index}>
+                            <Box
+                                sx={{
+                                    padding: '20px',
+                                    border: '2px solid #0557A2',
+                                    borderRadius: '15px',
+                                    backgroundColor: '#fff',
+                                    transition: 'transform 0.3s ease',
+                                    '&:hover': {
+                                        transform: 'scale(1.05)',
+                                    },
+                                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                                    width: '100%',
+                                    boxSizing: 'border-box',
+                                }}
+                            >
+                                <Typography
+                                    variant="subtitle1"
+                                    sx={{
+                                        fontWeight: 'bold',
+                                        marginBottom: '10px',
+                                        color: '#0557A2',
+                                        fontSize: '18px',
+                                        textTransform: 'uppercase',
+                                    }}
+                                >
+                                    {item.label}
+                                </Typography>
+                                <Typography
+                                    variant="body1"
+                                    sx={{
+                                        fontSize: '16px',
+                                        color: '#333',
+                                        fontWeight: 'normal',
+                                        overflowWrap: 'break-word',
+                                    }}
+                                >
+                                    {item.value}
+                                </Typography>
+                            </Box>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
 
             <Modal
                 open={open}
@@ -125,17 +125,15 @@ const EmployerProfile = () => {
                 sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
                 <Box sx={{
-                maxHeight: '90vh',  
-                overflowY: 'auto',
-                backgroundColor: 'white',
-                padding: '40px',  
-                borderRadius: '8px',  
-                boxShadow: 24,  
-                width: '90%',  
-                maxWidth: '750px'  
-                }}
-                >
-
+                    maxHeight: '90vh',
+                    overflowY: 'auto',
+                    backgroundColor: 'white',
+                    padding: '40px',
+                    borderRadius: '8px',
+                    boxShadow: 24,
+                    width: '90%',
+                    maxWidth: '750px',
+                }}>
                     <EmployerProfileUpdateForm handleClose={handleClose} setOpen={setOpen} />
                 </Box>
             </Modal>

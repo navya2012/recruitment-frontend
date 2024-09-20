@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, FormControl, InputLabel, Select, MenuItem, Button, Typography, Paper, IconButton } from '@mui/material';
+import { Box, FormControl, InputLabel, Select, MenuItem, Button, Typography, IconButton } from '@mui/material';
 import { experienceOptions, graduationOptions, languageOptions, locationOptions, noticePeriodOptions, technologiesOptions } from './MenuOptions';
 import { useExperienceContextData } from '../../../context/ExperienceProvider';
 import { useDispatch } from 'react-redux';
@@ -7,24 +7,24 @@ import { workingExperience } from '../../../api\'s/employeeApi\'s';
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const ExperienceUpdateForm = ({handleClose, setOpen}) => {
-    const { updateExperienceData,setUpdateExperienceData,handleChangeUpdateExperienceData } = useExperienceContextData()
+const ExperienceUpdateForm = ({ handleClose, setOpen }) => {
+    const { updateExperienceData, setUpdateExperienceData, handleChangeUpdateExperienceData } = useExperienceContextData()
 
     const dispatch = useDispatch()
 
     const handleSubmit = async (e) => {
-        e.preventDefault()       
+        e.preventDefault()
         const response = await dispatch(workingExperience(updateExperienceData));
         if (response.success) {
-          setOpen(false)
-          setUpdateExperienceData({
-            technologies:[],
-        experience:'',
-        graduation:'',
-        location:'',
-        languages:[],
-        noticePeriod:''
-          });
+            setOpen(false)
+            setUpdateExperienceData({
+                technologies: [],
+                experience: '',
+                graduation: '',
+                location: '',
+                languages: [],
+                noticePeriod: ''
+            });
         }
 
     }
@@ -33,9 +33,9 @@ const ExperienceUpdateForm = ({handleClose, setOpen}) => {
         <>
             {
                 updateExperienceData && (
-                    <Paper elevation={5} sx={{ padding: '60px', width: '65%' }}>
+                    <>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', }}>
-                            <Typography variant="h4" sx={{ paddingBottom: '30px' }} >Update Form for an Employee</Typography>
+                            <Typography variant="h4" sx={{ paddingBottom: '30px' }} >Update Working Experience</Typography>
                             <IconButton
                                 onClick={handleClose}
                             >
@@ -155,9 +155,9 @@ const ExperienceUpdateForm = ({handleClose, setOpen}) => {
 
                             <Button type="submit" variant="contained">Submit</Button>
                         </Box>
-                    </Paper>
-             )
-            } 
+                    </>
+                )
+            }
         </>
     );
 };

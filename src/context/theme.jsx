@@ -2,15 +2,7 @@
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
-  MuiBox: {
-    styleOverrides: {
-      root: {
-        fontFamily: "'Montserrat', sans-serif",
-      },
-    }
-  },
   typography: {
-    fontFamily: "'Montserrat', sans-serif",
     h4: {
       color: '#0557A2',
       fontWeight: 700,
@@ -53,7 +45,7 @@ const theme = createTheme({
       }
     }
   }
-  // Add other theme customizations here
+
 });
 
 export default theme;

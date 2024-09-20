@@ -1,11 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getAllAppliedJobPostsByEmployee } from '../../../api\'s/employeeApi\'s';
-import { Box, Card, CardContent, Grid, Paper, Typography } from '@mui/material';
+import { Box, CardContent, Grid, Typography, styled, Chip, Card } from '@mui/material';
+
+// Styled components
+const StyledCard = styled(Card)(({ theme }) => ({
+  padding: '20px',
+  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+  position: 'relative',
+  border: '2px solid #0557A2',
+  borderRadius: '15px',
+}));
+
+const TagChip = styled(Chip)(({ theme }) => ({
+  borderRadius: '10px',
+  marginRight: '10px',
+  fontWeight: 'bold',
+  fontSize: '15px'
+}));
 
 const AppliedJobPostsList = () => {
   const [appliedJobsList, setAppliedJobsList] = useState([]);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,72 +36,65 @@ const AppliedJobPostsList = () => {
   }, [dispatch]);
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
-      <Paper elevation={3} sx={{ width: '100%', maxWidth: '1200px', padding: '40px' }}>
-        <Box sx={{ padding: '0 20px', margin: '0 auto' }}>
-          <Typography variant="h4" sx={{ paddingBottom: '20px', textAlign: 'center' }}>
-            Applied Job Posts
-          </Typography>
-          <Grid container spacing={3}>
-            {appliedJobsList.length > 0 ? (
-              appliedJobsList.map((job) => (
-                <Grid item xs={12} key={job._id}>
-                  <Card sx={{ padding: '20px' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '60px 0' }}>
+      <Box sx={{ padding: '0 50px', margin: '0 auto' }}>
+
+        <Typography variant="h4" sx={{ paddingBottom: '40px', textAlign: 'center' }} fontWeight="bold">
+          Applied Job Posts
+        </Typography>
+
+        <Grid container spacing={3}>
+          {appliedJobsList.length > 0 ? (
+            appliedJobsList.map((job) => {
+              // Format the job applied date
+              const formattedDate = new Date(job.jobAppliedDate).toLocaleDateString();
+
+              return (
+                <Grid item xs={12} sm={6} md={4} key={job._id}>
+                  <StyledCard>
                     <CardContent>
-                      <Grid container spacing={2}>
-                        {/* First Row */}
-                        <Grid item xs={12} sm={6}>
-                          <Typography variant="body1">
-                            <strong>Company Name:</strong> {job.companyName}
+                      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                          <Typography variant="h6" fontWeight="bold" sx={{ fontSize: '25px', marginRight: { xs: '10px', sm: '0' } }}>
+                            {job.companyName}
                           </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Typography variant="body1">
-                            <strong>Role:</strong> {job.role}
-                          </Typography>
-                        </Grid>
+                          <TagChip label={formattedDate} />
+                        </Box>
 
-                        {/* Second Row */}
-                        <Grid item xs={12} sm={6}>
-                          <Typography variant="body1">
-                            <strong>Technologies:</strong> {job.technologies}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Typography variant="body1">
-                            <strong>Experience:</strong> {job.experience}
-                          </Typography>
-                        </Grid>
+                        <Typography variant="subtitle1" sx={{ margin: '10px 0', fontSize: '18px' }}>
+                          {job.role}
+                        </Typography>
 
-                        <Grid item xs={12} sm={6}>
-                          <Typography variant="body1">
-                            <strong>Location:</strong> {job.location}
-                          </Typography>
-                        </Grid>
-                      </Grid>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                          <TagChip label={job.technologies} />
+                          <TagChip label={job.experience} />
+                          <TagChip label={job.location} />
+                        </Box>
+                      </Box>
                     </CardContent>
-                  </Card>
+                  </StyledCard>
                 </Grid>
-              ))
-            ) : (
-              <Box
-                sx={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '100vh',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Typography variant="h5" sx={{ textTransform: 'uppercase', textAlign: 'center' }}>
-                  No posts found.
-                </Typography>
-              </Box>
-            )}
-          </Grid>
-        </Box>
-      </Paper>
+
+              );
+            })
+          ) : (
+            <Box
+              sx={{
+                position: 'relative',
+                width: '100%',
+                height: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant="h5" sx={{ textTransform: 'uppercase', textAlign: 'center' }}>
+                No posts found.
+              </Typography>
+            </Box>
+          )}
+        </Grid>
+      </Box>
     </Box>
   );
 };

@@ -1,145 +1,131 @@
-import React, { useEffect } from 'react'
-import { getAllJobPostsAppliedByEmployees, getAllJobPostsData, JobAppliedPostsStatus } from '../../../api\'s/employeeApi\'s'
-import { useDispatch, useSelector } from 'react-redux'
-import { Box, Button, Card, CardContent, Grid, Paper, styled, Typography } from '@mui/material'
+import React, { useEffect } from 'react';
+import { getAllJobPostsAppliedByEmployees, getAllJobPostsData, JobAppliedPostsStatus } from '../../../api\'s/employeeApi\'s';
+import { useDispatch, useSelector } from 'react-redux';
+import { Box, Button, Card, CardContent, Grid, Paper, styled, Typography, Chip } from '@mui/material';
 
-
+// Styled button with modern look
 const StyledButton = styled(Button)(({ theme }) => ({
-  borderRadius: '12px',
-  padding: '20px 30px',
-  margin: '0',
+  borderRadius: '10px',
   textTransform: 'none',
-  width: '20%'
+  fontWeight: 'bold',
+  fontSize: '16px',
+  width: '130px',
+  backgroundColor: '#000',
+  color: '#fff',
+  '&:hover': {
+    backgroundColor: '#333',
+  },
+}));
+
+// Styled card for job posts
+const StyledCard = styled(Card)(({ theme }) => ({
+  padding: '20px',
+  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+  position: 'relative',
+  border: '2px solid #0557A2',
+  borderRadius: '15px',
+}));
+
+const TagChip = styled(Chip)(({ theme }) => ({
+  borderRadius: '10px',
+  marginRight: '10px',
+  fontWeight: 'bold',
+  fontSize: '15px'
 }));
 
 const JobPostsData = () => {
-  const { allJobPosts, jobAppliedPosts } = useSelector((state) => state.employeeReducer)
+  const { allJobPosts, jobAppliedPosts } = useSelector((state) => state.employeeReducer);
   const currentEmployeeId = useSelector((state) => state.authReducer.userData._id);
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllJobPostsData())
-    dispatch(getAllJobPostsAppliedByEmployees())
-  }, [dispatch])
+    dispatch(getAllJobPostsData());
+    dispatch(getAllJobPostsAppliedByEmployees());
+  }, [dispatch]);
 
   const handleJobApply = async (jobId) => {
     try {
-      await dispatch(JobAppliedPostsStatus(jobId))
+      await dispatch(JobAppliedPostsStatus(jobId));
       dispatch(getAllJobPostsAppliedByEmployees());
+    } catch (error) {
+      throw new Error(error.message);
     }
-
-    catch (error) {
-      throw new Error(error.message)
-    }
-  }
+  };
   return (
-    <>
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Paper elevation={3} sx={{ width: '100%', padding: '60px 0' }}>
-          <Box sx={{ padding: '0 80px', margin: '0 auto' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '30px' }}>
-              <Typography variant="h4">Job Posts</Typography>
-            </Box>
-            <Grid container spacing={3}>
-              {allJobPosts.length > 0 ? (
-                allJobPosts.map((job) => (
-                  <Grid item xs={12} key={job._id}>
-                    <Card sx={{ padding: '30px' }}>
-                      <CardContent>
-                        <Grid container spacing={3}>
-                          <Grid item xs={12} sm={4}>
-                            <Typography variant="body1">
-                              <strong>Company Name:</strong> {job.companyName}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Typography variant="body1">
-                              <strong>Role:</strong> {job.role}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Typography variant="body1">
-                              <strong>Technologies:</strong> {job.technologies}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Typography variant="body1">
-                              <strong>Experience:</strong> {job.experience}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Typography variant="body1">
-                              <strong>Location:</strong> {job.location}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Typography variant="body1">
-                              <strong>Graduation:</strong> {job.graduation}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Typography variant="body1">
-                              <strong>Languages:</strong> {job.languages}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={4}>
-                            <Typography variant="body1">
-                              <strong>Notice Period:</strong> {job.noticePeriod}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={12}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                              <StyledButton
-                                type="submit"
-                                onClick={() => handleJobApply(job._id)}
-                                variant="contained"
-                                disabled={jobAppliedPosts.some((post) => post.jobId === job._id && post.employee_id === currentEmployeeId)}
-                              >
-                                {jobAppliedPosts.some((post) => post.jobId === job._id && post.employee_id === currentEmployeeId)
-                                  ? 'Applied'
-                                  : 'Apply'}
-                              </StyledButton>
-                            </Box>
-                          </Grid>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Paper elevation={3} sx={{ width: '100%' }}>
+        
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: '80px' }}>
 
-                        </Grid>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))
-              ) : (
+          <Typography variant="h4" sx={{ paddingBottom: '50px', textAlign: 'center' }} fontWeight="bold">
+            Recommended Jobs
+          </Typography>
+
+          <Grid container spacing={3}>
+            {allJobPosts.length > 0 ? (
+              allJobPosts.map((job) => (
+                <Grid item xs={12} sm={6} md={4} key={job._id}>
+                  <StyledCard>
+                    <CardContent>
+                      <Typography variant="h6" fontWeight="bold" sx={{ fontSize: '25px' }}>
+                        {job.companyName}
+                      </Typography>
+
+                      <Typography variant="subtitle1" sx={{ margin: '15px 0', fontSize: '18px' }}>
+                        {job.role}
+                      </Typography>
+
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                        <TagChip label={job.technologies} />
+                        <TagChip label={job.experience} />
+                        <TagChip label={job.graduation} />
+                        <TagChip label={job.location} />
+                        <TagChip label={job.languages} />
+                      </Box>
+
+                      <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+                        <StyledButton
+                          onClick={() => handleJobApply(job._id)}
+                          variant="contained"
+                          disabled={jobAppliedPosts.some((post) => post.jobId === job._id && post.employee_id === currentEmployeeId)}
+                        >
+                          {jobAppliedPosts.some((post) => post.jobId === job._id && post.employee_id === currentEmployeeId)
+                            ? 'Applied'
+                            : 'Apply'}
+                        </StyledButton>
+                      </Box>
+                    </CardContent>
+                  </StyledCard>
+                </Grid>
+              ))
+            ) : (
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '100vh',
+                }}
+              >
                 <Box
                   sx={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '100vh',
+                    position: 'absolute',
+                    top: '10%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    textAlign: 'center',
                   }}
                 >
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: '10%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      textAlign: 'center',
-                    }}
-                  >
-                    <Typography variant="h5" sx={{ textTransform: 'uppercase' }}>
-                      No posts found.
-                    </Typography>
-                  </Box>
+                  <Typography variant="h5" sx={{ textTransform: 'uppercase' }}>
+                    No posts found.
+                  </Typography>
                 </Box>
-              )}
-            </Grid>
-          </Box>
-        </Paper>
-      </Box>
- 
+              </Box>
+            )}
+          </Grid>
+        </Box>
+      </Paper>
+    </Box>
+  );
+};
 
-    </>
-  )
-}
-
-export default JobPostsData
-
+export default JobPostsData;
