@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   loading: false,
-  userRole: '',
   userData: {},
+  profileImage:{},
   error: null
 }
 
@@ -17,26 +17,28 @@ const authSlice = createSlice({
         loading: action.payload,
       }
     },
-    setUserRole: (state, action) => {
-      return {
-        ...state,
-        userRole: action.payload,
-      }
-    },
     loginSuccess: (state, action) => {
       return {
-        ...state,
+       ...state,
         userData: action.payload.loginDetails,
-        error: null
+        error:null
       }
-    },
+    },  
+    setProfileImage: (state, action) => {
+      console.log(action.payload)
+      return {
+       ...state,
+        profileImage: action.payload,
+        error:null
+      }
+  },
     logout: (state) => {
-      state.userRole=''
       state.userData = {};
       state.error = null;
       localStorage.removeItem('loginToken');
       localStorage.removeItem('employeeId')
       localStorage.removeItem('employerId')
+      localStorage.removeItem('passwordToken')
     },
     clearError: (state) => {
       state.error = null;
@@ -46,10 +48,9 @@ const authSlice = createSlice({
 })
 
 export const {
-  setUserRole,
   setLoading,
-  loginFailure,
   loginSuccess,
+  setProfileImage,
   logout,
   clearError
 }

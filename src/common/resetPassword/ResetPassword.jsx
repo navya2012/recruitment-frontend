@@ -3,9 +3,10 @@ import { Box, Button, Grid, TextField, Typography, InputAdornment, IconButton } 
 import AuthCoverPage from '../authCoverPage/AuthCoverPage';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import { logout, setLoading } from '../../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { changePassword } from '../../api\'s/authApi\'s';
+import { useDispatch } from 'react-redux';
+
 
 
 const ResetPassword = () => {
@@ -21,7 +22,10 @@ const ResetPassword = () => {
     };
 
     const [state, dispatch] = useReducer(passwordReducer, { oldPassword: '', newPassword: '', showPassword: false });
+
     const navigate = useNavigate()
+    const reduxDispatch = useDispatch()
+
     const oldPasswordRef = useRef(null);
     const newPasswordRef = useRef(null);
 
@@ -41,22 +45,17 @@ const ResetPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setLoading(true);
         try {
             const oldPassword = oldPasswordRef.current.value;
             const newPassword = newPasswordRef.current.value;
-            const response = await changePassword(oldPassword, newPassword, navigate);
+            const response = await reduxDispatch(changePassword(oldPassword, newPassword, navigate));
             if (response.success) {
-                console.log('....logging out')
-                // dispatch({ type: 'SET_FIELD', field: 'oldPassword', payload: '' });
-                // dispatch({ type: 'SET_FIELD', field: 'newPassword', payload: '' });
-                dispatch(logout())
-                console.log('Logged out');
+                dispatch({ type: 'SET_FIELD', field: 'oldPassword', payload: '' });
+                dispatch({ type: 'SET_FIELD', field: 'newPassword', payload: '' });
             }
-        } finally {
-            setLoading(false);
+        } catch (error) {
+            throw new Error(error.message);
         }
-
     }
     return (
         <>

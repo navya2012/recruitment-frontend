@@ -21,13 +21,19 @@ const TagChip = styled(Chip)(({ theme }) => ({
 
 const AppliedJobPostsList = () => {
   const [appliedJobsList, setAppliedJobsList] = useState([]);
+  const [message, setMessage] = useState('');
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchAppliedJobs = async () => {
       try {
         const response = await dispatch(getAllAppliedJobPostsByEmployee());
-        setAppliedJobsList(response.data.jobAppliedPostsList);
+           if (response.data.jobAppliedPostsList && response.data.jobAppliedPostsList.length > 0) {
+          setAppliedJobsList(response.data.jobAppliedPostsList);
+        } else if (response.data.message) {
+          setMessage(response.data.message); 
+        }
       } catch (error) {
         throw new Error(error.message);
       }
@@ -82,14 +88,14 @@ const AppliedJobPostsList = () => {
               sx={{
                 position: 'relative',
                 width: '100%',
-                height: '100vh',
+                padding:'50px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
             >
-              <Typography variant="h5" sx={{ textTransform: 'uppercase', textAlign: 'center' }}>
-                No posts found.
+               <Typography variant="h5" sx={{ textTransform: 'uppercase', textAlign: 'center',color:'black' }}>
+                {message || 'No applied job posts found'}
               </Typography>
             </Box>
           )}

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import {  loginSuccess, setLoading, setUserRole } from '../redux/slices/authSlice'
+import {  loginSuccess, logout, setLoading, setProfileImage } from '../redux/slices/authSlice'
 import '../CSSModules/formStyles/formPageStyles.css'
 
 const BASE_URL = "http://localhost:5000/api/auth"
@@ -48,6 +48,61 @@ export const signUp = (formData, navigate) => async (dispatch) => {
             });
         });
         return { 
+            success: false, 
+            errors: errorMessages 
+        };
+    }
+    finally {
+        dispatch(setLoading(false)); 
+      }
+}
+
+//profile pic upload
+export const imageUploads = (formData) => async (dispatch) => {
+    dispatch(setLoading(true))
+    try{
+        const token = localStorage.getItem('loginToken');
+        const response = await axios.post(`${BASE_URL}/profile-pic-upload`,formData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                  },
+            }
+        )
+        if (response &&  response.status === 200) {
+            const {profileImage, image_name} = response.data.profileImageRecord
+            console.log(profileImage,image_name)
+            dispatch(setProfileImage({profileImage,image_name}))
+            toast.success(response.data.message, {
+                position: "top-center",
+                autoClose: 3000 ,
+                 className: 'custom-toast'});
+            return  { 
+                success: true, 
+                data: response.data 
+            };
+        }
+    }
+    catch(error){ 
+        let errorMessages = [];
+        if (error.response && error.response.data && error.response.data.error) {
+            if (Array.isArray(error.response.data.error)) {
+                errorMessages = error.response.data.error.map(err => err.msg);
+            } else if (typeof error.response.data.error === 'string') {
+                errorMessages = [error.response.data.error];
+            } else {
+                errorMessages = ['An unknown error occurred'];
+            }
+        } else {
+            // Handle cases where error.response is undefined
+            errorMessages = ['A network error occurred. Please try again later.'];
+        }
+        toast.error(errorMessages.join(', '), {
+            position: "top-center",
+            autoClose: 3000,
+             className: 'custom-toast'
+          });
+          return { 
             success: false, 
             errors: errorMessages 
         };
@@ -156,7 +211,6 @@ export const login =  ( formData, navigate) => async (dispatch) => {
         if (response &&  response.status === 200) {
             const { token, loginDetails } = response.data;
             localStorage.setItem('loginToken', token);
-            dispatch(setUserRole(loginDetails.role))
             dispatch(loginSuccess({loginDetails}));
 
             if (loginDetails.role === 'employee') {
@@ -298,7 +352,8 @@ export const updatePassword =async  ( newPassword, navigate)  => {
 }
 
 //reset password
-export const changePassword =async  (  oldPassword, newPassword, navigate)  => {
+export const changePassword =  (oldPassword, newPassword, navigate) => async (dispatch)  => {
+    dispatch(setLoading(true))
     try{
         const token = localStorage.getItem('loginToken');
         const response = await axios.post(`${BASE_URL}/change-password`,
@@ -312,13 +367,15 @@ export const changePassword =async  (  oldPassword, newPassword, navigate)  => {
                   },
             }
         )
+        console.log(response,token)
         if (response &&  response.status === 200) {
             toast.success(response.data.message, {
                 position: "top-center",
                 autoClose: 3000 ,
                  className: 'custom-toast'
             });
-            //navigate('/login')
+            dispatch(logout())
+            navigate('/login')
             return  { 
                 success: true, 
                 data: response.data 
@@ -349,4 +406,7 @@ export const changePassword =async  (  oldPassword, newPassword, navigate)  => {
             errors: errorMessages 
         };
     }
+    finally {
+        dispatch(setLoading(false)); 
+      }
 }

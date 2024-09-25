@@ -19,6 +19,8 @@ import JobPosts from './pages/employer/jobPosts/JobPosts';
 import JobPostsData from './pages/employee/jobPosts/JobPostsData';
 import JobAppliedApplications from './pages/employer/applications/JobAppliedApplications';
 import UpdatePassword from './common/updatePassword/UpdatePassword';
+import EmployerProfile from './pages/employer/profile/EmployerProfile';
+import EmployeeProfile from './pages/employee/profile/EmployeeProfile';
 
 
 
@@ -37,10 +39,12 @@ function App() {
               <Route path='/login' element={<LoginPage />} />
               <Route path='/forgot-password' element={<ForgotPassword />} />
               <Route path='/update-password' element={<UpdatePassword />} />
-              <Route path='/reset-password' element={<ResetPassword />} />
+              <Route path='/change-password' element={<ResetPassword />} />
               <Route path='/verify-otp' element={<OTPVerification />} />
               <Route path='/employer/dashboard' element={<PrivatePath><EmployerDashboard /></PrivatePath> } />
               <Route path='/employee/dashboard' element={<PrivatePath><EmployeeDashboard /></PrivatePath>} />
+              <Route path='/employer/profile' element={<PrivatePath><EmployerProfile /></PrivatePath>} />
+              <Route path='/employee/profile' element={<PrivatePath><EmployeeProfile /></PrivatePath>} />
               <Route path='/employer/jobs' element={<PrivatePath><JobPosts /></PrivatePath>} />
               <Route path='/employee/jobs' element={<PrivatePath><JobPostsData /></PrivatePath>} />
               <Route path='/employer/applications' element={<PrivatePath><JobAppliedApplications /></PrivatePath>} />

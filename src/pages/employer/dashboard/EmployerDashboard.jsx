@@ -1,5 +1,4 @@
 import React from 'react'
-import EmployerProfile from '../profile/EmployerProfile'
 import { Box, Grid, Paper } from '@mui/material'
 
 const EmployerDashboard = () => {
@@ -9,7 +8,6 @@ const EmployerDashboard = () => {
         <Paper elevation={3} sx={{ width: '100%' }}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <EmployerProfile />
             </Grid>
           </Grid>
         </Paper>
