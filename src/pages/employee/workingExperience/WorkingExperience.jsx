@@ -76,8 +76,13 @@ const WorkingExperience = () => {
             <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
               <CodeIcon sx={{ marginRight: 1 }} />Technologies:
             </Typography>
-            <Typography variant="body1">{experienceData.technologies.join(', ')}</Typography>
+            <Typography variant="body1">
+              {Array.isArray(experienceData.technologies)
+                ? experienceData.technologies.join(', ')
+                : experienceData.technologies}
+            </Typography>
           </Grid>
+
 
           <Grid item xs={12} sm={6}>
             <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
@@ -104,8 +109,13 @@ const WorkingExperience = () => {
             <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
               <LanguageIcon sx={{ marginRight: 1 }} />Languages:
             </Typography>
-            <Typography variant="body1">{experienceData.languages.join(', ')}</Typography>
+            <Typography variant="body1">
+              {Array.isArray(experienceData.languages)
+                ? experienceData.languages.join(', ')
+                : experienceData.languages}
+            </Typography>
           </Grid>
+
 
           <Grid item xs={12} sm={6}>
             <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>

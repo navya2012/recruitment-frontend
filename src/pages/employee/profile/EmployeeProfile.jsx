@@ -1,6 +1,6 @@
 import { Box, Typography, Grid, Modal, Avatar, Paper, Divider } from '@mui/material';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAuthContextData } from '../../../context/AuthProvider';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -10,6 +10,7 @@ import WorkIcon from '@mui/icons-material/Work';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import EditIcon from '@mui/icons-material/Edit'; // Import the Edit Icon
 import WorkingExperience from '../workingExperience/WorkingExperience';
+import { getUserImages } from '../../../api\'s/authApi\'s';
 
 const EmployeeProfile = () => {
   const { setUpdateEmployeeFormData } = useAuthContextData();
@@ -18,6 +19,12 @@ const EmployeeProfile = () => {
   const profilePic = useSelector((state) => state.authReducer.profileImage);
 
   const [open, setOpen] = useState(false);
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getUserImages());
+  }, [dispatch]);
 
   const handleEdit = () => {
     setOpen(true);
@@ -41,6 +48,8 @@ const EmployeeProfile = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const userProfileImage = profilePic.find((pic) => pic.user_id === userDetails._id);
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', padding: '40px 0', backgroundColor: '#f5f6fa' }}>
@@ -67,13 +76,13 @@ const EmployeeProfile = () => {
             alignItems: 'center',
             borderRadius: '10px',
             marginBottom: '30px',
-            position: 'relative', // Add position relative for the Paper component
+            position: 'relative', 
           }}
         >
           <Box sx={{ position: 'relative', marginBottom: '20px' }}>
             <Avatar
               alt={`${userDetails.firstName} ${userDetails.lastName}`}
-              src={profilePic?.profileImage}
+              src={userProfileImage?.profileImage}
               sx={{
                 width: 140,
                 height: 140,
@@ -91,7 +100,6 @@ const EmployeeProfile = () => {
             {`${userDetails.firstName} ${userDetails.lastName}`}
           </Typography>
           
-          {/* Edit Icon in the top right corner */}
           <Box 
             sx={{ 
               position: 'absolute', 
@@ -169,7 +177,6 @@ const EmployeeProfile = () => {
           <WorkingExperience/>
         </Paper>
 
-        {/* Modal for editing the profile */}
         <Modal
           open={open}
           onClose={handleClose}

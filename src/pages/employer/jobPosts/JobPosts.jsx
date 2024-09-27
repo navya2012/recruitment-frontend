@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import JobPostsForm from './JobPostsForm';
 import JobPostsUpdateForm from './JobPostsUpdateForm';
 import { deleteJobPostsData, getAllJobPostsPostedByEmployer } from '../../../api\'s/employerApi\'s';
+import JobsHeader from '../../../common/jobsHeader/JobsHeader';
 
 // Styled button
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -86,6 +87,8 @@ const JobPosts = () => {
   };
 
   return ( 
+    <>
+    <JobsHeader/>
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Paper elevation={3} sx={{ width: '100%' }}>
 
@@ -171,6 +174,7 @@ const JobPosts = () => {
         </Box>
       </Modal>
     </Box>
+    </>
   );
 };
 

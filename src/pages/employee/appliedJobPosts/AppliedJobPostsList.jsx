@@ -46,7 +46,7 @@ const AppliedJobPostsList = () => {
       <Box sx={{ padding: '0 50px', margin: '0 auto' }}>
 
         <Typography variant="h4" sx={{ paddingBottom: '40px', textAlign: 'center' }} fontWeight="bold">
-          Applied Job Posts
+          My Applied Job Posts
         </Typography>
 
         <Grid container spacing={3}>

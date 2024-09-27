@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { getAllJobPostsAppliedByEmployees, getAllJobPostsData, JobAppliedPostsStatus } from '../../../api\'s/employeeApi\'s';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, Card, CardContent, Grid, Paper, styled, Typography, Chip } from '@mui/material';
+import JobsHeader from '../../../common/jobsHeader/JobsHeader';
 
 // Styled button with modern look
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -52,13 +53,15 @@ const JobPostsData = () => {
     }
   };
   return (
+    <>
+    <JobsHeader/>
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Paper elevation={3} sx={{ width: '100%' }}>
         
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: '80px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', padding: '70px' }}>
 
           <Typography variant="h4" sx={{ paddingBottom: '50px', textAlign: 'center' }} fontWeight="bold">
-            Recommended Jobs
+            Job Offers
           </Typography>
 
           <Grid container spacing={3}>
@@ -91,7 +94,7 @@ const JobPostsData = () => {
                         >
                           {jobAppliedPosts.some((post) => post.jobId === job._id && post.employee_id === currentEmployeeId)
                             ? 'Applied'
-                            : 'Apply'}
+                            : 'Apply Now'}
                         </StyledButton>
                       </Box>
                     </CardContent>
@@ -125,6 +128,7 @@ const JobPostsData = () => {
         </Box>
       </Paper>
     </Box>
+    </>
   );
 };
 

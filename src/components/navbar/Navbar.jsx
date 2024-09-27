@@ -23,7 +23,7 @@ const pages = {
   ],
   employer: [
     { name: 'Home', path: '/employer/dashboard' },
-    { name: 'Create a Job', path: '/employer/jobs' },
+    { name: 'Post a Job', path: '/employer/jobs' },
     { name: 'Applications', path: '/employer/applications' },
   ],
 };
@@ -34,7 +34,7 @@ const Navbar = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const loginData = useSelector((state) => state.authReducer.userData);
   const profilePic = useSelector((state) => state.authReducer.profileImage);
 
@@ -82,12 +82,14 @@ const Navbar = () => {
   const handleProfileClick = () => {
     if (loginData) {
       if (loginData.role === 'employer') {
-        navigate('/employer/profile'); 
+        navigate('/employer/profile');
       } else if (loginData.role === 'employee') {
-        navigate('/employee/profile'); 
+        navigate('/employee/profile');
       }
     }
   };
+
+  const userProfileImage = profilePic.find((pic) => pic.user_id === loginData._id);
 
   return (
     <AppBar position="fixed">
@@ -140,26 +142,26 @@ const Navbar = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
             >
-              {loginData && loginData.email ? (
-                <>
-                  {userPages.map((page) => (
+              {
+                loginData && loginData.email ?
+
+                  userPages.map((page) => (
                     <MenuItem key={page.path} onClick={() => handleNavigation(page.path)}>
                       <Typography variant="body2" textAlign="center">
                         {page.name}
                       </Typography>
                     </MenuItem>
-                  ))}
-                </>
-              ) : (
-                <>
-                  <MenuItem onClick={() => navigate('/signup')}>
-                    <Typography textAlign="center">Sign Up</Typography>
-                  </MenuItem>
-                  <MenuItem onClick={() => navigate('/login')}>
-                    <Typography textAlign="center">Login</Typography>
-                  </MenuItem>
-                </>
-              )}
+                  ))
+
+                  : [
+                    <MenuItem onClick={() => navigate('/signup')}>
+                      <Typography textAlign="center">Sign Up</Typography>
+                    </MenuItem>,
+                    <MenuItem onClick={() => navigate('/login')}>
+                      <Typography textAlign="center">Login</Typography>
+                    </MenuItem>
+                  ]
+              }
             </Menu>
           </Box>
 
@@ -193,7 +195,7 @@ const Navbar = () => {
           {loginData && loginData.email && (
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={profilePic?.profileImage} />
+                <Avatar alt="Remy Sharp" src={userProfileImage?.profileImage} />
               </IconButton>
               <Menu
                 sx={{ mt: '45px' }}
@@ -213,7 +215,7 @@ const Navbar = () => {
               >
                 <MenuItem onClick={handleProfileClick}>
                   <Box display="flex" alignItems="center" gap={1.5}>
-                    <Avatar alt="Remy Sharp" src={profilePic?.profileImage} />
+                    <Avatar alt="Remy Sharp" src={userProfileImage?.profileImage} />
                     <Typography textAlign="center">View Profile</Typography>
                   </Box>
                 </MenuItem>

@@ -1,5 +1,5 @@
 import { Box, TextField, Typography, IconButton, Avatar, Button, InputAdornment } from '@mui/material';
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import { useAuthContextData } from '../../../context/AuthProvider';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -8,22 +8,23 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { updateEmployeeDetails } from '../../../api\'s/employeeApi\'s';
-import { imageUploads } from '../../../api\'s/authApi\'s';
+import {  imageUploads } from '../../../api\'s/authApi\'s';
 
 const EmployeeProfileUpdateForm = ({ handleClose, setOpen }) => {
   const { updateEmployeeFormData, setUpdateEmployeeFormData, handleChangeUpdateEmployeeFormData } = useAuthContextData();
 
-  // Get profile image from Redux state
   const  profileImages  = useSelector((state) => state.authReducer.profileImage);
-  console.log(profileImages);
+
+  const userProfileImage = profileImages.find((pic) => pic.user_id === updateEmployeeFormData._id);
 
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(profileImages?.profileImage || null);
+  const [imagePreview, setImagePreview] = useState(userProfileImage?.profileImage || null);
  // Show the existing image or default one
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -47,15 +48,17 @@ const EmployeeProfileUpdateForm = ({ handleClose, setOpen }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    try {
     // Image upload
     if (file) {
       const formData = new FormData();
       formData.append('profileImage', file);
-      const imageResponse = await dispatch(imageUploads(formData));  // Update image in backend and Redux
-      console.log(imageResponse);
+       await dispatch(imageUploads(formData)); 
     }
-
+  } catch (error) {
+    throw new Error("error in image upload", error.message)
+  }
+  try {
     // Update remaining fields
     const response = await dispatch(updateEmployeeDetails(updateEmployeeFormData, navigate));
 
@@ -77,6 +80,9 @@ const EmployeeProfileUpdateForm = ({ handleClose, setOpen }) => {
         agreeToTerms: false,
       });
     }
+  } catch (error) {
+    throw new Error(error.message)
+  }
   };
 
   return (
@@ -93,27 +99,25 @@ const EmployeeProfileUpdateForm = ({ handleClose, setOpen }) => {
           </Box>
 
           <Box component="form" onSubmit={handleSubmit} sx={{ textAlign: 'center', position: 'relative' }}>
-            {/* Profile Image Avatar with Upload */}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 3, position: 'relative' }}>
               <Avatar
                 src={imagePreview || '/default-profile.png'} // Use the existing profile image or a default image
                 alt="Profile Image"
                 sx={{
-                  width: 150, // Larger size for the circular avatar
+                  width: 150, 
                   height: 150,
-                  border: '2px solid #3f51b5', // Optional border to make it more stylish
+                  border: '2px solid #3f51b5',
                 }}
               />
 
-              {/* Camera Icon Button */}
               <IconButton
                 aria-label="upload picture"
                 component="label"
                 sx={{
                   position: 'absolute',
                   bottom: 0,
-                  right: '40%',  // Align with the avatar circle
-                  backgroundColor: '#ffffff',  // White background for the icon
+                  right: '40%',  
+                  backgroundColor: '#ffffff',  
                   borderRadius: '50%',
                   padding: '5px',
                 }}

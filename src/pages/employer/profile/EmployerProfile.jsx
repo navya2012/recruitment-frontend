@@ -55,6 +55,8 @@ const EmployerProfile = () => {
         setOpen(false);
     };
 
+    const userProfileImage = profilePic.find((pic) => pic.user_id === userDetails._id);
+
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', padding: '40px 0', backgroundColor: '#f5f6fa' }}>
             <Box
@@ -86,7 +88,7 @@ const EmployerProfile = () => {
                     <Box sx={{ position: 'relative', marginBottom: '20px' }}>
                         <Avatar
                             alt=''
-                            src={profilePic?.profileImage} // Add the profile image URL if available
+                            src={userProfileImage?.profileImage} // Add the profile image URL if available
                             sx={{
                                 width: 140,
                                 height: 140,

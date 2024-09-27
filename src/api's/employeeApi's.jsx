@@ -72,7 +72,7 @@ export const getWorkingExperience = () => async (dispatch) => {
     dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
-        const response = await axios.get(`${BASE_URL}/employee/working-experience`,
+        const response = await axios.get(`${BASE_URL}/employee/get-working-experience`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,

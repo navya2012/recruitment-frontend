@@ -14,11 +14,12 @@ const EmployerProfileUpdateForm = ({ handleClose, setOpen }) => {
   const { updateEmployerFormData, setUpdateEmployerFormData, handleChangeUpdateEmployerFormData } = useAuthContextData();
 
   const  profileImages  = useSelector((state) => state.authReducer.profileImage);
-  console.log(profileImages);
+
+  const userProfileImage = profileImages.find((pic) => pic.user_id === updateEmployerFormData._id);
   
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(profileImages?.profileImage || null);
+  const [imagePreview, setImagePreview] = useState(userProfileImage?.profileImage || null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,8 +51,7 @@ const EmployerProfileUpdateForm = ({ handleClose, setOpen }) => {
     if (file) {
       formData.append('profileImage', file);
       // You might want to dispatch an action here for image upload
-      const imageResponse = await dispatch(imageUploads(formData));  // Update image in backend and Redux
-      console.log(imageResponse);
+      await dispatch(imageUploads(formData));  // Update image in backend and Redux
     }
 
     // Submit the rest of the form

@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   loading: false,
   userData: {},
-  profileImage:{},
+  profileImage:[],
   error: null
 }
 
@@ -24,14 +24,22 @@ const authSlice = createSlice({
         error:null
       }
     },  
-    setProfileImage: (state, action) => {
-      console.log(action.payload)
-      return {
-       ...state,
-        profileImage: action.payload,
-        error:null
-      }
-  },
+    setAddProfileImage: (state, action) => {
+     const index = state.profileImage.findIndex((image) => image._id === action.payload._id);
+     if (index !== -1) {
+         state.profileImage[index] = action.payload;
+     }else{
+        state.profileImage.push(action.payload)
+     }
+     state.error = null;
+    },
+    setAllUsersImages: (state, action) => {
+       return {
+         ...state,
+         profileImage: action.payload,
+         error: null
+       };
+     },   
     logout: (state) => {
       state.userData = {};
       state.error = null;
@@ -50,7 +58,8 @@ const authSlice = createSlice({
 export const {
   setLoading,
   loginSuccess,
-  setProfileImage,
+  setAddProfileImage,
+  setAllUsersImages,
   logout,
   clearError
 }
