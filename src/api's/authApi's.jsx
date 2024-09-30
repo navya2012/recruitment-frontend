@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import {  loginSuccess, logout, setAddProfileImage, setAllUsersImages, setLoading } from '../redux/slices/authSlice'
 import '../CSSModules/formStyles/formPageStyles.css'
 
-const BASE_URL = "http://localhost:5000/api/auth"
+const BASE_URL = "https://recruitment-backend-production.up.railway.app/api/auth"
 
 //sign up
 export const signUp = (formData, navigate) => async (dispatch) => {

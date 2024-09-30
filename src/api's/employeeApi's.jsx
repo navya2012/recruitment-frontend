@@ -5,7 +5,7 @@ import { loginSuccess, setLoading} from '../redux/slices/authSlice'
 import { setAddJobAppliedPosts, setAllExperienceData, setAllJobPosts, setExperienceSuccess, setJobAppliedPosts } from '../redux/slices/employeeSlice'
 
 
-const BASE_URL = "http://localhost:5000/api"
+const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
 
 //update details
 export const updateEmployeeDetails = (formData) => async (dispatch) => {

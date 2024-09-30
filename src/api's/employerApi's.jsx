@@ -5,7 +5,7 @@ import { loginSuccess, setLoading } from '../redux/slices/authSlice'
 import { addJobPost, setDeleteJobPosts, setJobPosts, setUpdateJobPost } from '../redux/slices/employerSlice'
 
 
-const BASE_URL = "http://localhost:5000/api"
+const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
 
 
 //update details
