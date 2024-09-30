@@ -36,7 +36,7 @@ const UpdatePassword = () => {
     }
     return (
         <>
-            <Grid container height="100vh">
+            <Grid container height="auto" sx={{paddingBottom:'50px'}}>
                 <Grid item xs={12} sm={6}>
                     <AuthCoverPage />
                 </Grid>

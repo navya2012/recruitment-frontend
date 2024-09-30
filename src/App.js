@@ -21,6 +21,7 @@ import JobAppliedApplications from './pages/employer/applications/JobAppliedAppl
 import UpdatePassword from './common/updatePassword/UpdatePassword';
 import EmployerProfile from './pages/employer/profile/EmployerProfile';
 import EmployeeProfile from './pages/employee/profile/EmployeeProfile';
+import Home from './pages/homePage/Home';
 
 
 
@@ -41,6 +42,7 @@ function App() {
               <Route path='/update-password' element={<UpdatePassword />} />
               <Route path='/change-password' element={<ResetPassword />} />
               <Route path='/verify-otp' element={<OTPVerification />} />
+              <Route path='/home-page' element={<Home />} />
               <Route path='/employer/dashboard' element={<PrivatePath><EmployerDashboard /></PrivatePath> } />
               <Route path='/employee/dashboard' element={<PrivatePath><EmployeeDashboard /></PrivatePath>} />
               <Route path='/employer/profile' element={<PrivatePath><EmployerProfile /></PrivatePath>} />

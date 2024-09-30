@@ -11,12 +11,4 @@ a{
   color: black;
 }
 
-.main-content {
-  padding-top: 65px; 
-}
 
-@media(max-width:650px){
-  .main-content {
-    padding-top: 50px; 
-  }
-}

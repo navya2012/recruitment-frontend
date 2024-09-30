@@ -1,246 +1,210 @@
-import React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import React, { useState } from 'react';
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    Button,
+    Container,
+    Box,
+    IconButton,
+    Drawer,
+    List,
+    ListItem,
+    ListItemText,
+    Avatar,
+    Menu,
+    MenuItem
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/slices/authSlice';
-import { Avatar } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-const pages = {
-  employee: [
-    { name: 'Home', path: '/employee/dashboard' },
-    { name: 'Find a Job', path: '/employee/jobs' },
-  ],
-  employer: [
-    { name: 'Home', path: '/employer/dashboard' },
-    { name: 'Post a Job', path: '/employer/jobs' },
-    { name: 'Applications', path: '/employer/applications' },
-  ],
-};
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-  const loginData = useSelector((state) => state.authReducer.userData);
-  const profilePic = useSelector((state) => state.authReducer.profileImage);
+    const loginData = useSelector((state) => state.authReducer.userData);
+    const profilePic = useSelector((state) => state.authReducer.profileImage);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
 
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/login');
+    };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+    const toggleDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setDrawerOpen(open);
+    };
 
-  const handleNavigation = (path) => {
-    navigate(path);
-    handleCloseNavMenu();
-  };
-
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/login');
-  };
-
-  // Check if loginData exists before trying to access role
-  const userPages = loginData && loginData.role === 'employee' ? pages.employee : pages.employer;
-
-  const handleLogoClick = () => {
-    if (loginData) {
-      if (loginData.role === 'employee') {
-        navigate('/employee/dashboard');
-      } else if (loginData.role === 'employer') {
-        navigate('/employer/dashboard');
-      }
-    } else {
-      navigate('/login');
-    }
-  };
-
-  const handleProfileClick = () => {
-    if (loginData) {
-      if (loginData.role === 'employer') {
-        navigate('/employer/profile');
-      } else if (loginData.role === 'employee') {
-        navigate('/employee/profile');
-      }
-    }
-  };
-
-  const userProfileImage = profilePic.find((pic) => pic.user_id === loginData._id);
-
-  return (
-    <AppBar position="fixed">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="button"
-            onClick={handleLogoClick}
-            sx={{
-              mr: 2,
-              display: { md: 'flex' },
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              background: 'none',
-              border: 'none',
-              textDecoration: 'none',
-              cursor: 'pointer',
-            }}
-          >
-            INKPROG
-          </Typography>
-
-          {/* Mobile Menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end' }}>
-            <IconButton
-              size="large"
-              aria-label="menu"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-            >
-              {
-                loginData && loginData.email ?
-
-                  userPages.map((page) => (
-                    <MenuItem key={page.path} onClick={() => handleNavigation(page.path)}>
-                      <Typography variant="body2" textAlign="center">
-                        {page.name}
-                      </Typography>
-                    </MenuItem>
-                  ))
-
-                  : [
-                    <MenuItem onClick={() => navigate('/signup')}>
-                      <Typography textAlign="center">Sign Up</Typography>
-                    </MenuItem>,
-                    <MenuItem onClick={() => navigate('/login')}>
-                      <Typography textAlign="center">Login</Typography>
-                    </MenuItem>
-                  ]
-              }
-            </Menu>
-          </Box>
-
-          {/* Desktop Menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {loginData && loginData.email ? (
-              <>
-                {userPages.map((page) => (
-                  <Button
-                    key={page.path}
-                    onClick={() => handleNavigation(page.path)}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
-                  >
-                    {page.name}
-                  </Button>
+    // Drawer content for mobile view
+    const drawerList = () => (
+        <Box
+            sx={{ width: 300 }}
+            role="presentation"
+            onClick={toggleDrawer(false)}
+            onKeyDown={toggleDrawer(false)}
+        >
+            <List>
+                {['Home', 'Find Jobs', 'Employers', 'Candidates', 'Blog'].map((text) => (
+                    <ListItem button key={text}>
+                        <ListItemText primary={text} />
+                    </ListItem>
                 ))}
-              </>
-            ) : (
-              <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                <Button onClick={() => navigate('/signup')} sx={{ my: 2, color: 'white' }}>
-                  Sign Up
-                </Button>
-                <Button onClick={() => navigate('/login')} sx={{ my: 2, color: 'white' }}>
-                  Login
-                </Button>
-              </Box>
-            )}
-          </Box>
-
-          {/* User Avatar and Menu */}
-          {loginData && loginData.email && (
-            <Box sx={{ flexGrow: 0 }}>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={userProfileImage?.profileImage} />
-              </IconButton>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                <MenuItem onClick={handleProfileClick}>
-                  <Box display="flex" alignItems="center" gap={1.5}>
-                    <Avatar alt="Remy Sharp" src={userProfileImage?.profileImage} />
-                    <Typography textAlign="center">View Profile</Typography>
-                  </Box>
-                </MenuItem>
-                <MenuItem onClick={() => navigate('/change-password')}>
-                  <Box display="flex" alignItems="center" gap={1.5}>
-                    <LockIcon fontSize="large" />
-                    <Typography textAlign="center">Change Password</Typography>
-                  </Box>
-                </MenuItem>
-                <MenuItem onClick={handleLogout}>
-                  <Box display="flex" alignItems="center" gap={1.5}>
-                    <LogoutIcon fontSize="large" />
-                    <Typography textAlign="center">Logout</Typography>
-                  </Box>
-                </MenuItem>
-              </Menu>
+            </List>
+            <Box sx={{ p: 2 }}>
+                <Button fullWidth variant="contained">Job Post</Button>
             </Box>
-          )}
-        </Toolbar>
-      </Container>
-    </AppBar>
-  );
-};
+        </Box>
+    );
+
+    const userProfileImage = profilePic.find((pic) => pic.user_id === loginData?._id);
+
+    return (
+        <AppBar position="fixed" sx={{ backgroundColor: '#fff', boxShadow: 'none', padding: {xs:'10px', md:'20px 90px'} }}>
+            <Container maxWidth="xl">
+                <Toolbar disableGutters sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                    {/* Logo and Company Name */}
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box component="img" src={require('../../Assets/logo.png')} alt="logo" sx={{ height: 40, mr: 2 }} />
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#000' }}>
+                            Superio
+                        </Typography>
+                    </Box>
+
+                    {/* Desktop Navigation Links */}
+                    {loginData && loginData.email ? (
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
+                            <Box sx={{ display: 'flex', gap: 2 }}>
+                                <Button sx={{ color: '#000' }} onClick={() => navigate('/home-page')}>Home</Button>
+                                <Button sx={{ color: '#000' }} onClick={() => navigate('/find-jobs')}>Find Jobs</Button>
+                                <Button sx={{ color: '#000' }} onClick={() => navigate('/employers')}>Employers</Button>
+                                <Button sx={{ color: '#000' }} onClick={() => navigate('/candidates')}>Candidates</Button>
+                                <Button sx={{ color: '#000' }} onClick={() => navigate('/blog')}>Blog</Button>
+                            </Box>
+                        </Box>
+                    ) : (
+                        <Box sx={{ flexGrow: 1 }} /> // Empty space to push buttons to the right
+                    )}
+
+                    {/* Mobile Hamburger Menu and Profile Icon */}
+                    <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 2 }}>
+                        <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
+                            <MenuIcon color='primary' />
+                        </IconButton>
+                        {loginData && loginData.email && (
+                            <IconButton onClick={handleOpenUserMenu}>
+                                <Avatar alt="Profile" src={userProfileImage?.profileImage} />
+                            </IconButton>
+                        )}
+                    </Box>
+
+                    {/* Login and Register Buttons for Logged Out State */}
+                    {!loginData || !loginData.email ? (
+                        <Box sx={{ display: 'flex', gap: 2 }}>
+                            <Box
+                                component="div"
+                                sx={{
+                                    fontSize: '16px',
+                                    borderRadius: '10px',
+                                    padding: '10px 20px',
+                                    backgroundColor: '#0557A2',
+                                    color: '#fff',
+                                    textAlign: 'center',
+                                    cursor: 'pointer',
+                                    fontWeight: 'bold'
+                                }}
+                                onClick={() => navigate('/login')}
+                            >
+                                Login
+                            </Box>
+                            <Box
+                                component="div"
+                                sx={{
+                                    fontSize: '16px',
+                                    borderRadius: '10px',
+                                    padding: '10px 20px',
+                                    backgroundColor: '#0557A2',
+                                    color: '#fff',
+                                    textAlign: 'center',
+                                    cursor: 'pointer',
+                                    fontWeight: 'bold'
+                                }}
+                                onClick={() => navigate('/')}
+                            >
+                                Register
+                            </Box>
+                        </Box>
+                    ) : (
+                        // User Profile and Job Post Button for Desktop
+                        <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 2 }}>
+                            <Box
+                                component="div"
+                                sx={{
+                                    fontSize: '16px',
+                                    borderRadius: '10px',
+                                    padding: '10px 20px',
+                                    backgroundColor: '#0557A2',
+                                    color: '#fff',
+                                    textAlign: 'center',
+                                    cursor: 'pointer',
+                                    fontWeight: 'bold'
+                                }}
+                                onClick={() => navigate('/job-post')}
+                            >
+                                Job Post
+                            </Box>
+                            <IconButton onClick={handleOpenUserMenu}>
+                                <Avatar alt="Profile" src={userProfileImage?.profileImage} />
+                            </IconButton>
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                keepMounted
+                                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem onClick={() => navigate('/change-password')}>
+                                    <Box display="flex" alignItems="center" gap={1.5}>
+                                        <LockIcon fontSize="large" />
+                                        <Typography textAlign="center">Change Password</Typography>
+                                    </Box>
+                                </MenuItem>
+                                <MenuItem onClick={handleLogout}>
+                                    <Box display="flex" alignItems="center" gap={1.5}>
+                                        <LogoutIcon fontSize="large" />
+                                        <Typography textAlign="center">Logout</Typography>
+                                    </Box>
+                                </MenuItem>
+                            </Menu>
+                        </Box>
+                    )}
+                </Toolbar>
+            </Container>
+            {/* Drawer for Mobile Menu */}
+            <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+                {drawerList()}
+            </Drawer>
+        </AppBar>
+    );
+}
 
 export default Navbar;
-
-
-

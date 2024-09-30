@@ -252,14 +252,15 @@ export const login =  ( formData, navigate) => async (dispatch) => {
             const { token, loginDetails } = response.data;
             localStorage.setItem('loginToken', token);
             dispatch(loginSuccess({loginDetails}));
+            navigate('/home-page')
 
-            if (loginDetails.role === 'employee') {
-                navigate('/employee/dashboard');
-                localStorage.setItem('employeeId', JSON.stringify(loginDetails._id));
-            } else if (loginDetails.role === 'employer') {
-                navigate('/employer/dashboard');
-                localStorage.setItem('employerId', JSON.stringify(loginDetails._id));
-            }
+            // if (loginDetails.role === 'employee') {
+            //     navigate('/employee/dashboard');
+            //     localStorage.setItem('employeeId', JSON.stringify(loginDetails._id));
+            // } else if (loginDetails.role === 'employer') {
+            //     navigate('/employer/dashboard');
+            //     localStorage.setItem('employerId', JSON.stringify(loginDetails._id));
+            // }
             toast.success(response.data.message, {
                 position: "top-center",
                 autoClose: 3000 ,

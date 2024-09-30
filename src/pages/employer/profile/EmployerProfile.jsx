@@ -46,7 +46,7 @@ const EmployerProfile = () => {
     };
 
     const formatAddress = (address) => {
-        return [address.street, address.city, address.state, address.country, address.zipCode]
+        return [address?.street, address?.city, address?.state, address?.country, address?.zipCode]
             .filter(Boolean)
             .join(', ');
     };

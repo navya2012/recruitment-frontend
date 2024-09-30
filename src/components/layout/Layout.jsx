@@ -7,11 +7,11 @@ import Footer from '../footer/Footer'
 const Layout = () => {
   return (
     <>
-        <Navbar/>
-        <Box className="main-content">
+      <Navbar />
+      <Box >
         <Outlet />
-        <Footer/>
       </Box>
+      <Footer />
     </>
   )
 }

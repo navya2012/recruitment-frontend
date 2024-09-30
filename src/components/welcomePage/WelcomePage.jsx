@@ -62,7 +62,7 @@ const WelcomePage = () => {
   };
 
   return (
-    <Grid container height="100vh">
+    <Grid container height="auto" sx={{paddingBottom:'50px'}}>
       <Grid item xs={12} sm={6}>
         <AuthCoverPage />
       </Grid>
@@ -72,7 +72,7 @@ const WelcomePage = () => {
             <RightSideForm>
               <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                 <Typography variant="h3" sx={theme.typography.welcomeHeader}>
-                  Welcome to <span style={{ color: '#364BC6', }}>INKPROG</span>
+                  Welcome to <span style={{ color: '#364BC6', }}>Superio</span>
                 </Typography>
                 <Typography variant="h6" component="h6" sx={theme.typography.welcomeSubheader}>
                   Sign Up as a  . . .

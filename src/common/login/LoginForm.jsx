@@ -50,7 +50,7 @@ const LoginForm = () => {
     <>
       <Box className='form-page-styles'>
       <Typography variant="h3" sx={theme.typography.welcomeHeader}>
-          Welcome to <span style={{ color: '#364BC6' }}>INKPROG</span>
+          Welcome to <span style={{ color: '#364BC6' }}>Superio</span>
         </Typography>
         <Typography variant="h6" component="h6" sx={theme.typography.welcomeSubheader}>
           Login  . . .
