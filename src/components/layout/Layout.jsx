@@ -8,7 +8,7 @@ const Layout = () => {
   return (
     <>
       <Navbar />
-      <Box >
+      <Box sx={{paddingTop:'105px'}}>
         <Outlet />
       </Box>
       <Footer />

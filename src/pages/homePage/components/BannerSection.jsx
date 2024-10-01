@@ -3,6 +3,7 @@ import { Box, Typography, Container } from '@mui/material';
 import firstImage from '../../../Assets/banner.png';
 import secondImage from '../../../Assets/header.webp';
 import SearchIcon from '@mui/icons-material/Search';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 const BannerSection = () => {
   return (
@@ -99,7 +100,7 @@ const BannerSection = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: '100%',
-                maxWidth: '1000px',
+                maxWidth: '550px',
                 gap: 2,
                 backgroundColor: 'rgba(255, 255, 255, 0.9)',
                 padding: '20px 30px',
@@ -108,17 +109,17 @@ const BannerSection = () => {
             >
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'column', gap: 2, }}>
                 <Typography variant='h6'>What</Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: 1 }}>
                   <Typography variant='body1'>Job Titles, Keywords or Company</Typography>
                   <SearchIcon />
                 </Box>
               </Box>
 
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'column', gap: 2 }}>
-                <Typography variant='h6'>What</Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: 2 }}>
-                  <Typography variant='body1'>Job Titles, Keywords or Company</Typography>
-                  <SearchIcon />
+                <Typography variant='h6'>Where</Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: 1 }}>
+                  <Typography variant='body1'>City Or Postcodes</Typography>
+                  <LocationOnOutlinedIcon />
                 </Box>
               </Box>
 

@@ -1,83 +1,92 @@
 import React from 'react';
-import { Box, Typography, Button, TextField, Container, Grid, IconButton } from '@mui/material';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import { Grid, Container, Typography, Box, IconButton } from '@mui/material';
+import { Facebook, Twitter, Instagram, LinkedIn } from '@mui/icons-material';
 
 const Footer = () => {
-    return (
-        <Box
-            sx={{
-                width: '100%',
-                backgroundColor: '#0557A2',
-                color: '#fff',
-                padding: '40px 0',
-            }}
-        >
-            <Container maxWidth="lg">
-                <Grid container spacing={4} justifyContent="center">
-                    <Grid item xs={12}>
-                        <Typography variant="h4" align="center" gutterBottom sx={{ color: 'white' }}>
-                            Let's connect!
-                        </Typography>
-                        <Typography variant="body1" align="center" gutterBottom>
-                            Enter your email to stay updated with our latest job posts offers.
-                        </Typography>
-                    </Grid>
+  return (
+    <Box component="footer" sx={{ backgroundColor: '#f5f5f5', padding: { xs: '20px', md: '100px 90px' } }}>
+      <Container>
+        <Grid container spacing={4}> 
+          <Grid item xs={12} sm={6} md={2.4} sx={{ mb: 6, lineHeight: 1.8 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+              <Box component="img" src={require('../../Assets/logo.png')} alt="logo" sx={{ height: 50, mr: 2 }} />
+              <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#000' }}>
+                Superio
+              </Typography>
+            </Box >
+            <Box sx={{ mb: 2, lineHeight: 1}}>
+            <Typography variant="body1" gutterBottom>Call Us</Typography>
+            <Typography variant="body1" color='primary' gutterBottom>123 456 720</Typography>
+            </Box>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>329 Queensberry Street, North Melbourne VIC</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>3051, Australia.</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>support@superio.com</Typography>
+          </Grid>
 
-                    <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <TextField
-                            variant="outlined"
-                            placeholder="Type your email here..."
-                            sx={{
-                                backgroundColor: '#fff',
-                                borderRadius: '10px 0 0 10px',
-                                height: '56px',
-                                width: '180%'
-                            }}
-                        />
-                        <Button
-                            variant="contained"
-                            color="error"
-                            sx={{
-                                marginLeft: '0px',
-                                borderRadius: '0 10px 10px 0',
-                                height: '56px',
-                                width: '40%'
-                            }}
-                        >
-                            Join
-                        </Button>
-                    </Grid>
+          <Grid item xs={12} sm={6} md={2.4} >
+            <Typography variant="h6" gutterBottom sx={{ mb: 6, lineHeight: 1.8 }}>For Candidates</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Browse Jobs</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Browse Categories</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Candidate Dashboard</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Job Alerts</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>My Bookmarks</Typography>
+          </Grid>
+          
+          <Grid item xs={12} sm={6} md={2.4} >
+            <Typography variant="h6" gutterBottom sx={{ mb: 6, lineHeight: 1.8 }}>For Employers</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Browse Candidates</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Employer Dashboard</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Add Job</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Job Packages</Typography>
+          </Grid>
+          
+          <Grid item xs={12} sm={6} md={2.4} >
+            <Typography variant="h6" gutterBottom sx={{ mb: 6, lineHeight: 1.8 }}>About Us</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>About Us</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Job Page Invoice</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Candidate Dashboard</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Terms Page</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Blog</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Contact</Typography>
+          </Grid>
+          
+          <Grid item xs={12} sm={6} md={2.4} >
+            <Typography variant="h6" gutterBottom sx={{ mb: 6, lineHeight: 1.8 }}>Mobile Apps</Typography>
+            <Typography variant="body2" gutterBottom>Click and Get Started in Seconds</Typography>
+          </Grid>         
+        </Grid>
 
-                </Grid>
 
-                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
-                    <IconButton sx={{ color: '#fff' }}>
-                        <FacebookIcon />
-                    </IconButton>
-                    <IconButton sx={{ color: '#fff' }}>
-                        <TwitterIcon />
-                    </IconButton>
-                    <IconButton sx={{ color: '#fff' }}>
-                        <InstagramIcon />
-                    </IconButton>
-                    <IconButton sx={{ color: '#fff' }}>
-                        <LinkedInIcon />
-                    </IconButton>
-                    <IconButton sx={{ color: '#fff' }}>
-                        <YouTubeIcon />
-                    </IconButton>
-                </Box>
+        <Grid container spacing={2} sx={{ marginTop: '40px' }}>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1" sx={{ lineHeight: '1.8' }}>
+              © 2023 Superio by ib-themes. All Right Reserved.
+            </Typography>
+          </Grid>
 
-                <Typography variant="body2" align="center" sx={{ marginTop: '20px', color: '#ccc' }}>
-                    &copy; 2024 Company. All rights reserved.
-                </Typography>
-            </Container>
-        </Box>
-    );
+          <Grid item xs={12} sm={6} textAlign="right">
+            <Box sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'flex-end' }, gap: 2 }}>
+              <IconButton href="https://www.facebook.com" target="_blank" aria-label="Facebook" sx={{ color: '#1877f2' }}>
+                <Facebook fontSize="large" />
+              </IconButton>
+
+              <IconButton href="https://www.twitter.com" target="_blank" aria-label="Twitter" sx={{ color: '#1DA1F2' }}>
+                <Twitter fontSize="large" />
+              </IconButton>
+
+              <IconButton href="https://www.instagram.com" target="_blank" aria-label="Instagram" sx={{ color: '#E4405F' }}>
+                <Instagram fontSize="large" />
+              </IconButton>
+
+              <IconButton href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn" sx={{ color: '#0A66C2' }}>
+                <LinkedIn fontSize="large" />
+              </IconButton>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+  );
 };
 
 export default Footer;

@@ -4,6 +4,7 @@ import BannerSection from './components/BannerSection'
 import JobSearchContent from './components/JobSearchContent'
 import BuildResumeContent from './components/BuildResumeContent'
 import NewsLetter from './components/NewsLetter'
+import Business from './components/Business'
 
 
 const Home = () => {
@@ -13,6 +14,7 @@ const Home = () => {
   <BannerSection />
   <JobSearchContent />
   <BuildResumeContent />
+    <Business/>
 </Box>
 <Box>
   <NewsLetter />

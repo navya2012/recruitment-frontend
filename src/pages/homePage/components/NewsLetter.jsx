@@ -6,7 +6,7 @@ const NewsLetter = () => {
     return (
         <Box
             sx={{
-                padding: '100px',
+                padding: '100px 0',
                 backgroundImage: `url(${bgImage})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
@@ -45,8 +45,8 @@ const NewsLetter = () => {
                         display: 'flex',
                         alignItems: 'center',
                         width: '100%',
-                        maxWidth: '600px',
-                        padding: '15px',
+                        maxWidth:  { xs:'300px', md:'650px'},
+                        padding: '20px',
                         backgroundColor: 'white',
                         borderRadius: '8px',
                     }}
@@ -66,10 +66,10 @@ const NewsLetter = () => {
                             variant="contained"
                             color="error"
                             sx={{
-                                marginLeft: '0px',
+                                marginTop: '0px',
                                 borderRadius: '0 10px 10px 0',
                                 height: '56px',
-                                width: '40%'
+                                width: {xs:'120%', md:'60%'}
                             }}
                         >
                             Subscribe
