@@ -76,7 +76,7 @@ const Navbar = () => {
     const userProfileImage = profilePic.find((pic) => pic.user_id === loginData?._id);
 
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: '#fff', boxShadow: 'none', padding: {xs:'10px', md:'20px 90px'} }}>
+        <AppBar position="fixed" sx={{ backgroundColor: '#fff', boxShadow: 'none', padding: { xs: '10px', md: '20px 90px' } }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                     {/* Logo and Company Name */}
@@ -93,9 +93,8 @@ const Navbar = () => {
                             <Box sx={{ display: 'flex', gap: 2 }}>
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/home-page')}>Home</Button>
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/find-jobs')}>Find Jobs</Button>
-                                <Button sx={{ color: '#000' }} onClick={() => navigate('/employers')}>Employers</Button>
+                                <Button sx={{ color: '#000' }} onClick={() => navigate('/employer-dashboard')}>Employers</Button>
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/candidates')}>Candidates</Button>
-                                <Button sx={{ color: '#000' }} onClick={() => navigate('/blog')}>Blog</Button>
                             </Box>
                         </Box>
                     ) : (

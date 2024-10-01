@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Card, CardContent, Grid, Modal, Paper, styled, Typography, Chip } from '@mui/material';
+import { Box, Button, Card, CardContent, Grid, Modal, Paper, styled, Typography, Chip, Stack, Pagination, PaginationItem } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import JobPostsForm from './JobPostsForm';
 import JobPostsUpdateForm from './JobPostsUpdateForm';
 import { deleteJobPostsData, getAllJobPostsPostedByEmployer } from '../../../api\'s/employerApi\'s';
-import JobsHeader from '../../../common/jobsHeader/JobsHeader';
+import JobsHeader from '../../findJobs/components/JobsHeader';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 // Styled button
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -53,6 +55,10 @@ const JobPosts = () => {
   const { jobPosts } = useSelector((state) => state.employerReducer);
   const dispatch = useDispatch();
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // Set number of items per page
+
   useEffect(() => {
     dispatch(getAllJobPostsPostedByEmployer());
   }, [dispatch]);
@@ -86,96 +92,121 @@ const JobPosts = () => {
     setOpen(false);
   };
 
+  // Handle page change
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  // Calculate current job posts to display
+  const indexOfLastPost = currentPage * itemsPerPage;
+  const indexOfFirstPost = indexOfLastPost - itemsPerPage;
+  const currentJobPosts = jobPosts?.slice(indexOfFirstPost, indexOfLastPost);
+
   return ( 
     <>
-    <JobsHeader/>
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Paper elevation={3} sx={{ width: '100%' }}>
+      <JobsHeader/>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Paper elevation={3} sx={{ width: '100%' }}>
+          <Box sx={{ padding: '50px', margin: '0 auto' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                justifyContent: { xs: 'center', sm: 'space-between' },
+                alignItems: 'center',
+                paddingBottom: '20px',
+                gap: { xs: '15px', sm: '50px' },
+              }}
+            >
+              <Typography variant="h4" fontWeight="bold">Job Posts</Typography>
+              <StyledButton onClick={handleAddData} type="submit" variant="contained">
+                Add Job Post
+              </StyledButton>
+            </Box>
 
-        <Box sx={{ padding: '50px', margin: '0 auto' }}>
-
-        <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
-              justifyContent: { xs: 'center', sm: 'space-between' },
-              alignItems: 'center',
-              paddingBottom: '20px',
-              gap: { xs: '15px', sm: '50px' },
-            }}
-          >
-            <Typography variant="h4" fontWeight="bold">Job Posts</Typography>
-            <StyledButton onClick={handleAddData} type="submit" variant="contained">
-              Add Job Post
-            </StyledButton>
+            {currentJobPosts?.length === 0 ? (
+              <Typography variant="h5" sx={{ textAlign: 'center', textTransform: 'uppercase', paddingTop: '20px' }}>
+                No posts found.
+              </Typography>
+            ) : (
+              <Grid container spacing={3}>
+                {currentJobPosts.map((job) => (
+                  <Grid item xs={12} sm={6} md={4} key={job._id}>
+                    <StyledCard>
+                      <CardContent>
+                        <Typography variant="h6" fontWeight="bold" sx={{ fontSize: '25px' }}>
+                          {job.companyName}
+                        </Typography>
+                        <Typography variant="subtitle1" sx={{ margin: '15px 0', fontSize: '18px' }}>
+                          {job.role}
+                        </Typography>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                          <TagChip label={job.technologies} />
+                          <TagChip label={job.experience} />
+                          <TagChip label={job.graduation} />
+                          <TagChip label={job.location} />
+                          <TagChip label={job.languages} />
+                        </Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap:'20px', marginTop: '20px' }}>
+                          <StyledButton onClick={() => handleEdit(job)} variant="contained">Edit</StyledButton>
+                          <StyledButton onClick={() => handleDelete(job._id)} variant="contained">Delete</StyledButton>
+                        </Box>
+                      </CardContent>
+                    </StyledCard>
+                  </Grid>
+                ))}
+              </Grid>
+            )}
           </Box>
 
-          {jobPosts.length === 0 ? (
-            <Typography variant="h5" sx={{ textAlign: 'center', textTransform: 'uppercase', paddingTop: '20px' }}>
-              No posts found.
-            </Typography>
-          ) : (
-            <Grid container spacing={3}>
-              {jobPosts.map((job) => (
-                <Grid item xs={12} sm={6} md={4} key={job._id}>
-                  <StyledCard>
-                    <CardContent>
-                    <Typography variant="h6" fontWeight="bold" sx={{ fontSize: '25px' }}>
-                        {job.companyName}
-                      </Typography>
-
-                       <Typography variant="subtitle1" sx={{ margin: '15px 0', fontSize: '18px' }}>
-                        {job.role}
-                      </Typography>
-
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                        <TagChip label={job.technologies} />
-                        <TagChip label={job.experience} />
-                        <TagChip label={job.graduation} />
-                        <TagChip label={job.location} />
-                        <TagChip label={job.languages} />
-                      </Box>
-
-                      <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap:'20px', marginTop: '20px' }}>
-                        <StyledButton onClick={() => handleEdit(job)} variant="contained">Edit</StyledButton>
-                        <StyledButton onClick={() => handleDelete(job._id)} variant="contained">Delete</StyledButton>
-                      </Box>
-                    </CardContent>
-                  </StyledCard>
-                </Grid>
-              ))}
-            </Grid>
+          {/* Pagination component */}
+          {jobPosts && (
+            <Stack spacing={2} sx={{ padding: '20px', justifyContent: 'center', alignItems: 'center' }}>
+              <Pagination
+                count={Math.ceil(jobPosts.length / itemsPerPage)} // Calculate total pages
+                page={currentPage} // Current page
+                onChange={handlePageChange} // Handle page change
+                renderItem={(item) => (
+                  <PaginationItem
+                    slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                    {...item}
+                  />
+                )}
+              />
+            </Stack>
           )}
-        </Box>
-      </Paper>
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="edit-profile-modal-title"
-        aria-describedby="edit-profile-modal-description"
-        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      >
-        <Box sx={{
-          maxHeight: '90vh',
-          overflowY: 'auto',
-          backgroundColor: 'white',
-          padding: '40px',
-          borderRadius: '8px',
-          boxShadow: 24,
-          width: '90%',
-          maxWidth: '750px'
-        }}>
-          {isEditing ? (
-            <JobPostsUpdateForm handleClose={handleClose} setOpen={setOpen} updateJobPosts={updateJobPosts} setUpdateJobPosts={setUpdateJobPosts} />
-          ) : (
-            <JobPostsForm handleClose={handleClose} setOpen={setOpen} />
-          )}
-        </Box>
-      </Modal>
-    </Box>
+          
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="edit-profile-modal-title"
+            aria-describedby="edit-profile-modal-description"
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <Box sx={{
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              backgroundColor: 'white',
+              padding: '40px',
+              borderRadius: '8px',
+              boxShadow: 24,
+              width: '90%',
+              maxWidth: '750px'
+            }}>
+              {isEditing ? (
+                <JobPostsUpdateForm handleClose={handleClose} setOpen={setOpen} updateJobPosts={updateJobPosts} setUpdateJobPosts={setUpdateJobPosts} />
+              ) : (
+                <JobPostsForm handleClose={handleClose} setOpen={setOpen} />
+              )}
+            </Box>
+          </Modal>
+        </Paper>
+      </Box>
     </>
   );
 };
 
 export default JobPosts;
+
+
+

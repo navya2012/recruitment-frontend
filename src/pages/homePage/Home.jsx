@@ -9,18 +9,18 @@ import Business from './components/Business'
 
 const Home = () => {
   return (
-   <>
- <Box sx={{ padding: { xs: '10px', md: '20px 90px' } }}>
-  <BannerSection />
-  <JobSearchContent />
-  <BuildResumeContent />
-    <Business/>
-</Box>
-<Box>
-  <NewsLetter />
-</Box>
+    <>
+      <Box sx={{backgroundColor:'#F0F5F7', padding: { xs: '10px', md: '20px 90px' } }}>
+        <BannerSection />
+        <JobSearchContent />
+        <BuildResumeContent />
+        <Business />
+      </Box>
+      <Box>
+        <NewsLetter />
+      </Box>
 
-   </>
+    </>
   )
 }
 
