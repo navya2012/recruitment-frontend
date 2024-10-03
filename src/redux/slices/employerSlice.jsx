@@ -3,8 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     loading: false,
     jobPosts: [],
-    error: null,
-    jobAppliedUsers:[]
+    error: null
 }
 
 const employerSlice = createSlice({
@@ -45,13 +44,6 @@ const employerSlice = createSlice({
                 error:null
             }
         },
-        setJobAppliedUsers :(state, action) => {
-            return{
-                ...state,
-                jobAppliedUsers: action.payload,
-                error:null
-            }
-        },
         clearError: (state) => {
             state.error = null;
         },
@@ -65,7 +57,6 @@ export const {
     setDeleteJobPosts,
     addJobPost,
     setUpdateJobPost,
-    setJobAppliedUsers,
     clearError
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllJobPostsAppliedByEmployees, getAllJobPostsData, JobAppliedPostsStatus } from '../../../api\'s/employeeApi\'s';
+import { getAllJobPostsAppliedByAllEmployees, getAllJobPostsData, JobAppliedPostsStatus } from '../../../api\'s/employeeApi\'s';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, Card, CardContent, Grid, styled, Typography } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
@@ -34,6 +34,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 const FindJobPosts = () => {
   const { allJobPosts, jobAppliedPosts } = useSelector((state) => state.employeeReducer);
   const currentEmployeeId = useSelector((state) => state.authReducer.userData._id);
+
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);
@@ -41,13 +42,13 @@ const FindJobPosts = () => {
 
   useEffect(() => {
     dispatch(getAllJobPostsData());
-    dispatch(getAllJobPostsAppliedByEmployees());
+    dispatch(getAllJobPostsAppliedByAllEmployees());
   }, [dispatch]);
 
   const handleJobApply = async (jobId) => {
     try {
       await dispatch(JobAppliedPostsStatus(jobId));
-      dispatch(getAllJobPostsAppliedByEmployees());
+      dispatch(getAllJobPostsAppliedByAllEmployees());
     } catch (error) {
       throw new Error(error.message);
     }

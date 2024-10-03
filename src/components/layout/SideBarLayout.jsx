@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import Footer from '../footer/Footer';
 import SideBar from '../sidebar/SideBar';
 
+
 const SidebarLayout = () => {
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>

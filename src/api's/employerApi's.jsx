@@ -114,7 +114,8 @@ export const createJobPosts = (jobPosts) => async (dispatch) => {
 }
 
 //update job posts
-export const updateJobPostsData = (jobPosts) => async (dispatch) => {
+export const updateJobPostsData = (jobPosts, navigate) => async (dispatch) => {
+    console.log(jobPosts)
     dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
@@ -128,6 +129,7 @@ export const updateJobPostsData = (jobPosts) => async (dispatch) => {
         if (response && response.data && response.status === 200) {
             const result = response.data.updatedRecruitmentPosts
             dispatch(setUpdateJobPost(result))
+            navigate('/employer-dashboard/manage-jobs')
             toast.success(response.data.message, {
                 position: "top-center",
                 autoClose: 3000,

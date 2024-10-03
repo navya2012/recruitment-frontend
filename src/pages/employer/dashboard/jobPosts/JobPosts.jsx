@@ -1,96 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Card, CardContent, Grid, Paper, styled, Typography, Chip, Stack, Pagination, PaginationItem } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Pagination, Stack, IconButton, PaginationItem, Tooltip } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteJobPostsData, getAllJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-
-
-// Styled button
-const StyledButton = styled(Button)(({ theme }) => ({
-  borderRadius: '10px',
-  textTransform: 'none',
-  fontWeight: 'bold',
-  fontSize: '16px',
-  width: '150px',
-  backgroundColor: '#000',
-  color: '#fff',
-  '&:hover': {
-    backgroundColor: '#333',
-  },
-}));
-
-// Styled card for job posts
-const StyledCard = styled(Card)(({ theme }) => ({
-  padding: '20px',
-  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
-  position: 'relative',
-  border: '2px solid #0557A2',
-  borderRadius: '15px',
-}));
-
-const TagChip = styled(Chip)(({ theme }) => ({
-  borderRadius: '10px',
-  marginRight: '10px',
-  fontWeight: 'bold',
-  fontSize: '15px',
-}));
+import { useNavigate } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const JobPosts = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [updateJobPosts, setUpdateJobPosts] = useState({
-    companyName: '',
-    role: '',
-    technologies: '',
-    experience: '',
-    graduation: '',
-    location: '',
-    languages: '',
-    noticePeriod: ''
-  });
-
   const { jobPosts } = useSelector((state) => state.employerReducer);
+  console.log(jobPosts)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6; // Set number of items per page
+  const itemsPerPage = 6;
 
   useEffect(() => {
     dispatch(getAllJobPostsPostedByEmployer());
   }, [dispatch]);
-
-  const handleAddData = () => {
-    setIsEditing(false);
-  };
 
   const handleDelete = (jobId) => {
     dispatch(deleteJobPostsData(jobId));
   };
 
   const handleEdit = (jobData) => {
-    setIsEditing(true);
-    setUpdateJobPosts({
-      _id: jobData._id,
-      companyName: jobData.companyName,
-      role: jobData.role,
-      technologies: jobData.technologies,
-      experience: jobData.experience,
-      graduation: jobData.graduation,
-      location: jobData.location,
-      languages: jobData.languages,
-      noticePeriod: jobData.noticePeriod
-    });
+    if (jobData?._id) {
+      navigate(`/employer-dashboard/edit-jobs/${jobData._id}`);
+    }
   };
 
-
-
-  // Handle page change
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
-  // Calculate current job posts to display
   const indexOfLastPost = currentPage * itemsPerPage;
   const indexOfFirstPost = indexOfLastPost - itemsPerPage;
   const currentJobPosts = jobPosts?.slice(indexOfFirstPost, indexOfLastPost);
@@ -104,92 +51,104 @@ const JobPosts = () => {
         Ready to jump back in?
       </Typography>
 
-
       <Paper sx={{ padding: '30px', borderRadius: '10px' }}>
-      <Typography variant="h5" sx={{ color: 'black', mb: 3 }}>
-      My Job Listings
-      </Typography>
+        <Typography variant='h5' sx={{ color: 'black', mb: 2 }}>My Job Listings</Typography>
+
+        <TableContainer >
+          <Table>
+            <TableHead>
+              <TableRow sx={{ backgroundColor: '#F5F7FC' }}>
+                <TableCell sx={{ color: '#3A73D3' }}><strong>Company Name</strong></TableCell>
+                <TableCell sx={{ color: '#3A73D3' }}><strong>Role</strong></TableCell>
+                <TableCell sx={{ color: '#3A73D3' }}><strong>Technologies</strong></TableCell>
+                <TableCell sx={{ color: '#3A73D3' }}><strong>Applications</strong></TableCell>
+                <TableCell sx={{ color: '#3A73D3' , textAlign:'center'}}><strong>Action</strong></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {currentJobPosts?.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} sx={{ textAlign: 'center' }}>
+                    No posts found.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                currentJobPosts.map((job) => (
+                  <TableRow key={job._id}>
+                    <TableCell>
+                      <Typography variant="h6">{job.companyName}</Typography>
+                      <Box display='flex' alignItems="flex-start" justifyContent='flex-start' gap='10px' sx={{ padding: '10px 0', flexDirection: { xs: 'column', md: 'row' } }}>
+                        <Box display="flex" alignItems="center" justifyContent='center' sx={{ mb: 1 }}>
+                          <WorkOutlineIcon sx={{ mr: 1 }} />
+                          <Typography variant="body2">{job.experience}</Typography>
+                        </Box>
+                        <Box display="flex" alignItems="center" justifyContent='center'>
+                          <LocationOnIcon sx={{ mr: 1 }} />
+                          <Typography variant="body2" color="textSecondary">
+                            {job.location}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2">{job.role}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2">
+                        {job.technologies}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2" color="green"></Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Box display="flex" gap={1}>
+                        <Tooltip title="Edit Application" placement="top">
+                          <IconButton aria-label="edit" onClick={() => handleEdit(job)}>
+                            <EditIcon
+                              sx={{
+                                textAlign: "center", backgroundColor: '#1967d21a', width: '30px', height: '30px', borderRadius: '8px', fontSize: '22px', color: '#1967d2', padding: '6px'
+                              }}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete Application" placement="top">
+                          <IconButton aria-label="delete" onClick={() => handleDelete(job._id)}>
+                            <DeleteIcon
+                              sx={{
+                                textAlign: "center", backgroundColor: '#1967d21a', width: '30px', height: '30px', borderRadius: '8px', fontSize: '22px', color: '#1967d2', padding: '6px'
+                              }}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        {/* Pagination */}
+        {jobPosts && (
+          <Stack spacing={2} sx={{ padding: '20px', justifyContent: 'center', alignItems: 'center' }}>
+            <Pagination
+              count={Math.ceil(jobPosts.length / itemsPerPage)}
+              page={currentPage}
+              onChange={handlePageChange}
+              renderItem={(item) => (
+                <PaginationItem
+                  slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                  {...item}
+                />
+              )}
+            />
+          </Stack>
+        )}
       </Paper>
-
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Paper elevation={3} sx={{ width: '100%' }}>
-          <Box sx={{ padding: '50px', margin: '0 auto' }}>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' },
-                justifyContent: { xs: 'center', sm: 'space-between' },
-                alignItems: 'center',
-                paddingBottom: '20px',
-                gap: { xs: '15px', sm: '50px' },
-              }}
-            >
-              <Typography variant="h4" fontWeight="bold">Job Posts</Typography>
-              <StyledButton onClick={handleAddData} type="submit" variant="contained">
-                Add Job Post
-              </StyledButton>
-            </Box>
-
-            {currentJobPosts?.length === 0 ? (
-              <Typography variant="h5" sx={{ textAlign: 'center', textTransform: 'uppercase', paddingTop: '20px' }}>
-                No posts found.
-              </Typography>
-            ) : (
-              <Grid container spacing={3}>
-                {currentJobPosts.map((job) => (
-                  <Grid item xs={12} sm={6} md={4} key={job._id}>
-                    <StyledCard>
-                      <CardContent>
-                        <Typography variant="h6" fontWeight="bold" sx={{ fontSize: '25px' }}>
-                          {job.companyName}
-                        </Typography>
-                        <Typography variant="subtitle1" sx={{ margin: '15px 0', fontSize: '18px' }}>
-                          {job.role}
-                        </Typography>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                          <TagChip label={job.technologies} />
-                          <TagChip label={job.experience} />
-                          <TagChip label={job.graduation} />
-                          <TagChip label={job.location} />
-                          <TagChip label={job.languages} />
-                        </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', marginTop: '20px' }}>
-                          <StyledButton onClick={() => handleEdit(job)} variant="contained">Edit</StyledButton>
-                          <StyledButton onClick={() => handleDelete(job._id)} variant="contained">Delete</StyledButton>
-                        </Box>
-                      </CardContent>
-                    </StyledCard>
-                  </Grid>
-                ))}
-              </Grid>
-            )}
-          </Box>
-
-          {/* Pagination component */}
-          {jobPosts && (
-            <Stack spacing={2} sx={{ padding: '20px', justifyContent: 'center', alignItems: 'center' }}>
-              <Pagination
-                count={Math.ceil(jobPosts.length / itemsPerPage)} // Calculate total pages
-                page={currentPage} // Current page
-                onChange={handlePageChange} // Handle page change
-                renderItem={(item) => (
-                  <PaginationItem
-                    slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
-                    {...item}
-                  />
-                )}
-              />
-            </Stack>
-          )}
-
-
-        </Paper>
-      </Box>
     </>
   );
 };
 
 export default JobPosts;
-
-
-

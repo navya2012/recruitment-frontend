@@ -205,7 +205,7 @@ export const JobAppliedPostsStatus = (jobId) => async (dispatch) => {
         )
         if (response && response.data && response.status === 200) {
             dispatch(setAddJobAppliedPosts(response.data.jobApplication))
-            dispatch(getAllJobPostsAppliedByEmployees())
+            dispatch(getAllJobPostsAppliedByAllEmployees())
             toast.success(response.data.message, {
                 position: "top-center",
                 autoClose: 3000,
@@ -242,7 +242,7 @@ export const JobAppliedPostsStatus = (jobId) => async (dispatch) => {
 }
 
 //all job post applied status by employees
-export const getAllJobPostsAppliedByEmployees = () => async (dispatch) => {
+export const getAllJobPostsAppliedByAllEmployees = () => async (dispatch) => {
     dispatch(setLoading(true));
    try {
        const response = await axios.get(`${BASE_URL}/employee/get-all-applied-job-posts`)

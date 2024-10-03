@@ -1,49 +1,54 @@
 import { AppBar, Box, CssBaseline, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material'
 import React from 'react'
 import Navbar from '../navbar/Navbar'
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import HomeIcon from '@mui/icons-material/Home';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import LockIcon from '@mui/icons-material/Lock';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
 
 const drawerWidth = 250
 
 const menuList = [
-    {
-      menuItem: 'Dashboard',
-      path: '/employer-dashboard/home',
-      //icon: <AgricultureIcon />
-    },
-    {
-      menuItem: 'Post A New Job',
-      path: '/employer-dashboard/add-new-jobs',
-      //icon: <AgricultureIcon />
-    },
-    {
-      menuItem: 'Update Jobs',
-      path: '/employer-dashboard/edit-jobs',
-      //icon: <AgricultureIcon />
-    },
-    {
-      menuItem: 'Manage Jobs',
-      path: '/employer-dashboard/manage-jobs',
-      //icon: <AgricultureIcon />
-    },
-    {
-      menuItem: 'All Applications',
-      path: '/employer-dashboard/applied-job-posts',
-      //icon: <AgricultureIcon />
-    },
-    {
-      menuItem: 'Change Password',
-      path: '/employer-dashboard/change-password',
-      //icon: <AgricultureIcon />
-    },
-    {
-      menuItem: 'Logout',
-      path: '/login',
-      //icon: <AgricultureIcon />
-    }
-  ]
+  {
+    menuItem: 'Dashboard',
+    path: '/employer-dashboard/home',
+    icon: <HomeIcon />
+  },
+  {
+    menuItem: 'Post A New Job',
+    path: '/employer-dashboard/add-new-jobs',
+    icon: <PostAddIcon />
+  },
+  {
+    menuItem: 'Manage Jobs',
+    path: '/employer-dashboard/manage-jobs',
+    icon: <ManageSearchIcon />
+  },
+  {
+    menuItem: 'All Applications',
+    path: '/employer-dashboard/applied-job-posts',
+    icon: <AssignmentIcon />
+  },
+  {
+    menuItem: 'View Profile',
+    path: '/employer-dashboard/profile-details',
+    icon: <AccountCircleIcon />
+  },
+  {
+    menuItem: 'Change Password',
+    path: '/employer-dashboard/change-password',
+    icon: <LockIcon />
+  },
+  {
+    menuItem: 'Logout',
+    path: '/login',
+    icon: <ExitToAppIcon />
+  }
+];
 
 const SideBar = () => {
   return (

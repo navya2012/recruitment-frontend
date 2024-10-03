@@ -1,15 +1,53 @@
 
-import { Box, Button, IconButton, Paper, TextField, Typography } from '@mui/material'
-import React from 'react'
+import { Box, Button, Paper, TextField, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import '../../../../CSSModules/formStyles/formPageStyles.css'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import '../../../../CSSModules/pageStyles/jobPostsStyles.css'
 import {  updateJobPostsData } from '../../../../api\'s/employerApi\'s';
-import CloseIcon from '@mui/icons-material/Close';
+import {  useNavigate, useParams } from 'react-router-dom';
 
 
 
-const EditJobPosts = ({handleClose, setOpen, updateJobPosts, setUpdateJobPosts}) => {
+
+const EditJobPosts = () => {
+  const [updateJobPosts, setUpdateJobPosts] = useState({
+    companyName: '',
+    role: '',
+    technologies: '',
+    experience: '',
+    graduation: '',
+    location: '',
+    languages: '',
+    noticePeriod: ''
+  });
+
+  const { jobPosts } = useSelector((state) => state.employerReducer);
+
+  const { id } = useParams();
+  console.log(id)
+
+  const jobData = jobPosts.find(job => job._id === id);
+
+  console.log(jobData );
+
+  useEffect(() => {
+    if (jobData) {
+      setUpdateJobPosts({
+        _id: jobData._id || '',
+        companyName: jobData.companyName || '',
+        role: jobData.role || '',
+        technologies: jobData.technologies || '',
+        experience: jobData.experience || '',
+        graduation: jobData.graduation || '',
+        location: jobData.location || '',
+        languages: jobData.languages || '',
+        noticePeriod: jobData.noticePeriod || '',
+      });
+    }
+  }, [jobData]);
+
+  console.log(updateJobPosts)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUpdateJobPosts((prevData) => ({
@@ -17,15 +55,14 @@ const EditJobPosts = ({handleClose, setOpen, updateJobPosts, setUpdateJobPosts})
           [name]: value,
         }));
       };
-      
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const response = await dispatch(updateJobPostsData(updateJobPosts));
+    const response = await dispatch(updateJobPostsData(updateJobPosts, navigate));
     if (response.success) {
-      setOpen(false)
       setUpdateJobPosts({
         companyName:'', 
         role:'',
@@ -84,12 +121,19 @@ const EditJobPosts = ({handleClose, setOpen, updateJobPosts, setUpdateJobPosts})
             value={updateJobPosts?.languages}
             onChange={handleChange}
           />
-           <TextField variant="outlined" fullWidth margin="normal"
+           <TextField variant="outlined" fullWidth margin="normal" sx={{mb:3}}
             label="Notice Period" name="noticePeriod" type="text" required
             value={updateJobPosts?.noticePeriod}
             onChange={handleChange}
           />
-          <Button type="submit" variant="contained" >Update</Button>
+         <Button type="submit" variant="contained" sx={{
+            width: '30%',
+            display: 'block',
+            margin: '0 auto',
+            textAlign: 'center'
+          }}>
+            Update
+          </Button>
         </Box>
         </Paper>
     </>

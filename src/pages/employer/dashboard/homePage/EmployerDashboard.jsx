@@ -6,8 +6,9 @@ import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlin
 
 
 const DashboardLayout = () => {
-  const { jobPosts, jobAppliedUsers } = useSelector((state) => state?.employerReducer);
-
+  const { jobPosts } = useSelector((state) => state?.employerReducer);
+//   const { jobAppliedPosts } = useSelector((state) => state?.employeeReducer);
+// console.log(jobAppliedPosts)
   return (
     <Box component="main" sx={{ flexGrow: 1, bgcolor: '#F0F5F7', p: 3 }}>
       <Typography variant="h4"  sx={{color:'black', mb:3}}>
@@ -16,7 +17,6 @@ const DashboardLayout = () => {
       <Typography variant="body2" sx={{ mb:3}} >
         Ready to jump back in?
       </Typography>
-
 
       <Box
         sx={{
@@ -40,9 +40,8 @@ const DashboardLayout = () => {
           }}
         >
           <ListItemIcon>
-            <BusinessCenterOutlinedIcon sx={{
-              textAlign: "center", backgroundColor: '#1967d21a', width: '70px', height: '70px', borderRadius: '8px', fontSize: '30px', color: '#1967d2', padding: '10px'
-
+            <BusinessCenterOutlinedIcon 
+            sx={{textAlign: "center", backgroundColor: '#1967d21a', width: '70px', height: '70px', borderRadius: '8px', fontSize: '30px', color: '#1967d2', padding: '10px'
             }} />
           </ListItemIcon>
           <Box sx={{
@@ -88,7 +87,7 @@ const DashboardLayout = () => {
             flexDirection: 'column'
           }}>
             <Typography variant="h4" sx={{ color: '#d93025', fontWeight: 600 }}>
-              {jobAppliedUsers?.length}
+              {/* {jobAppliedPosts?.length} */}
             </Typography>
             <Typography variant="body1" sx={{ color: '#595959', fontWeight: 500 }}>
               Applications
