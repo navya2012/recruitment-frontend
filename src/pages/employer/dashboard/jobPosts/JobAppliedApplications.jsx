@@ -1,40 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { getAllAppliedJobPostsPostedByEmployer } from '../../../api\'s/employerApi\'s'
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { getAllAppliedJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s';
 import TableContainer from '@mui/material/TableContainer';
-import { Box, Paper, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography, } from "@mui/material";
+import { Box, Paper, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
- fontSize:'16px',
- textAlign:'center',
-  fontWeight:'500',
-
+  fontSize: '16px',
+  textAlign: 'center',
+  fontWeight: '500',
 }));
 
 const Headings = [
-  { id: 'name', label: 'Employee Name', minWidth: 50},
+  { id: 'name', label: 'Employee Name', minWidth: 50 },
   { id: 'email', label: 'Email', minWidth: 50 },
   { id: 'companyName', label: 'Company Name', minWidth: 50 },
-  { id: 'role', label: 'Role', minWidth: 50},
+  { id: 'role', label: 'Role', minWidth: 50 },
   { id: 'jobAppliedDate', label: 'Date of Apply', minWidth: 50 }
 ];
-
 
 const JobAppliedApplications = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(6);
   const [appliedJobs, setAppliedJobs] = useState([]);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchAppliedJobs = async () => {
       try {
-        const response = await dispatch(getAllAppliedJobPostsPostedByEmployer()); 
-        setAppliedJobs(response.data.jobAppliedPostsList);
+        const response = await dispatch(getAllAppliedJobPostsPostedByEmployer());
+        // Ensure the response is valid and contains the expected data
+        setAppliedJobs(response?.data?.jobAppliedPostsList || []); // Fallback to an empty array if undefined
       } catch (error) {
-        throw new Error(error.message);
+        console.error(error.message);
       }
     };
     fetchAppliedJobs();
@@ -53,24 +52,24 @@ const JobAppliedApplications = () => {
     const date = new Date(dateString);
     return date.toLocaleDateString([], { year: 'numeric', month: '2-digit', day: '2-digit' });
   };
+
   return (
     <>
-      <Box >
+      <Box>
         <Paper elevation={3} sx={{ width: '100%', padding: '60px 40px' }}>
           <Typography variant="h4" sx={{ padding: '20px 40px' }}>Job Posts</Typography>
-          <TableContainer  >
+          <TableContainer>
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
                   {Headings.map((column) => (
                     <TableCell
                       key={column.id}
-                      style={{ 
+                      style={{
                         minWidth: column.minWidth,
-                        textAlign:'center',
-                        fontWeight:'bold',
-                        fontSize:'18px',
-                        // fontFamily: "'Montserrat', sans-serif",
+                        textAlign: 'center',
+                        fontWeight: 'bold',
+                        fontSize: '18px',
                       }}
                     >
                       {column.label}
@@ -81,40 +80,44 @@ const JobAppliedApplications = () => {
               <TableBody>
                 {appliedJobs.length > 0 ? (
                   appliedJobs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data, id) => (
-                    <TableRow key={id} >
-                      <StyledTableCell >
-                        {data.firstName === "" ? ("-") : data.firstName}{"  "}
-                        {data.lastName === "" ? ("-") : data.lastName}
+                    <TableRow key={id}>
+                      <StyledTableCell>
+                        {data.firstName || "-"}{"  "}
+                        {data.lastName || "-"}
                       </StyledTableCell>
-                      <StyledTableCell >
-                        {data.email === "" ? ("-") : data.email} 
+                      <StyledTableCell>
+                        {data.email || "-"}
                       </StyledTableCell>
-                      <StyledTableCell >{data.companyName === "" ? ("-") : data.companyName}</StyledTableCell>
-                      <StyledTableCell >{data.role === "" ? ("-") : data.role}</StyledTableCell>
-                      <StyledTableCell >
-                        {data.jobAppliedDate === "" ? ("-") : formatDate(data.jobAppliedDate)}
-                        </StyledTableCell>
+                      <StyledTableCell>{data.companyName || "-"}</StyledTableCell>
+                      <StyledTableCell>{data.role || "-"}</StyledTableCell>
+                      <StyledTableCell>
+                        {data.jobAppliedDate ? formatDate(data.jobAppliedDate) : "-"}
+                      </StyledTableCell>
                     </TableRow>
                   ))
-                ) : ("")}
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={Headings.length} style={{ textAlign: 'center' }}>
+                      No posts available
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[ 6, 12, 18]}
+            rowsPerPageOptions={[6, 12, 18]}
             component="div"
             count={appliedJobs.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          >
-          </TablePagination>
+          />
         </Paper>
       </Box>
-
     </>
-  )
-}
+  );
+};
 
-export default JobAppliedApplications
+export default JobAppliedApplications;

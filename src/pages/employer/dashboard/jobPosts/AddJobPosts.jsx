@@ -1,15 +1,14 @@
 
-import { Box, Button, IconButton, TextField, Typography } from '@mui/material'
+import { Box, Button, Paper, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import '../../../CSSModules/formStyles/formPageStyles.css'
+import '../../../../CSSModules/formStyles/formPageStyles.css'
 import { useDispatch } from 'react-redux';
-import '../../../CSSModules/pageStyles/jobPostsStyles.css'
-import { createJobPosts } from '../../../api\'s/employerApi\'s';
-import CloseIcon from '@mui/icons-material/Close';
+import '../../../../CSSModules/pageStyles/jobPostsStyles.css'
+import { createJobPosts } from '../../../../api\'s/employerApi\'s';
 
 
 
-const JobPostsForm = ({handleClose, setOpen}) => {
+const AddJobPosts = () => {
     const [jobPosts, setJobPosts] = useState({
         companyName:'',
         role:'',
@@ -37,7 +36,6 @@ const JobPostsForm = ({handleClose, setOpen}) => {
     e.preventDefault()
     const response = await dispatch(createJobPosts(jobPosts));
     if (response.success) {
-      setOpen(false)
       setJobPosts({
         companyName:'',
         role:'',
@@ -52,15 +50,15 @@ const JobPostsForm = ({handleClose, setOpen}) => {
   }
   return (
     <>
-      {/* <Box > */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', }}>
-              <Typography variant="h5" sx={{ paddingBottom: '30px' }} >Create a Job Post</Typography>
-              <IconButton
-                onClick={handleClose}
-              >
-                <CloseIcon fontSize='large' sx={{color:'black'}}/>
-              </IconButton>
-            </Box>
+      <Typography variant="h4"  sx={{color:'black', mb:3}}>
+      Post a New Job!
+      </Typography>
+      <Typography variant="body2"  sx={{ mb:3}}>
+        Ready to jump back in?
+      </Typography>
+
+<Paper sx={{padding:'30px', borderRadius:'10px'}}>
+  <Typography variant='h5' sx={{color:'black', mb:2}}>Post Job</Typography>
         <Box component='form' onSubmit={handleSubmit}>
           <TextField variant="outlined" fullWidth margin="normal"
             label="Company Name" name="companyName" type="text" required
@@ -104,9 +102,9 @@ const JobPostsForm = ({handleClose, setOpen}) => {
           />
           <Button type="submit" variant="contained" >Post</Button>
         </Box>
-      {/* </Box> */}
+        </Paper>
     </>
   )
 }
 
-export default JobPostsForm
+export default AddJobPosts

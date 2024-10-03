@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Card, CardContent, Grid, Modal, Paper, styled, Typography, Chip, Stack, Pagination, PaginationItem } from '@mui/material';
+import { Box, Button, Card, CardContent, Grid, Paper, styled, Typography, Chip, Stack, Pagination, PaginationItem } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import JobPostsForm from './JobPostsForm';
-import JobPostsUpdateForm from './JobPostsUpdateForm';
-import { deleteJobPostsData, getAllJobPostsPostedByEmployer } from '../../../api\'s/employerApi\'s';
-import JobsHeader from '../../findJobs/components/JobsHeader';
+import { deleteJobPostsData, getAllJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 
 // Styled button
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -39,7 +37,6 @@ const TagChip = styled(Chip)(({ theme }) => ({
 }));
 
 const JobPosts = () => {
-  const [open, setOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [updateJobPosts, setUpdateJobPosts] = useState({
     companyName: '',
@@ -65,7 +62,6 @@ const JobPosts = () => {
 
   const handleAddData = () => {
     setIsEditing(false);
-    setOpen(true);
   };
 
   const handleDelete = (jobId) => {
@@ -85,12 +81,9 @@ const JobPosts = () => {
       languages: jobData.languages,
       noticePeriod: jobData.noticePeriod
     });
-    setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+
 
   // Handle page change
   const handlePageChange = (event, value) => {
@@ -102,9 +95,22 @@ const JobPosts = () => {
   const indexOfFirstPost = indexOfLastPost - itemsPerPage;
   const currentJobPosts = jobPosts?.slice(indexOfFirstPost, indexOfLastPost);
 
-  return ( 
+  return (
     <>
-      <JobsHeader/>
+      <Typography variant="h4" sx={{ color: 'black', mb: 3 }}>
+        Manage jobs!
+      </Typography>
+      <Typography variant="body2" sx={{ mb: 3 }}>
+        Ready to jump back in?
+      </Typography>
+
+
+      <Paper sx={{ padding: '30px', borderRadius: '10px' }}>
+      <Typography variant="h5" sx={{ color: 'black', mb: 3 }}>
+      My Job Listings
+      </Typography>
+      </Paper>
+
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Paper elevation={3} sx={{ width: '100%' }}>
           <Box sx={{ padding: '50px', margin: '0 auto' }}>
@@ -147,7 +153,7 @@ const JobPosts = () => {
                           <TagChip label={job.location} />
                           <TagChip label={job.languages} />
                         </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap:'20px', marginTop: '20px' }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', marginTop: '20px' }}>
                           <StyledButton onClick={() => handleEdit(job)} variant="contained">Edit</StyledButton>
                           <StyledButton onClick={() => handleDelete(job._id)} variant="contained">Delete</StyledButton>
                         </Box>
@@ -175,31 +181,8 @@ const JobPosts = () => {
               />
             </Stack>
           )}
-          
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="edit-profile-modal-title"
-            aria-describedby="edit-profile-modal-description"
-            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          >
-            <Box sx={{
-              maxHeight: '90vh',
-              overflowY: 'auto',
-              backgroundColor: 'white',
-              padding: '40px',
-              borderRadius: '8px',
-              boxShadow: 24,
-              width: '90%',
-              maxWidth: '750px'
-            }}>
-              {isEditing ? (
-                <JobPostsUpdateForm handleClose={handleClose} setOpen={setOpen} updateJobPosts={updateJobPosts} setUpdateJobPosts={setUpdateJobPosts} />
-              ) : (
-                <JobPostsForm handleClose={handleClose} setOpen={setOpen} />
-              )}
-            </Box>
-          </Modal>
+
+
         </Paper>
       </Box>
     </>

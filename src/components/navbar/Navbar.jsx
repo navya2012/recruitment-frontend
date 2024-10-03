@@ -93,7 +93,7 @@ const Navbar = () => {
                             <Box sx={{ display: 'flex', gap: 2 }}>
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/home-page')}>Home</Button>
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/find-jobs')}>Find Jobs</Button>
-                                <Button sx={{ color: '#000' }} onClick={() => navigate('/employer-dashboard')}>Employers</Button>
+                                <Button sx={{ color: '#000' }} onClick={() => navigate('/employer-dashboard/home')}>Employers</Button>
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/candidates')}>Candidates</Button>
                             </Box>
                         </Box>

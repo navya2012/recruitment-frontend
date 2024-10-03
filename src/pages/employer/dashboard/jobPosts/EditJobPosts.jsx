@@ -1,15 +1,15 @@
 
-import { Box, Button, IconButton, TextField, Typography } from '@mui/material'
+import { Box, Button, IconButton, Paper, TextField, Typography } from '@mui/material'
 import React from 'react'
-import '../../../CSSModules/formStyles/formPageStyles.css'
+import '../../../../CSSModules/formStyles/formPageStyles.css'
 import { useDispatch } from 'react-redux';
-import '../../../CSSModules/pageStyles/jobPostsStyles.css'
-import {  updateJobPostsData } from '../../../api\'s/employerApi\'s';
+import '../../../../CSSModules/pageStyles/jobPostsStyles.css'
+import {  updateJobPostsData } from '../../../../api\'s/employerApi\'s';
 import CloseIcon from '@mui/icons-material/Close';
 
 
 
-const JobPostsUpdateForm = ({handleClose, setOpen, updateJobPosts, setUpdateJobPosts}) => {
+const EditJobPosts = ({handleClose, setOpen, updateJobPosts, setUpdateJobPosts}) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUpdateJobPosts((prevData) => ({
@@ -40,59 +40,60 @@ const JobPostsUpdateForm = ({handleClose, setOpen, updateJobPosts, setUpdateJobP
   }
   return (
     <>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', }}>
-              <Typography variant="h5" sx={{ paddingBottom: '30px' }} >Create a Job Post</Typography>
-              <IconButton
-                onClick={handleClose}
-              >
-                <CloseIcon fontSize='large' sx={{color:'black'}}/>
-              </IconButton>
-            </Box>
+  <Typography variant="h4"  sx={{color:'black', mb:3}}>
+      Update a New Job!
+      </Typography>
+      <Typography variant="body2"  sx={{ mb:3}}>
+        Ready to jump back in?
+      </Typography>
+
+      <Paper sx={{padding:'30px', borderRadius:'10px'}}>
         <Box component='form' onSubmit={handleSubmit}>
           <TextField variant="outlined" fullWidth margin="normal"
             label="Company Name" name="companyName" type="text" required
-            value={updateJobPosts.companyName}
+            value={updateJobPosts?.companyName}
             onChange={handleChange}
           />
           <TextField variant="outlined" fullWidth margin="normal"
             label="Role" name="role" type="text" required
-            value={updateJobPosts.role}
+            value={updateJobPosts?.role}
             onChange={handleChange}
           />
           <TextField variant="outlined" fullWidth margin="normal"
             label="Technologies" name="technologies" type="text" required
-            value={updateJobPosts.technologies}
+            value={updateJobPosts?.technologies}
             onChange={handleChange}
           />
           <TextField variant="outlined" fullWidth margin="normal"
             label="Experience" name="experience" type="text" required
-            value={updateJobPosts.experience}
+            value={updateJobPosts?.experience}
             onChange={handleChange}
           />
            <TextField variant="outlined" fullWidth margin="normal"
             label="Graduation" name="graduation" type="text" required
-            value={updateJobPosts.graduation}
+            value={updateJobPosts?.graduation}
             onChange={handleChange}
           />
            <TextField variant="outlined" fullWidth margin="normal"
             label="Location" name="location" type="text" required
-            value={updateJobPosts.location}
+            value={updateJobPosts?.location}
             onChange={handleChange}
           />
            <TextField variant="outlined" fullWidth margin="normal"
             label="Languages" name="languages" type="text" required
-            value={updateJobPosts.languages}
+            value={updateJobPosts?.languages}
             onChange={handleChange}
           />
            <TextField variant="outlined" fullWidth margin="normal"
             label="Notice Period" name="noticePeriod" type="text" required
-            value={updateJobPosts.noticePeriod}
+            value={updateJobPosts?.noticePeriod}
             onChange={handleChange}
           />
-          <Button type="submit" variant="contained" >Post</Button>
+          <Button type="submit" variant="contained" >Update</Button>
         </Box>
+        </Paper>
     </>
   )
 }
 
-export default JobPostsUpdateForm
+export default EditJobPosts

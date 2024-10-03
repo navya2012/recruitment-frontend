@@ -1,14 +1,14 @@
 import { Box, Button, TextField, Typography, InputAdornment, IconButton, Avatar } from '@mui/material';
 import React, { useState } from 'react';
-import { useAuthContextData } from '../../../context/AuthProvider';
+import { useAuthContextData } from '../../../../context/AuthProvider';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { updateEmployerDetails } from '../../../api\'s/employerApi\'s';
-import { imageUploads } from '../../../api\'s/authApi\'s';
+import { updateEmployerDetails } from '../../../../api\'s/employerApi\'s';
+import { imageUploads } from '../../../../api\'s/authApi\'s';
 
 const EmployerProfileUpdateForm = ({ handleClose, setOpen }) => {
   const { updateEmployerFormData, setUpdateEmployerFormData, handleChangeUpdateEmployerFormData } = useAuthContextData();

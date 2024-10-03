@@ -1,7 +1,7 @@
 import { Box, Typography, Grid, Modal, Avatar, Paper, IconButton } from '@mui/material';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useAuthContextData } from '../../../context/AuthProvider';
+import { useAuthContextData } from '../../../../context/AuthProvider';
 import EditIcon from '@mui/icons-material/Edit';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';

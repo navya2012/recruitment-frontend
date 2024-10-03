@@ -4,16 +4,16 @@ import { Outlet } from 'react-router-dom'
 import Navbar from '../navbar/Navbar'
 import Footer from '../footer/Footer'
 
-const Layout = () => {
+const MainLayout = () => {
   return (
     <>
       <Navbar />
-      <Box sx={{paddingTop:'105px'}}>
+      <Box sx={{ paddingTop: '105px' }}>
         <Outlet />
       </Box>
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default MainLayout
