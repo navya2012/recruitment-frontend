@@ -1,8 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getAllAppliedJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s';
-import { Box, Card, CardContent, CardHeader, Avatar, Typography, Grid, Pagination } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import TableContainer from '@mui/material/TableContainer';
+import { Box, Paper, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
+
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  fontSize: '16px',
+  textAlign: 'center',
+  fontWeight: '500',
+}));
+
+const Headings = [
+  { id: 'name', label: 'Employee Name', minWidth: 50 },
+  { id: 'email', label: 'Email', minWidth: 50 },
+  { id: 'companyName', label: 'Company Name', minWidth: 50 },
+  { id: 'role', label: 'Role', minWidth: 50 },
+  { id: 'jobAppliedDate', label: 'Date of Apply', minWidth: 50 }
+];
 
 const JobAppliedApplications = () => {
   const [page, setPage] = useState(0);
@@ -15,7 +30,8 @@ const JobAppliedApplications = () => {
     const fetchAppliedJobs = async () => {
       try {
         const response = await dispatch(getAllAppliedJobPostsPostedByEmployer());
-        setAppliedJobs(response?.data?.jobAppliedPostsList || []); 
+        // Ensure the response is valid and contains the expected data
+        setAppliedJobs(response?.data?.jobAppliedPostsList || []); // Fallback to an empty array if undefined
       } catch (error) {
         console.error(error.message);
       }
@@ -27,64 +43,79 @@ const JobAppliedApplications = () => {
     setPage(newPage);
   };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString([], { year: 'numeric', month: '2-digit', day: '2-digit' });
   };
-console.log(appliedJobs)
+
   return (
     <>
-      <Typography variant="h4" sx={{ color: 'black', mb: 3 }}>
-        All Applicants!
-      </Typography>
-      <Typography variant="body2" sx={{ mb: 3 }}>
-        Ready to jump back in?
-      </Typography>
-
-      <Box sx={{ flexGrow: 1, mb: 4 }}>
-        <Grid container spacing={3}>
-          {appliedJobs.length > 0 ? (
-            appliedJobs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data, id) => (
-              <Grid item xs={12} sm={12} md={6} lg={6} key={id}>
-                <Card elevation={3} sx={{ borderRadius: '12px', padding: '16px' }}>
-                  <CardHeader
-                    avatar={<Avatar alt={data.firstName} src={data.profileImage || ''} sx={{ width: 56, height: 56 }} />}
-                    title={<Typography variant="h6">{data.firstName} {data.lastName}</Typography>}
-                    subheader={<Typography variant="body2" color="textSecondary">{data.email}</Typography>}
-                  />
-                  <CardContent>
-                    <Typography variant="body2" color="textSecondary">
-                      Company: {data.companyName || '-'}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Role: {data.role || '-'}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Applied on: {data.jobAppliedDate ? formatDate(data.jobAppliedDate) : '-'}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))
-          ) : (
-            <Typography variant="body2" sx={{ textAlign: 'center', width: '100%' }}>
-              No posts available
-            </Typography>
-          )}
-        </Grid>
-      </Box>
-
-      {/* Pagination */}
-      {appliedJobs.length > 0 && (
-        <Box display="flex" justifyContent="center" mt={4}>
-          <Pagination
-            count={Math.ceil(appliedJobs.length / rowsPerPage)}
+      <Box>
+        <Paper elevation={3} sx={{ width: '100%', padding: '60px 40px' }}>
+          <Typography variant="h4" sx={{ padding: '20px 40px' }}>Job Posts</Typography>
+          <TableContainer>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  {Headings.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      style={{
+                        minWidth: column.minWidth,
+                        textAlign: 'center',
+                        fontWeight: 'bold',
+                        fontSize: '18px',
+                      }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {appliedJobs.length > 0 ? (
+                  appliedJobs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data, id) => (
+                    <TableRow key={id}>
+                      <StyledTableCell>
+                        {data.firstName || "-"}{"  "}
+                        {data.lastName || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        {data.email || "-"}
+                      </StyledTableCell>
+                      <StyledTableCell>{data.companyName || "-"}</StyledTableCell>
+                      <StyledTableCell>{data.role || "-"}</StyledTableCell>
+                      <StyledTableCell>
+                        {data.jobAppliedDate ? formatDate(data.jobAppliedDate) : "-"}
+                      </StyledTableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={Headings.length} style={{ textAlign: 'center' }}>
+                      No posts available
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[6, 12, 18]}
+            component="div"
+            count={appliedJobs.length}
+            rowsPerPage={rowsPerPage}
             page={page}
-            onChange={handleChangePage}
-            color="primary"
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
           />
-        </Box>
-      )}
+        </Paper>
+      </Box>
     </>
   );
 };
