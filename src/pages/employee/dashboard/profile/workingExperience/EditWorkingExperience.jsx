@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box, FormControl, InputLabel, Select, MenuItem, Button, Typography, IconButton } from '@mui/material';
 import { experienceOptions, graduationOptions, languageOptions, locationOptions, noticePeriodOptions, technologiesOptions } from './MenuOptions';
-import { useExperienceContextData } from '../../../context/ExperienceProvider';
 import { useDispatch } from 'react-redux';
-import { workingExperience } from '../../../api\'s/employeeApi\'s';
+import { workingExperience } from '../../../../../api\'s/employeeApi\'s';
 import CloseIcon from '@mui/icons-material/Close';
+import { useExperienceContextData } from '../../../../../context/ExperienceProvider';
 
 
-const ExperienceUpdateForm = ({ handleClose, setOpen }) => {
+const EditWorkingExperience = ({ handleClose, setOpen }) => {
     const { updateExperienceData, setUpdateExperienceData, handleChangeUpdateExperienceData } = useExperienceContextData()
 
     const dispatch = useDispatch()
@@ -162,4 +162,4 @@ const ExperienceUpdateForm = ({ handleClose, setOpen }) => {
     );
 };
 
-export default ExperienceUpdateForm;
+export default EditWorkingExperience;

@@ -9,10 +9,10 @@ import SchoolIcon from '@mui/icons-material/School';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import LanguageIcon from '@mui/icons-material/Language';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
-import ExperienceUpdateForm from './ExperienceUpdateForm';
-import ExperienceForm from './ExperienceForm';
-import { useExperienceContextData } from '../../../context/ExperienceProvider';
-import { getWorkingExperience } from '../../../api\'s/employeeApi\'s';
+import ExperienceUpdateForm from './EditWorkingExperience';
+import ExperienceForm from './AddWorkingExperience';
+import { getWorkingExperience } from '../../../../../api\'s/employeeApi\'s';
+import { useExperienceContextData } from '../../../../../context/ExperienceProvider';
 
 
 const WorkingExperience = () => {

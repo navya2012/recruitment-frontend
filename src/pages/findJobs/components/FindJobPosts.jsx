@@ -32,7 +32,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 }));
 
 const FindJobPosts = () => {
-  const { allJobPosts, jobAppliedPosts } = useSelector((state) => state.employeeReducer);
+  const { allJobPosts, allUsersAppliedJobPosts } = useSelector((state) => state?.employeeReducer);
   const currentEmployeeId = useSelector((state) => state.authReducer.userData._id);
 
   const dispatch = useDispatch();
@@ -116,9 +116,9 @@ const FindJobPosts = () => {
                         <StyledButton
                           onClick={() => handleJobApply(job._id)}
                           variant="contained"
-                          disabled={jobAppliedPosts.some((post) => post.jobId === job._id && post.employee_id === currentEmployeeId)}
+                          disabled={Array.isArray(allUsersAppliedJobPosts) && allUsersAppliedJobPosts.some((post) => post.jobId === job._id && post.employee_id === currentEmployeeId)}
                         >
-                          {jobAppliedPosts.some((post) => post.jobId === job._id && post.employee_id === currentEmployeeId)
+                          {Array.isArray(allUsersAppliedJobPosts) && allUsersAppliedJobPosts.some((post) => post.jobId === job._id && post.employee_id === currentEmployeeId)
                             ? 'Applied'
                             : 'Apply Now'}
                         </StyledButton>
@@ -163,12 +163,12 @@ const FindJobPosts = () => {
                   slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
                   {...item}
                   sx={{
-                    fontSize:'25px',
+                    fontSize: '25px',
                     ...(item.selected && {
-                      backgroundColor: '#0557a2', 
+                      backgroundColor: '#0557a2',
                       color: 'white',
                       '&:hover': {
-                        backgroundColor: '#115293', 
+                        backgroundColor: '#115293',
                       },
                     }),
                     ...(item.selected === false && {
@@ -176,7 +176,7 @@ const FindJobPosts = () => {
                       color: '#000',
                     }),
                     '&.Mui-selected': {
-                      backgroundColor: '#0557a2 !important', 
+                      backgroundColor: '#0557a2 !important',
                       color: 'white !important',
                     },
                   }}

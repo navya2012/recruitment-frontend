@@ -94,7 +94,7 @@ const Navbar = () => {
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/home-page')}>Home</Button>
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/find-jobs')}>Find Jobs</Button>
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/employer-dashboard/home')}>Employers</Button>
-                                <Button sx={{ color: '#000' }} onClick={() => navigate('/candidates')}>Candidates</Button>
+                                <Button sx={{ color: '#000' }} onClick={() => navigate('/candidate-dashboard/home')}>Candidates</Button>
                             </Box>
                         </Box>
                     ) : (
@@ -164,7 +164,7 @@ const Navbar = () => {
                                     cursor: 'pointer',
                                     fontWeight: 'bold'
                                 }}
-                                onClick={() => navigate('/job-post')}
+                                onClick={() => navigate('/employer-dashboard/add-new-jobs')}
                             >
                                 Job Post
                             </Box>

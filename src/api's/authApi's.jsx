@@ -250,7 +250,12 @@ export const login =  ( formData, navigate) => async (dispatch) => {
         const response = await axios.post(`${BASE_URL}/login`, formData)
         if (response &&  response.status === 200) {
             const { token, loginDetails } = response.data;
+            const { _id, role, email } = loginDetails;
+            const userDetails = { _id, role, email }
+
             localStorage.setItem('loginToken', token);
+            localStorage.setItem('userDetails', JSON.stringify(userDetails));
+            
             dispatch(loginSuccess({loginDetails}));
             navigate('/home-page')
 

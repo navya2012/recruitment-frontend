@@ -1,16 +1,17 @@
 import { Box, Typography, Grid, Modal, Avatar, Paper, Divider } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAuthContextData } from '../../../context/AuthProvider';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
-import EmployeeProfileUpdateForm from './EmployeeProfileUpdateForm';
+import EmployeeProfileUpdateForm from './EditEmployeeProfile';
 import WorkIcon from '@mui/icons-material/Work';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import EditIcon from '@mui/icons-material/Edit'; // Import the Edit Icon
 import WorkingExperience from '../workingExperience/WorkingExperience';
-import { getUserImages } from '../../../api\'s/authApi\'s';
+import { getUserImages } from '../../../../../api\'s/authApi\'s';
+import { useAuthContextData } from '../../../../../context/AuthProvider';
+
 
 const EmployeeProfile = () => {
   const { setUpdateEmployeeFormData } = useAuthContextData();

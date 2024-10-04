@@ -2,14 +2,14 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import '../CSSModules/formStyles/formPageStyles.css'
 import { loginSuccess, setLoading } from '../redux/slices/authSlice'
-import { addJobPost, setDeleteJobPosts, setJobPosts, setUpdateJobPost } from '../redux/slices/employerSlice'
+import { addJobPost, setDeleteJobPosts, setJobAppliedUsers, setJobPosts, setUpdateJobPost } from '../redux/slices/employerSlice'
 
 
 const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
 
 
 //update details
-export const updateEmployerDetails = (formData) => async (dispatch) => {
+export const updateEmployerDetails = (formData, navigate) => async (dispatch) => {
     dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
@@ -24,8 +24,10 @@ export const updateEmployerDetails = (formData) => async (dispatch) => {
             const { updatedUser } = response.data
             if (formData.role === 'employee') {
                 dispatch(loginSuccess({ loginDetails: updatedUser }));
+                navigate('/employee-dashboard/employee-profile-details')
             } else if (formData.role === 'employer') {
                 dispatch(loginSuccess({ loginDetails: updatedUser }));
+                navigate('/employer-dashboard/employer-profile-details')
             }
             toast.success(response.data.message, {
                 position: "top-center",
@@ -246,11 +248,14 @@ export const getAllAppliedJobPostsPostedByEmployer = () => async(dispatch) => {
         const response = await axios.get(`${BASE_URL}/employer/get-job-applied-posts`,
             {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`
                 }
             }
         )
+        console.log(response)
         if (response && response.data && response.status === 200) {
+            const result = response?.data?.jobAppliedPostsList
+            dispatch(setJobAppliedUsers(result))
             toast.success(response.data.message, {
                 position: "top-center",
                 autoClose: 3000,

@@ -1,16 +1,15 @@
-import { Box, Button, TextField, Typography, InputAdornment, IconButton, Avatar } from '@mui/material';
+import { Box, Button, TextField, Typography, InputAdornment, IconButton, Avatar, Paper } from '@mui/material';
 import React, { useState } from 'react';
 import { useAuthContextData } from '../../../../context/AuthProvider';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import CloseIcon from '@mui/icons-material/Close';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { updateEmployerDetails } from '../../../../api\'s/employerApi\'s';
 import { imageUploads } from '../../../../api\'s/authApi\'s';
 
-const EmployerProfileUpdateForm = ({ handleClose, setOpen }) => {
+const EditEmployerProfile = () => {
   const { updateEmployerFormData, setUpdateEmployerFormData, handleChangeUpdateEmployerFormData } = useAuthContextData();
 
   const  profileImages  = useSelector((state) => state.authReducer.profileImage);
@@ -57,7 +56,6 @@ const EmployerProfileUpdateForm = ({ handleClose, setOpen }) => {
     // Submit the rest of the form
     const response = await dispatch(updateEmployerDetails(updateEmployerFormData, navigate));
     if (response.success) {
-      setOpen(false);
       setUpdateEmployerFormData({
         _id: null,
         role: 'employer',
@@ -84,16 +82,19 @@ const EmployerProfileUpdateForm = ({ handleClose, setOpen }) => {
 
   return (
     <>
-      {updateEmployerFormData && (
+     <Typography variant="h4" sx={{ color: 'black', mb: 3 }}>
+                Update Profile!
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 3 }}>
+                Ready to jump back in?
+            </Typography>
+
+            <Paper sx={{ padding: '40px', borderRadius: '10px' }}>
+            <Typography variant='h5' sx={{ color: 'black', mb: 3 }}>Update My Profile</Typography>
+
+            {updateEmployerFormData && (
         <>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-            <Typography variant="h5" sx={{ paddingBottom: '30px' }}>Update Form for an Employer</Typography>
-            <IconButton onClick={handleClose}>
-              <CloseIcon fontSize='large' sx={{ color: 'black' }} />
-            </IconButton>
-          </Box>
           <Box component='form' onSubmit={handleSubmit} sx={{ textAlign: 'center', position: 'relative' }}>
-            {/* Profile Image Avatar with Upload */}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 3, position: 'relative' }}>
               <Avatar
                 src={imagePreview || '/default-profile.png'} // Use the existing profile image or a default image
@@ -110,7 +111,7 @@ const EmployerProfileUpdateForm = ({ handleClose, setOpen }) => {
                 sx={{
                   position: 'absolute',
                   bottom: 0,
-                  right: '40%', // Align with the avatar circle
+                  right: '42%', // Align with the avatar circle
                   backgroundColor: '#ffffff', // White background for the icon
                   borderRadius: '50%',
                   padding: '5px',
@@ -206,14 +207,23 @@ const EmployerProfileUpdateForm = ({ handleClose, setOpen }) => {
                 )
               }}
             />
-            <Button type="submit" variant="contained" sx={{ marginTop: 2 }}>
+            <Button type="submit" variant="contained" sx={{
+            width: '30%',
+            display: 'block',
+            margin: '0 auto',
+            textAlign: 'center',
+            marginTop:'30px'
+          }}>
               Submit
             </Button>
           </Box>
         </>
       )}
+            </Paper>
+
+    
     </>
   );
 }
 
-export default EmployerProfileUpdateForm;
+export default EditEmployerProfile;

@@ -1,52 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAllAppliedJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s';
-import TableContainer from '@mui/material/TableContainer';
-import { Box, Paper, styled, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
+import { Box, Paper, Grid, Typography, Avatar } from "@mui/material";
+import { styled } from "@mui/system";
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  fontSize: '16px',
+const JobCard = styled(Paper)(({ theme }) => ({
+  padding: '50px 20px',
+  borderRadius: '12px',
+  margin: '10px',
   textAlign: 'center',
-  fontWeight: '500',
+  boxShadow: theme.shadows[3],
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'flex-start'
 }));
 
-const Headings = [
-  { id: 'name', label: 'Employee Name', minWidth: 50 },
-  { id: 'email', label: 'Email', minWidth: 50 },
-  { id: 'companyName', label: 'Company Name', minWidth: 50 },
-  { id: 'role', label: 'Role', minWidth: 50 },
-  { id: 'jobAppliedDate', label: 'Date of Apply', minWidth: 50 }
-];
 
 const JobAppliedApplications = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(6);
-  const [appliedJobs, setAppliedJobs] = useState([]);
+  const { userDetails } = useSelector((state) => state?.authReducer)
+  const { jobAppliedUsers } = useSelector((state) => state?.employerReducer)
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchAppliedJobs = async () => {
-      try {
-        const response = await dispatch(getAllAppliedJobPostsPostedByEmployer());
-        // Ensure the response is valid and contains the expected data
-        setAppliedJobs(response?.data?.jobAppliedPostsList || []); // Fallback to an empty array if undefined
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-    fetchAppliedJobs();
+    dispatch(getAllAppliedJobPostsPostedByEmployer())
   }, [dispatch]);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -55,67 +34,76 @@ const JobAppliedApplications = () => {
 
   return (
     <>
-      <Box>
-        <Paper elevation={3} sx={{ width: '100%', padding: '60px 40px' }}>
-          <Typography variant="h4" sx={{ padding: '20px 40px' }}>Job Posts</Typography>
-          <TableContainer>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  {Headings.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      style={{
-                        minWidth: column.minWidth,
-                        textAlign: 'center',
-                        fontWeight: 'bold',
-                        fontSize: '18px',
-                      }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {appliedJobs.length > 0 ? (
-                  appliedJobs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data, id) => (
-                    <TableRow key={id}>
-                      <StyledTableCell>
-                        {data.firstName || "-"}{"  "}
-                        {data.lastName || "-"}
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        {data.email || "-"}
-                      </StyledTableCell>
-                      <StyledTableCell>{data.companyName || "-"}</StyledTableCell>
-                      <StyledTableCell>{data.role || "-"}</StyledTableCell>
-                      <StyledTableCell>
-                        {data.jobAppliedDate ? formatDate(data.jobAppliedDate) : "-"}
-                      </StyledTableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={Headings.length} style={{ textAlign: 'center' }}>
-                      No posts available
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[6, 12, 18]}
-            component="div"
-            count={appliedJobs.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
-      </Box>
+      <Typography variant="h4" sx={{ color: 'black', mb: 3 }}>
+        All Applicants!
+      </Typography>
+      <Typography variant="body2" sx={{ mb: 3 }}>
+        Ready to jump back in?
+      </Typography>
+
+      <Paper sx={{ padding: '30px', borderRadius: '10px' }}>
+        <Typography variant='h5' sx={{ color: 'black', mb: 3 }}>Applicant</Typography>
+
+        <Box sx={{
+          position: "relative",
+          background: "#F5F7FC",
+          borderRadius: '8px',
+          padding: ' 25px 30px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          marginBottom: '30px'
+        }}>
+          <Typography variant='h6' sx={{ color: '#0557A2', mb: 3, }}>{userDetails?.position}</Typography>
+          <Typography variant='h6' sx={{ color: '#0557A2', mb: 3 }}>Total: {jobAppliedUsers?.length || 0}</Typography>
+        </Box>
+
+        <Grid container spacing={3}>
+          {
+            jobAppliedUsers.length > 0 ? (
+              jobAppliedUsers.map((data, id) => (
+                <Grid item xs={12} sm={12} md={6} key={id}>
+                  <JobCard elevation={3}>
+                    <Avatar
+                      alt=''
+                      src={data.employee_profileImage}
+                      sx={{ width: 80, height: 80, marginRight: '20px' }}
+                    />
+                    <Box sx={{ textAlign: 'left', textTransform: 'capitalize' }}>
+                      <Typography variant="h5" gutterBottom>
+                        {data.employee_firstName || "-"} {data.employee_lastName || "-"}
+                      </Typography>
+                      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5, mb: 1.5, flexDirection: { xs: 'column', md: 'row' } }}>
+                        <Typography variant="body1" color="textSecondary" gutterBottom>
+                          {data.employee_position || "-"}
+                        </Typography>
+
+                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+                          <LocationOnOutlinedIcon />
+                          <Typography variant="body1" color="textSecondary" gutterBottom>
+                            {data.employee_location || "-"}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <Typography variant="body2" color="textSecondary">
+                        Applied on: {data.employee_jobAppliedDate ? formatDate(data.employee_jobAppliedDate) : "-"}
+                      </Typography>
+                    </Box>
+                  </JobCard>
+                </Grid>
+
+              ))
+            ) : (
+              <Grid item xs={12}>
+                <Typography variant="h6" sx={{ textAlign: 'center' }}>
+                  No applications found.
+                </Typography>
+              </Grid>
+            )
+          }
+        </Grid>
+      </Paper>
     </>
   );
 };

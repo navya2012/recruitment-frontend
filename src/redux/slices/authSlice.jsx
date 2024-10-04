@@ -44,8 +44,7 @@ const authSlice = createSlice({
       state.userData = {};
       state.error = null;
       localStorage.removeItem('loginToken');
-      localStorage.removeItem('employeeId')
-      localStorage.removeItem('employerId')
+      localStorage.removeItem('userDetails')
       localStorage.removeItem('passwordToken')
     },
     clearError: (state) => {

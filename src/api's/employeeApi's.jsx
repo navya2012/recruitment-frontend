@@ -2,13 +2,13 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import '../CSSModules/formStyles/formPageStyles.css'
 import { loginSuccess, setLoading} from '../redux/slices/authSlice'
-import { setAddJobAppliedPosts, setAllExperienceData, setAllJobPosts, setExperienceSuccess, setJobAppliedPosts } from '../redux/slices/employeeSlice'
+import { setAddJobAppliedPosts, setAllExperienceData, setAllJobPosts, setExperienceSuccess, setAllUsersAppliedJobPosts, setAppliedJobPosts } from '../redux/slices/employeeSlice'
 
 
 const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
 
 //update details
-export const updateEmployeeDetails = (formData) => async (dispatch) => {
+export const updateEmployeeDetails = (formData, navigate) => async (dispatch) => {
     dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
@@ -23,8 +23,10 @@ export const updateEmployeeDetails = (formData) => async (dispatch) => {
             const { updatedUser } = response.data
             if (formData.role === 'employee') {
                 dispatch(loginSuccess({ loginDetails: updatedUser }));
+                navigate('/employee-dashboard/employee-profile-details')
             } else if (formData.role === 'employer') {
                 dispatch(loginSuccess({ loginDetails: updatedUser }));
+                navigate('/employer-dashboard/employer-profile-details')
             }
             toast.success(response.data.message, {
                 position: "top-center",
@@ -248,7 +250,7 @@ export const getAllJobPostsAppliedByAllEmployees = () => async (dispatch) => {
        const response = await axios.get(`${BASE_URL}/employee/get-all-applied-job-posts`)
        if (response && response.data && response.status === 200) {
            const result = response.data.getAllJobAppliedPostsData
-           dispatch(setJobAppliedPosts(result));
+           dispatch(setAllUsersAppliedJobPosts(result));
            toast.success(response.data.message, {
                position: "top-center",
                autoClose: 3000,
@@ -296,7 +298,10 @@ export const getAllAppliedJobPostsByEmployee = () => async(dispatch) => {
                 }
             }
         )
+        console.log(response)
         if (response && response.data && response.status === 200) {
+            const result = response.data.jobAppliedPostsList
+            dispatch(setAppliedJobPosts(result))
             toast.success(response.data.message, {
                 position: "top-center",
                 autoClose: 3000,

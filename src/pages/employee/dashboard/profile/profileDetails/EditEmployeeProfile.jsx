@@ -1,16 +1,16 @@
 import { Box, TextField, Typography, IconButton, Avatar, Button, InputAdornment } from '@mui/material';
 import React, {  useState } from 'react';
-import { useAuthContextData } from '../../../context/AuthProvider';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { updateEmployeeDetails } from '../../../api\'s/employeeApi\'s';
-import {  imageUploads } from '../../../api\'s/authApi\'s';
+import { updateEmployeeDetails } from '../../../../../api\'s/employeeApi\'s';
+import {  imageUploads } from '../../../../../api\'s/authApi\'s';
+import { useAuthContextData } from '../../../../../context/AuthProvider';
 
-const EmployeeProfileUpdateForm = ({ handleClose, setOpen }) => {
+const EditEmployeeProfile = ({ handleClose, setOpen }) => {
   const { updateEmployeeFormData, setUpdateEmployeeFormData, handleChangeUpdateEmployeeFormData } = useAuthContextData();
 
   const  profileImages  = useSelector((state) => state.authReducer.profileImage);
@@ -243,4 +243,4 @@ const EmployeeProfileUpdateForm = ({ handleClose, setOpen }) => {
   );
 };
 
-export default EmployeeProfileUpdateForm;
+export default EditEmployeeProfile;

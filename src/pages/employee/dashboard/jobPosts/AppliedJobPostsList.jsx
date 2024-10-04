@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getAllAppliedJobPostsByEmployee } from '../../../api\'s/employeeApi\'s';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllAppliedJobPostsByEmployee } from '../../../../api\'s/employeeApi\'s';
 import { Box, CardContent, Grid, Typography, styled, Chip, Card } from '@mui/material';
 
 // Styled components
@@ -20,27 +20,15 @@ const TagChip = styled(Chip)(({ theme }) => ({
 }));
 
 const AppliedJobPostsList = () => {
-  const [appliedJobsList, setAppliedJobsList] = useState([]);
-  const [message, setMessage] = useState('');
+
+  const { appliedJobPosts} = useSelector((state) => state?.employeeReducer);
+  console.log(appliedJobPosts)
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchAppliedJobs = async () => {
-      try {
-        const response = await dispatch(getAllAppliedJobPostsByEmployee());
-           if (response.data.jobAppliedPostsList && response.data.jobAppliedPostsList.length > 0) {
-          setAppliedJobsList(response.data.jobAppliedPostsList);
-        } else if (response.data.message) {
-          setMessage(response.data.message); 
-        }
-      } catch (error) {
-        throw new Error(error.message);
-      }
-    };
-    fetchAppliedJobs();
+    dispatch(getAllAppliedJobPostsByEmployee())
   }, [dispatch]);
-
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '60px 0' }}>
       <Box sx={{ padding: '0 50px', margin: '0 auto' }}>
@@ -50,8 +38,8 @@ const AppliedJobPostsList = () => {
         </Typography>
 
         <Grid container spacing={3}>
-          {appliedJobsList.length > 0 ? (
-            appliedJobsList.map((job) => {
+          {appliedJobPosts.length > 0 ? (
+            appliedJobPosts.map((job) => {
               // Format the job applied date
               const formattedDate = new Date(job.jobAppliedDate).toLocaleDateString();
 
@@ -95,7 +83,7 @@ const AppliedJobPostsList = () => {
               }}
             >
                <Typography variant="h5" sx={{ textTransform: 'uppercase', textAlign: 'center',color:'black' }}>
-                {message || 'No applied job posts found'}
+                { 'No applied job posts found'}
               </Typography>
             </Box>
           )}

@@ -4,7 +4,8 @@ const initialState = {
     loading: false,
     experienceData: {},
     allJobPosts: [],
-    jobAppliedPosts:[],
+    allUsersAppliedJobPosts:[],
+    appliedJobPosts:[],
     error: null
 }
 
@@ -42,14 +43,21 @@ const employeeSlice = createSlice({
         setAddJobAppliedPosts: (state, action) => {
             return {
                 ...state,
-                jobAppliedPosts: [...state.jobAppliedPosts, action.payload],
+                allUsersAppliedJobPosts: [...state.allUsersAppliedJobPosts, action.payload],
                 error: null,
             };
         },        
-        setJobAppliedPosts: (state, action) => {
+        setAllUsersAppliedJobPosts: (state, action) => {
             return {
                 ...state,
-                jobAppliedPosts: action.payload,
+                allUsersAppliedJobPosts: action.payload,
+                error: null
+            }
+        },
+        setAppliedJobPosts: (state, action) => {
+            return {
+                ...state,
+                appliedJobPosts: action.payload,
                 error: null
             }
         },
@@ -62,7 +70,8 @@ const employeeSlice = createSlice({
 export const {
     setLoading,
     setAllJobPosts,
-    setJobAppliedPosts,
+    setAllUsersAppliedJobPosts,
+    setAppliedJobPosts,
     setAllExperienceData,
     setExperienceSuccess,
     setAddJobAppliedPosts,
