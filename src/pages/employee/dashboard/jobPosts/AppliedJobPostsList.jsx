@@ -18,7 +18,7 @@ const AppliedJobPostsList = () => {
   // Pagination logic
   const indexOfLastPost = currentPage * itemsPerPage;
   const indexOfFirstPost = indexOfLastPost - itemsPerPage;
-  const currentPosts = appliedJobPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = Array.isArray(appliedJobPosts) ? appliedJobPosts.slice(indexOfFirstPost, indexOfLastPost) : [];
   const totalPages = Math.ceil(appliedJobPosts.length / itemsPerPage);
 
   // Calculate range for the message
