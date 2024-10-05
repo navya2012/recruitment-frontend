@@ -1,35 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllAppliedJobPostsByEmployee } from '../../../../api\'s/employeeApi\'s';
-import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Pagination } from '@mui/material';
+import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Pagination, PaginationItem } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const AppliedJobPostsList = () => {
   const { appliedJobPosts } = useSelector((state) => state?.employeeReducer);
   const dispatch = useDispatch();
 
   // Pagination state
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6; // Number of items per page
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 6;
 
   useEffect(() => {
     dispatch(getAllAppliedJobPostsByEmployee());
   }, [dispatch]);
 
   // Pagination logic
-  const indexOfLastPost = currentPage * itemsPerPage;
-  const indexOfFirstPost = indexOfLastPost - itemsPerPage;
-  const currentPosts = Array.isArray(appliedJobPosts) ? appliedJobPosts.slice(indexOfFirstPost, indexOfLastPost) : [];
-  const totalPages = Math.ceil(appliedJobPosts.length / itemsPerPage);
-
-  // Calculate range for the message
-  const totalJobs = appliedJobPosts.length;
-  const start = totalJobs > 0 ? indexOfFirstPost + 1 : 0;
-  const end = totalJobs > 0 ? Math.min(indexOfLastPost, totalJobs) : 0;
-
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
-
+  const totalAppliedJobs = appliedJobPosts.length;
+  const appliedJobsToDisplay = appliedJobPosts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  
   return (
     <>
       <Typography variant="h4" sx={{ color: 'black', mb: 3 }}>
@@ -45,10 +36,10 @@ const AppliedJobPostsList = () => {
 
         {/* Show the range message */}
         <Typography variant="body1" sx={{ fontWeight:'bold', mb: 3 }}>
-          {totalJobs > 0 ? `Show ${start} - ${end} of ${totalJobs} jobs` : 'No jobs found'}
+          Show {appliedJobsToDisplay.length} of {totalAppliedJobs} jobs
         </Typography>
 
-        {currentPosts.length > 0 ? (
+        {appliedJobsToDisplay.length > 0 ? (
           <>
             <TableContainer>
               <Table sx={{ minWidth: 650 }} aria-label="applied jobs table">
@@ -61,7 +52,7 @@ const AppliedJobPostsList = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {currentPosts.map((job) => {
+                  {appliedJobsToDisplay.map((job) => {
                     const formattedDate = new Date(job.employee_jobAppliedDate).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -79,16 +70,6 @@ const AppliedJobPostsList = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-
-            {/* Pagination Controls */}
-            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 3 }}>
-              <Pagination
-                count={totalPages}
-                page={currentPage}
-                onChange={handlePageChange}
-                color="primary"
-              />
-            </Box>
           </>
         ) : (
           <Box
@@ -106,6 +87,23 @@ const AppliedJobPostsList = () => {
             </Typography>
           </Box>
         )}
+
+        {/* Centered Pagination */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', margin: '50px 0' }}>
+          <Pagination
+            count={Math.ceil(totalAppliedJobs / itemsPerPage)}
+            page={page}
+            color='primary'
+            onChange={(event, value) => setPage(value)}
+            renderItem={(item) => (
+              <PaginationItem
+                slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                {...item}
+              />
+            )}
+          />
+        </Box>
+
       </Paper>
     </>
   );
