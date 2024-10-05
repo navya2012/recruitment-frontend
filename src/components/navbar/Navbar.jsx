@@ -61,15 +61,33 @@ const Navbar = () => {
             onKeyDown={toggleDrawer(false)}
         >
             <List>
-                {['Home', 'Find Jobs', 'Employers', 'Candidates', 'Blog'].map((text) => (
-                    <ListItem button key={text}>
-                        <ListItemText primary={text} />
+                <ListItem button onClick={() => navigate('/home-page')}>
+                    <ListItemText primary="Home" />
+                </ListItem>
+                <ListItem button onClick={() => navigate('/find-jobs')}>
+                    <ListItemText primary="Find Jobs" />
+                </ListItem>
+
+                {/* Conditionally render Employers or Candidates menu */}
+                {loginData.role === 'employer' ? (
+                    <ListItem button onClick={() => navigate('/employer-dashboard/home')}>
+                        <ListItemText primary="Employers" />
                     </ListItem>
-                ))}
+                ) : (
+                    <ListItem button onClick={() => navigate('/candidate-dashboard/home')}>
+                        <ListItemText primary="Candidates" />
+                    </ListItem>
+                )}
             </List>
-            <Box sx={{ p: 2 }}>
-                <Button fullWidth variant="contained">Job Post</Button>
-            </Box>
+
+            {/* Show Job Post button only for employers */}
+            {loginData.role === 'employer' && (
+                <Box sx={{ p: 2 }}>
+                    <Button fullWidth variant="contained" onClick={() => navigate('/employer-dashboard/add-new-jobs')}>
+                        Job Post
+                    </Button>
+                </Box>
+            )}
         </Box>
     );
 
@@ -93,8 +111,13 @@ const Navbar = () => {
                             <Box sx={{ display: 'flex', gap: 2 }}>
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/home-page')}>Home</Button>
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/find-jobs')}>Find Jobs</Button>
-                                <Button sx={{ color: '#000' }} onClick={() => navigate('/employer-dashboard/home')}>Employers</Button>
-                                <Button sx={{ color: '#000' }} onClick={() => navigate('/candidate-dashboard/home')}>Candidates</Button>
+
+                                {/* Conditionally render based on user type */}
+                                {loginData.role === 'employer' ? (
+                                    <Button sx={{ color: '#000' }} onClick={() => navigate('/employer-dashboard/home')}>Employers</Button>
+                                ) : (
+                                    <Button sx={{ color: '#000' }} onClick={() => navigate('/candidate-dashboard/home')}>Candidates</Button>
+                                )}
                             </Box>
                         </Box>
                     ) : (
@@ -144,7 +167,7 @@ const Navbar = () => {
                                     cursor: 'pointer',
                                     fontWeight: 'bold'
                                 }}
-                                onClick={() => navigate('/')}
+                                onClick={() => navigate('/register')}
                             >
                                 Register
                             </Box>
@@ -152,22 +175,25 @@ const Navbar = () => {
                     ) : (
                         // User Profile and Job Post Button for Desktop
                         <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 2 }}>
-                            <Box
-                                component="div"
-                                sx={{
-                                    fontSize: '16px',
-                                    borderRadius: '10px',
-                                    padding: '10px 20px',
-                                    backgroundColor: '#0557A2',
-                                    color: '#fff',
-                                    textAlign: 'center',
-                                    cursor: 'pointer',
-                                    fontWeight: 'bold'
-                                }}
-                                onClick={() => navigate('/employer-dashboard/add-new-jobs')}
-                            >
-                                Job Post
-                            </Box>
+                            {/* Show Job Post button only for employers */}
+                            {loginData.role === 'employer' && (
+                                <Box
+                                    component="div"
+                                    sx={{
+                                        fontSize: '16px',
+                                        borderRadius: '10px',
+                                        padding: '10px 20px',
+                                        backgroundColor: '#0557A2',
+                                        color: '#fff',
+                                        textAlign: 'center',
+                                        cursor: 'pointer',
+                                        fontWeight: 'bold'
+                                    }}
+                                    onClick={() => navigate('/employer-dashboard/add-new-jobs')}
+                                >
+                                    Job Post
+                                </Box>
+                            )}
                             <IconButton onClick={handleOpenUserMenu}>
                                 <Avatar alt="Profile" src={userProfileImage?.profileImage} />
                             </IconButton>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Pagination, Stack, IconButton, PaginationItem, Tooltip } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteJobPostsData, getAllJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s';
+import { getAllJobPostsAppliedByAllEmployees} from '../../../../api\'s/employeeApi\'s';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useNavigate } from 'react-router-dom';
@@ -10,9 +11,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-const JobPosts = () => {
-  const { jobPosts } = useSelector((state) => state.employerReducer);
-  console.log(jobPosts)
+const JobPostsList = () => {
+  const { jobPosts } = useSelector((state) => state?.employerReducer);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -22,6 +23,7 @@ const JobPosts = () => {
 
   useEffect(() => {
     dispatch(getAllJobPostsPostedByEmployer());
+    dispatch(getAllJobPostsAppliedByAllEmployees());
   }, [dispatch]);
 
   const handleDelete = (jobId) => {
@@ -38,10 +40,15 @@ const JobPosts = () => {
     setCurrentPage(value);
   };
 
+  const isJobPostsValid = Array.isArray(jobPosts) && jobPosts.length > 0;
   const indexOfLastPost = currentPage * itemsPerPage;
   const indexOfFirstPost = indexOfLastPost - itemsPerPage;
-  const currentJobPosts = jobPosts?.slice(indexOfFirstPost, indexOfLastPost);
+  const currentJobPosts = isJobPostsValid ? jobPosts.slice(indexOfFirstPost, indexOfLastPost) : [];
 
+  // Calculate the display range for the jobs
+  const totalJobs = jobPosts?.length;
+  const firstJob = indexOfFirstPost + 1;
+  const lastJob = Math.min(indexOfLastPost, totalJobs);
   return (
     <>
       <Typography variant="h4" sx={{ color: 'black', mb: 3 }}>
@@ -51,29 +58,40 @@ const JobPosts = () => {
         Ready to jump back in?
       </Typography>
 
-      <Paper sx={{ padding: '30px', borderRadius: '10px' }}>
-        <Typography variant='h5' sx={{ color: 'black', mb: 2 }}>My Job Listings</Typography>
+      <Paper sx={{ padding: '40px', borderRadius: '10px' }}>
+          <Typography variant='h5' sx={{ color: 'black', mb: 4 }}>My Job Listings</Typography>
 
-        <TableContainer >
+        <Typography variant='body1' sx={{ mb: 4 }}>
+            {totalJobs > 0 ? ` show ${firstJob} - ${lastJob} of ${totalJobs} jobs` : "" }
+          </Typography>
+
+        <TableContainer>
           <Table>
             <TableHead>
               <TableRow sx={{ backgroundColor: '#F5F7FC' }}>
-                <TableCell sx={{ color: '#3A73D3' }}><strong>Company Name</strong></TableCell>
-                <TableCell sx={{ color: '#3A73D3' }}><strong>Role</strong></TableCell>
-                <TableCell sx={{ color: '#3A73D3' }}><strong>Technologies</strong></TableCell>
-                <TableCell sx={{ color: '#3A73D3' }}><strong>Applications</strong></TableCell>
-                <TableCell sx={{ color: '#3A73D3' , textAlign:'center'}}><strong>Action</strong></TableCell>
+                <TableCell sx={{ color: '#3A73D3', fontSize:'17px' }}><strong>Company Name</strong></TableCell>
+                <TableCell sx={{ color: '#3A73D3' , fontSize:'17px'}}><strong>Role</strong></TableCell>
+                <TableCell sx={{ color: '#3A73D3', fontSize:'17px' }}><strong>Technologies</strong></TableCell>
+                <TableCell sx={{ color: '#3A73D3', fontSize:'17px' }}><strong>Created</strong></TableCell>
+                <TableCell sx={{ color: '#3A73D3', fontSize:'17px' , textAlign:'center'}}><strong>Action</strong></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentJobPosts?.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={5} sx={{ textAlign: 'center' }}>
-                    No posts found.
-                  </TableCell>
-                </TableRow>
+            {currentJobPosts.length === 0 ? ( 
+    <TableRow>
+      <TableCell colSpan={5} sx={{ textAlign: 'center' }}>
+        No job posts available  
+      </TableCell>
+    </TableRow>
               ) : (
-                currentJobPosts.map((job) => (
+                currentJobPosts &&
+                currentJobPosts.map((job) => {
+                  const formattedDate = new Date(job.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  });
+                  return (
                   <TableRow key={job._id}>
                     <TableCell>
                       <Typography variant="h6">{job.companyName}</Typography>
@@ -99,7 +117,7 @@ const JobPosts = () => {
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" color="green"></Typography>
+                      <Typography variant="body2" color="green">{formattedDate}</Typography>
                     </TableCell>
                     <TableCell>
                       <Box display="flex" gap={1}>
@@ -124,7 +142,8 @@ const JobPosts = () => {
                       </Box>
                     </TableCell>
                   </TableRow>
-                ))
+                  );
+                })
               )}
             </TableBody>
           </Table>
@@ -137,6 +156,7 @@ const JobPosts = () => {
               count={Math.ceil(jobPosts.length / itemsPerPage)}
               page={currentPage}
               onChange={handlePageChange}
+              color='primary'
               renderItem={(item) => (
                 <PaginationItem
                   slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
@@ -151,4 +171,4 @@ const JobPosts = () => {
   );
 };
 
-export default JobPosts;
+export default JobPostsList;

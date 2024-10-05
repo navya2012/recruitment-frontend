@@ -157,29 +157,13 @@ const FindJobPosts = () => {
             <Pagination
               count={Math.ceil(totalJobs / itemsPerPage)}
               page={page}
+              color='primary'
               onChange={(event, value) => setPage(value)}
               renderItem={(item) => (
                 <PaginationItem
                   slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
                   {...item}
-                  sx={{
-                    fontSize: '25px',
-                    ...(item.selected && {
-                      backgroundColor: '#0557a2',
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: '#115293',
-                      },
-                    }),
-                    ...(item.selected === false && {
-                      backgroundColor: 'transparent',
-                      color: '#000',
-                    }),
-                    '&.Mui-selected': {
-                      backgroundColor: '#0557a2 !important',
-                      color: 'white !important',
-                    },
-                  }}
+
                 />
               )}
             />

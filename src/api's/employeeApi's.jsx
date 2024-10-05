@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import '../CSSModules/formStyles/formPageStyles.css'
-import { loginSuccess, setLoading} from '../redux/slices/authSlice'
+import { loginSuccess, setLoading } from '../redux/slices/authSlice'
 import { setAddJobAppliedPosts, setAllExperienceData, setAllJobPosts, setExperienceSuccess, setAllUsersAppliedJobPosts, setAppliedJobPosts } from '../redux/slices/employeeSlice'
 
 
@@ -23,7 +23,7 @@ export const updateEmployeeDetails = (formData, navigate) => async (dispatch) =>
             const { updatedUser } = response.data
             if (formData.role === 'employee') {
                 dispatch(loginSuccess({ loginDetails: updatedUser }));
-                navigate('/employee-dashboard/employee-profile-details')
+                navigate('/candidate-dashboard/employee-profile-details')
             } else if (formData.role === 'employer') {
                 dispatch(loginSuccess({ loginDetails: updatedUser }));
                 navigate('/employer-dashboard/employer-profile-details')
@@ -81,7 +81,7 @@ export const getWorkingExperience = () => async (dispatch) => {
                 },
             }
         )
-        if (response && response.data && response.status === 200) {          
+        if (response && response.data && response.status === 200) {
             dispatch(setAllExperienceData(response.data.experienceData))
             return {
                 success: true,
@@ -120,8 +120,8 @@ export const workingExperience = (experienceData) => async (dispatch) => {
     try {
         const token = localStorage.getItem('loginToken');
         const employeeId = JSON.parse(localStorage.getItem('employeeId'));
-        const data = { ...experienceData, employee_id: employeeId };  
-        const response = await axios.post(`${BASE_URL}/employee/working-experience`,data,
+        const data = { ...experienceData, employee_id: employeeId };
+        const response = await axios.post(`${BASE_URL}/employee/working-experience`, data,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -157,10 +157,10 @@ export const workingExperience = (experienceData) => async (dispatch) => {
 export const getAllJobPostsData = () => async (dispatch) => {
     dispatch(setLoading(true));
     try {
-        const response = await axios.get(`${BASE_URL}/employee/get-recruitment-posts`)
+        const response = await axios.get(`${BASE_URL}/employee/get-all-recruitment-posts`)
         if (response && response.data && response.status === 200) {
-            const result = response.data.getAllJobPostsData
-            dispatch(setAllJobPosts(result))
+            const allJobPosts = response.data.getAllJobPostsData
+            dispatch(setAllJobPosts(allJobPosts))
             return {
                 success: true,
                 data: response.data
@@ -195,10 +195,10 @@ export const getAllJobPostsData = () => async (dispatch) => {
 
 //post job applied status
 export const JobAppliedPostsStatus = (jobId) => async (dispatch) => {
-     dispatch(setLoading(true));
+    dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
-        const response = await axios.post(`${BASE_URL}/employee/update-job-applied-status/${jobId}`,{ },
+        const response = await axios.post(`${BASE_URL}/employee/update-job-applied-status/${jobId}`, {},
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -239,55 +239,55 @@ export const JobAppliedPostsStatus = (jobId) => async (dispatch) => {
         };
     }
     finally {
-         dispatch(setLoading(false));
+        dispatch(setLoading(false));
     }
 }
 
 //all job post applied status by employees
 export const getAllJobPostsAppliedByAllEmployees = () => async (dispatch) => {
     dispatch(setLoading(true));
-   try {
-       const response = await axios.get(`${BASE_URL}/employee/get-all-applied-job-posts`)
-       if (response && response.data && response.status === 200) {
-           const result = response.data.getAllJobAppliedPostsData
-           dispatch(setAllUsersAppliedJobPosts(result));
-           toast.success(response.data.message, {
-               position: "top-center",
-               autoClose: 3000,
-               className: 'custom-toast'
-           });
-           return {
-               success: true,
-               data: response.data
-           };
-       }
-   }
-   catch (error) {
-       let errorMessage = '';
-       if (error.response && error.response.data && error.response.data.error) {
-           errorMessage = error.response.data.error;
-       } else if (error.message) {
-           errorMessage = error.message;
-       } else {
-           errorMessage = 'An unknown error occurred';
-       }
-       toast.error(errorMessage, {
-           position: "top-center",
-           autoClose: 3000,
-           className: 'custom-toast'
-       });
-       return {
-           success: false,
-           errors: errorMessage
-       };
-   }
-   finally {
+    try {
+        const response = await axios.get(`${BASE_URL}/employee/get-all-applied-job-posts`)
+        if (response && response.data && response.status === 200) {
+            const allUsersAppliedJobs = response.data.getAllJobAppliedPostsData
+            dispatch(setAllUsersAppliedJobPosts(allUsersAppliedJobs));
+            toast.success(response.data.message, {
+                position: "top-center",
+                autoClose: 3000,
+                className: 'custom-toast'
+            });
+            return {
+                success: true,
+                data: response.data
+            };
+        }
+    }
+    catch (error) {
+        let errorMessage = '';
+        if (error.response && error.response.data && error.response.data.error) {
+            errorMessage = error.response.data.error;
+        } else if (error.message) {
+            errorMessage = error.message;
+        } else {
+            errorMessage = 'An unknown error occurred';
+        }
+        toast.error(errorMessage, {
+            position: "top-center",
+            autoClose: 3000,
+            className: 'custom-toast'
+        });
+        return {
+            success: false,
+            errors: errorMessage
+        };
+    }
+    finally {
         dispatch(setLoading(false));
-   }
+    }
 }
 
 //get all job posts applied by employee posted by employer
-export const getAllAppliedJobPostsByEmployee = () => async(dispatch) => {
+export const getAllAppliedJobPostsByEmployee = () => async (dispatch) => {
     dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
@@ -298,10 +298,9 @@ export const getAllAppliedJobPostsByEmployee = () => async(dispatch) => {
                 }
             }
         )
-        console.log(response)
         if (response && response.data && response.status === 200) {
-            const result = response.data.jobAppliedPostsList
-            dispatch(setAppliedJobPosts(result))
+            const appliedJobs = response.data.jobAppliedPostsList
+            dispatch(setAppliedJobPosts(appliedJobs))
             toast.success(response.data.message, {
                 position: "top-center",
                 autoClose: 3000,

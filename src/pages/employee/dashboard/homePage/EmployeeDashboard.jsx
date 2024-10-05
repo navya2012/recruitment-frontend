@@ -50,7 +50,7 @@ const EmployeeDashboard = () => {
             flexDirection: 'column'
           }}>
             <Typography variant="h4" sx={{ color: '#d93025', fontWeight: 600 }}>
-              {appliedJobPosts?.length || 0}
+            {appliedJobPosts?.length > 0 ? appliedJobPosts.length : 0}
             </Typography>
             <Typography variant="body1" sx={{ color: '#595959', fontWeight: 500 }}>
               Applied Jobs

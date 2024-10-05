@@ -19,7 +19,6 @@ import MainLayout from './components/layout/MainLayout';
 import EmployerDashboard from './pages/employer/dashboard/homePage/EmployerDashboard';
 import AddJobPosts from './pages/employer/dashboard/jobPosts/AddJobPosts';
 import EditJobPosts from './pages/employer/dashboard/jobPosts/EditJobPosts';
-import JobPosts from './pages/employer/dashboard/jobPosts/JobPosts';
 import EmployerProfile from './pages/employer/dashboard/profile/EmployerProfile';
 import EditEmployerProfile from './pages/employer/dashboard/profile/EditEmployerProfile';
 import SideBarProvider from './context/SideBarProvider';
@@ -32,6 +31,7 @@ import EmployeeProfile from './pages/employee/dashboard/profile/profileDetails/E
 import EditEmployeeProfile from './pages/employee/dashboard/profile/profileDetails/EditEmployeeProfile';
 import AddWorkingExperience from './pages/employee/dashboard/profile/workingExperience/AddWorkingExperience';
 import EditWorkingExperience from './pages/employee/dashboard/profile/workingExperience/EditWorkingExperience';
+import JobPostsList from './pages/employer/dashboard/jobPosts/JobPostsList';
 
 
 
@@ -44,49 +44,49 @@ function App() {
       <AuthProvider>
         <ThemeProvider theme={theme}>
           <SideBarProvider>
-          <ExperienceProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route element={<MainLayout />}>
-                  <Route path='/' element={<WelcomePage />} />
-                  <Route path='/employer/signup' element={<EmployerSignUpPage />} />
-                  <Route path='/employee/signup' element={<EmployeeSignUpPage />} />
-                  <Route path='/login' element={<LoginPage />} />
-                  <Route path='/forgot-password' element={<ForgotPassword />} />
-                  <Route path='/update-password' element={<UpdatePassword />} />
-                  <Route path='/verify-otp' element={<OTPVerification />} />
-                  <Route path='/home-page' element={<Home />} />
-                  <Route path='/find-jobs' element={<PrivatePath><JobsPage /></PrivatePath>} />
-                </Route>
-
-                <Route element={<EmployerSidebarLayout />}>
-                  <Route path='/employer-dashboard'> 
-                  <Route path='home' element={<PrivatePath><EmployerDashboard /></PrivatePath>} />
-                  <Route path='change-password' element={<PrivatePath><ChangePassword /></PrivatePath>} />
-                  <Route path='applied-job-posts' element={<PrivatePath><JobAppliedApplications /></PrivatePath>} />
-                  <Route path='add-new-jobs' element={<PrivatePath><AddJobPosts /></PrivatePath>} />
-                  <Route path='edit-jobs/:id' element={<PrivatePath><EditJobPosts /></PrivatePath>} />
-                  <Route path='manage-jobs' element={<PrivatePath><JobPosts /></PrivatePath>} />
-                  <Route path='employer-profile-details' element={<PrivatePath><EmployerProfile /></PrivatePath>} />
-                  <Route path='edit-employer-profile' element={<PrivatePath><EditEmployerProfile /></PrivatePath>} />
+            <ExperienceProvider>
+              <BrowserRouter>
+                <Routes>
+                  <Route element={<MainLayout />}>
+                    <Route path='/' element={<WelcomePage />} />
+                    <Route path='/employer/signup' element={<EmployerSignUpPage />} />
+                    <Route path='/employee/signup' element={<EmployeeSignUpPage />} />
+                    <Route path='/login' element={<LoginPage />} />
+                    <Route path='/forgot-password' element={<ForgotPassword />} />
+                    <Route path='/update-password' element={<UpdatePassword />} />
+                    <Route path='/verify-otp' element={<OTPVerification />} />
+                    <Route path='/home-page' element={<Home />} />
+                    <Route path='/find-jobs' element={<PrivatePath><JobsPage /></PrivatePath>} />
                   </Route>
-                </Route>
 
-                <Route element={<CandidatesSidebarLayout />}>
-                  <Route path='/candidate-dashboard'> 
-                  <Route path='home' element={<PrivatePath><EmployeeDashboard /></PrivatePath>} />
-                  <Route path='change-password' element={<PrivatePath><ChangePassword /></PrivatePath>} />
-                  <Route path='applied-job-posts-list' element={<PrivatePath><AppliedJobPostsList /></PrivatePath>} />                
-                  <Route path='employee-profile-details' element={<PrivatePath><EmployeeProfile /></PrivatePath>} />
-                  <Route path='edit-employee-profile' element={<PrivatePath><EditEmployeeProfile /></PrivatePath>} />
-                  <Route path='add-working-experience' element={<PrivatePath><AddWorkingExperience /></PrivatePath>} />
-                  <Route path='edit-working-experience' element={<PrivatePath><EditWorkingExperience /></PrivatePath>} />
+                  <Route element={<EmployerSidebarLayout />}>
+                    <Route path='/employer-dashboard'>
+                      <Route path='home' element={<PrivatePath><EmployerDashboard /></PrivatePath>} />
+                      <Route path='change-password' element={<PrivatePath><ChangePassword /></PrivatePath>} />
+                      <Route path='applied-job-posts' element={<PrivatePath><JobAppliedApplications /></PrivatePath>} />
+                      <Route path='add-new-jobs' element={<PrivatePath><AddJobPosts /></PrivatePath>} />
+                      <Route path='edit-jobs/:id' element={<PrivatePath><EditJobPosts /></PrivatePath>} />
+                      <Route path='manage-jobs' element={<PrivatePath><JobPostsList /></PrivatePath>} />
+                      <Route path='employer-profile-details' element={<PrivatePath><EmployerProfile /></PrivatePath>} />
+                      <Route path='edit-employer-profile' element={<PrivatePath><EditEmployerProfile /></PrivatePath>} />
+                    </Route>
                   </Route>
-                </Route>
 
-              </Routes>
-            </BrowserRouter>
-          </ExperienceProvider>
+                  <Route element={<CandidatesSidebarLayout />}>
+                    <Route path='/candidate-dashboard'>
+                      <Route path='home' element={<PrivatePath><EmployeeDashboard /></PrivatePath>} />
+                      <Route path='change-password' element={<PrivatePath><ChangePassword /></PrivatePath>} />
+                      <Route path='applied-job-posts-list' element={<PrivatePath><AppliedJobPostsList /></PrivatePath>} />
+                      <Route path='employee-profile-details' element={<PrivatePath><EmployeeProfile /></PrivatePath>} />
+                      <Route path='edit-employee-profile' element={<PrivatePath><EditEmployeeProfile /></PrivatePath>} />
+                      <Route path='add-working-experience' element={<PrivatePath><AddWorkingExperience /></PrivatePath>} />
+                      <Route path='edit-working-experience' element={<PrivatePath><EditWorkingExperience /></PrivatePath>} />
+                    </Route>
+                  </Route>
+
+                </Routes>
+              </BrowserRouter>
+            </ExperienceProvider>
           </SideBarProvider>
         </ThemeProvider>
       </AuthProvider>

@@ -1,95 +1,113 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllAppliedJobPostsByEmployee } from '../../../../api\'s/employeeApi\'s';
-import { Box, CardContent, Grid, Typography, styled, Chip, Card } from '@mui/material';
-
-// Styled components
-const StyledCard = styled(Card)(({ theme }) => ({
-  padding: '20px',
-  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
-  position: 'relative',
-  border: '2px solid #0557A2',
-  borderRadius: '15px',
-}));
-
-const TagChip = styled(Chip)(({ theme }) => ({
-  borderRadius: '10px',
-  marginRight: '10px',
-  fontWeight: 'bold',
-  fontSize: '15px'
-}));
+import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Pagination } from '@mui/material';
 
 const AppliedJobPostsList = () => {
-
-  const { appliedJobPosts} = useSelector((state) => state?.employeeReducer);
-  console.log(appliedJobPosts)
-
+  const { appliedJobPosts } = useSelector((state) => state?.employeeReducer);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getAllAppliedJobPostsByEmployee())
-  }, [dispatch]);
-  return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '60px 0' }}>
-      <Box sx={{ padding: '0 50px', margin: '0 auto' }}>
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // Number of items per page
 
-        <Typography variant="h4" sx={{ paddingBottom: '40px', textAlign: 'center' }} fontWeight="bold">
-          My Applied Job Posts
+  useEffect(() => {
+    dispatch(getAllAppliedJobPostsByEmployee());
+  }, [dispatch]);
+
+  // Pagination logic
+  const indexOfLastPost = currentPage * itemsPerPage;
+  const indexOfFirstPost = indexOfLastPost - itemsPerPage;
+  const currentPosts = appliedJobPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(appliedJobPosts.length / itemsPerPage);
+
+  // Calculate range for the message
+  const totalJobs = appliedJobPosts.length;
+  const start = totalJobs > 0 ? indexOfFirstPost + 1 : 0;
+  const end = totalJobs > 0 ? Math.min(indexOfLastPost, totalJobs) : 0;
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  return (
+    <>
+      <Typography variant="h4" sx={{ color: 'black', mb: 3 }}>
+        My Applied Jobs
+      </Typography>
+
+      <Typography variant="body2" sx={{ mb: 3 }}>
+        Ready to jump back in?
+      </Typography>
+
+      <Paper sx={{ padding: '40px', borderRadius: '10px' }}>
+        <Typography variant='h5' sx={{ color: 'black', mb: 4 }}>My Applied Jobs</Typography>
+
+        {/* Show the range message */}
+        <Typography variant="body1" sx={{ fontWeight:'bold', mb: 3 }}>
+          {totalJobs > 0 ? `Show ${start} - ${end} of ${totalJobs} jobs` : 'No jobs found'}
         </Typography>
 
-        <Grid container spacing={3}>
-          {appliedJobPosts.length > 0 ? (
-            appliedJobPosts.map((job) => {
-              // Format the job applied date
-              const formattedDate = new Date(job.jobAppliedDate).toLocaleDateString();
+        {currentPosts.length > 0 ? (
+          <>
+            <TableContainer>
+              <Table sx={{ minWidth: 650 }} aria-label="applied jobs table">
+                <TableHead>
+                  <TableRow sx={{ backgroundColor: '#F5F7FC' }}>
+                    <TableCell sx={{ color: '#3A73D3', fontWeight: 'bold', fontSize:'17px' }}>Company Name</TableCell>
+                    <TableCell sx={{ color: '#3A73D3', fontWeight: 'bold',fontSize:'17px' }}>Job Title</TableCell>
+                    <TableCell sx={{ color: '#3A73D3', fontWeight: 'bold',fontSize:'17px' }}>Date Applied</TableCell>
+                    <TableCell sx={{ color: '#3A73D3', fontWeight: 'bold',fontSize:'17px' }}>Status</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {currentPosts.map((job) => {
+                    const formattedDate = new Date(job.employee_jobAppliedDate).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    });
+                    return (
+                      <TableRow key={job._id}>
+                        <TableCell><Typography variant="body1">{job.companyName}</Typography></TableCell>
+                        <TableCell><Typography variant="body1">{job.role}</Typography></TableCell>
+                        <TableCell><Typography variant="body1">{formattedDate}</Typography></TableCell>
+                        <TableCell><Typography variant="body1">{job.hasApplied ? "Applied" : "Pending"}</Typography></TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-              return (
-                <Grid item xs={12} sm={6} md={4} key={job._id}>
-                  <StyledCard>
-                    <CardContent>
-                      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                          <Typography variant="h6" fontWeight="bold" sx={{ fontSize: '25px', marginRight: { xs: '10px', sm: '0' } }}>
-                            {job.companyName}
-                          </Typography>
-                          <TagChip label={formattedDate} />
-                        </Box>
-
-                        <Typography variant="subtitle1" sx={{ margin: '10px 0', fontSize: '18px' }}>
-                          {job.role}
-                        </Typography>
-
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-                          <TagChip label={job.technologies} />
-                          <TagChip label={job.experience} />
-                          <TagChip label={job.location} />
-                        </Box>
-                      </Box>
-                    </CardContent>
-                  </StyledCard>
-                </Grid>
-
-              );
-            })
-          ) : (
-            <Box
-              sx={{
-                position: 'relative',
-                width: '100%',
-                padding:'50px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-               <Typography variant="h5" sx={{ textTransform: 'uppercase', textAlign: 'center',color:'black' }}>
-                { 'No applied job posts found'}
-              </Typography>
+            {/* Pagination Controls */}
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 3 }}>
+              <Pagination
+                count={totalPages}
+                page={currentPage}
+                onChange={handlePageChange}
+                color="primary"
+              />
             </Box>
-          )}
-        </Grid>
-      </Box>
-    </Box>
+          </>
+        ) : (
+          <Box
+            sx={{
+              position: 'relative',
+              width: '100%',
+              padding: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="h5" sx={{ textTransform: 'uppercase', textAlign: 'center', color: 'black' }}>
+              No applied job posts found
+            </Typography>
+          </Box>
+        )}
+      </Paper>
+    </>
   );
 };
 

@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllAppliedJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s';
-import { Box, Paper, Grid, Typography, Avatar } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { Box, Paper, Grid, Typography, Avatar, Pagination, Stack } from "@mui/material";
 import { styled } from "@mui/system";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllAppliedJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s'; // Ensure the correct import path
 
+// Styled component for Job Card
 const JobCard = styled(Paper)(({ theme }) => ({
   padding: '50px 20px',
   borderRadius: '12px',
@@ -16,21 +17,32 @@ const JobCard = styled(Paper)(({ theme }) => ({
   alignItems: 'flex-start'
 }));
 
-
 const JobAppliedApplications = () => {
-  const { userDetails } = useSelector((state) => state?.authReducer)
-  const { jobAppliedUsers } = useSelector((state) => state?.employerReducer)
-
   const dispatch = useDispatch();
+  const { jobAppliedUsers } = useSelector((state) => state?.employerReducer);
+  
+  const [currentPage, setCurrentPage] = useState(1); // State to manage current page
+  const itemsPerPage = 6; // Number of applicants per page
 
   useEffect(() => {
-    dispatch(getAllAppliedJobPostsPostedByEmployer())
-  }, [dispatch]);
+    dispatch(getAllAppliedJobPostsPostedByEmployer(currentPage, itemsPerPage)); // Fetch job applications for the current page
+  }, [dispatch, currentPage]); // Fetch when the current page changes
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString([], { year: 'numeric', month: '2-digit', day: '2-digit' });
   };
+
+  const isArray = Array.isArray(jobAppliedUsers);
+  const hasApplicants = isArray && jobAppliedUsers.length > 0;
+
+  // Calculate pagination indices
+  const indexOfLastPost = currentPage * itemsPerPage;
+  const indexOfFirstPost = indexOfLastPost - itemsPerPage;
+  const currentJobPosts = hasApplicants ? jobAppliedUsers.slice(indexOfFirstPost, indexOfLastPost) : [];
+
+  // Pagination total
+  const totalJobs = jobAppliedUsers?.length;
 
   return (
     <>
@@ -44,25 +56,14 @@ const JobAppliedApplications = () => {
       <Paper sx={{ padding: '30px', borderRadius: '10px' }}>
         <Typography variant='h5' sx={{ color: 'black', mb: 3 }}>Applicant</Typography>
 
-        <Box sx={{
-          position: "relative",
-          background: "#F5F7FC",
-          borderRadius: '8px',
-          padding: ' 25px 30px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          marginBottom: '30px'
-        }}>
-          <Typography variant='h6' sx={{ color: '#0557A2', mb: 3, }}>{userDetails?.position}</Typography>
-          <Typography variant='h6' sx={{ color: '#0557A2', mb: 3 }}>Total: {jobAppliedUsers?.length || 0}</Typography>
-        </Box>
+        <>
+          <Typography variant='h6' sx={{  mb: 3 }}>
+            {hasApplicants ? ` show ${indexOfFirstPost + 1} - ${Math.min(indexOfLastPost, totalJobs)} of ${totalJobs} jobs` : "0 jobs"}
+          </Typography>
 
-        <Grid container spacing={3}>
-          {
-            jobAppliedUsers.length > 0 ? (
-              jobAppliedUsers.map((data, id) => (
+          <Grid container spacing={3}>
+            {hasApplicants ? (
+              currentJobPosts.map((data, id) => (
                 <Grid item xs={12} sm={12} md={6} key={id}>
                   <JobCard elevation={3}>
                     <Avatar
@@ -92,7 +93,6 @@ const JobAppliedApplications = () => {
                     </Box>
                   </JobCard>
                 </Grid>
-
               ))
             ) : (
               <Grid item xs={12}>
@@ -100,9 +100,21 @@ const JobAppliedApplications = () => {
                   No applications found.
                 </Typography>
               </Grid>
-            )
-          }
-        </Grid>
+            )}
+          </Grid>
+
+          {/* Pagination */}
+          {totalJobs > 0 && (
+            <Stack spacing={2} sx={{ padding: '20px', justifyContent: 'center', alignItems: 'center' }}>
+              <Pagination
+                count={Math.ceil(totalJobs / itemsPerPage)}
+                page={currentPage}
+                onChange={(event, value) => setCurrentPage(value)}
+                color='primary'
+              />
+            </Stack>
+          )}
+        </>
       </Paper>
     </>
   );

@@ -7,7 +7,6 @@ import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlin
 
 const EmployerDashboard = () => {
   const { jobPosts, jobAppliedUsers } = useSelector((state) => state?.employerReducer);
-
   return (
     <Box component="main" sx={{ flexGrow: 1, bgcolor: '#F0F5F7', p: 3 }}>
       <Typography variant="h4"  sx={{color:'black', mb:3}}>
@@ -51,7 +50,7 @@ const EmployerDashboard = () => {
             flexDirection: 'column'
           }}>
             <Typography variant="h4" sx={{ color: '#1890ff', fontWeight: 600 }}>
-              {jobPosts?.length || 0}
+            {jobPosts?.length > 0 ? jobPosts.length : 0}
             </Typography>
             <Typography variant="body1" sx={{ color: '#595959', fontWeight: 500 }}>
               Posted Jobs
@@ -78,7 +77,8 @@ const EmployerDashboard = () => {
               textAlign: "center", backgroundColor: ' #d930251a', width: '70px', height: '70px', borderRadius: '8px', fontSize: '30px', color: '#d93025', padding: '10px'
             }} />
           </ListItemIcon>
-          <Box sx={{
+          <Box 
+          sx={{
             display: 'flex',
             gap: 2,
             alignItems: { xs: 'center', md: 'flex-end' },
@@ -86,7 +86,7 @@ const EmployerDashboard = () => {
             flexDirection: 'column'
           }}>
             <Typography variant="h4" sx={{ color: '#d93025', fontWeight: 600 }}>
-              {jobAppliedUsers?.length || 0}
+            {jobAppliedUsers?.length > 0 ? jobAppliedUsers.length : 0}
             </Typography>
             <Typography variant="body1" sx={{ color: '#595959', fontWeight: 500 }}>
               Applications

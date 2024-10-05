@@ -5,9 +5,10 @@ import { useDispatch } from 'react-redux';
 import '../../../../CSSModules/pageStyles/jobPostsStyles.css';
 import { createJobPosts } from '../../../../api\'s/employerApi\'s';
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
+import { useNavigate } from 'react-router-dom';
 
 const AddJobPosts = () => {
-  const [jobPosts, setJobPosts] = useState({
+  const [newJobPosts, setNewJobPosts] = useState({
     companyName: '',
     role: '',
     technologies: '',
@@ -21,19 +22,20 @@ const AddJobPosts = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setJobPosts((prevData) => ({
+    setNewJobPosts((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await dispatch(createJobPosts(jobPosts));
+    const response = await dispatch(createJobPosts(newJobPosts, navigate));
     if (response.success) {
-      setJobPosts({
+      setNewJobPosts({
         companyName: '',
         role: '',
         technologies: '',
@@ -72,42 +74,42 @@ const AddJobPosts = () => {
         <Box component='form' onSubmit={handleSubmit}>
           <TextField variant="outlined" fullWidth margin="normal"
             label="Company Name" name="companyName" type="text" required
-            value={jobPosts.companyName}
+            value={newJobPosts.companyName}
             onChange={handleChange}
           />
           <TextField variant="outlined" fullWidth margin="normal"
             label="Role" name="role" type="text" required
-            value={jobPosts.role}
+            value={newJobPosts.role}
             onChange={handleChange}
           />
           <TextField variant="outlined" fullWidth margin="normal"
             label="Technologies" name="technologies" type="text" required
-            value={jobPosts.technologies}
+            value={newJobPosts.technologies}
             onChange={handleChange}
           />
           <TextField variant="outlined" fullWidth margin="normal"
             label="Experience" name="experience" type="text" required
-            value={jobPosts.experience}
+            value={newJobPosts.experience}
             onChange={handleChange}
           />
           <TextField variant="outlined" fullWidth margin="normal"
             label="Graduation" name="graduation" type="text" required
-            value={jobPosts.graduation}
+            value={newJobPosts.graduation}
             onChange={handleChange}
           />
           <TextField variant="outlined" fullWidth margin="normal"
             label="Location" name="location" type="text" required
-            value={jobPosts.location}
+            value={newJobPosts.location}
             onChange={handleChange}
           />
           <TextField variant="outlined" fullWidth margin="normal"
             label="Languages" name="languages" type="text" required
-            value={jobPosts.languages}
+            value={newJobPosts.languages}
             onChange={handleChange}
           />
-          <TextField variant="outlined" fullWidth margin="normal" sx={{mb:4}}
+          <TextField variant="outlined" fullWidth margin="normal" sx={{ mb: 4 }}
             label="Notice Period" name="noticePeriod" type="text" required
-            value={jobPosts.noticePeriod}
+            value={newJobPosts.noticePeriod}
             onChange={handleChange}
           />
 

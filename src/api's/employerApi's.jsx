@@ -24,7 +24,7 @@ export const updateEmployerDetails = (formData, navigate) => async (dispatch) =>
             const { updatedUser } = response.data
             if (formData.role === 'employee') {
                 dispatch(loginSuccess({ loginDetails: updatedUser }));
-                navigate('/employee-dashboard/employee-profile-details')
+                navigate('/candidate-dashboard/employee-profile-details')
             } else if (formData.role === 'employer') {
                 dispatch(loginSuccess({ loginDetails: updatedUser }));
                 navigate('/employer-dashboard/employer-profile-details')
@@ -72,11 +72,11 @@ export const updateEmployerDetails = (formData, navigate) => async (dispatch) =>
 }
 
 //create job posts
-export const createJobPosts = (jobPosts) => async (dispatch) => {
+export const createJobPosts = (newJobPosts, navigate) => async (dispatch) => {
     dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
-        const response = await axios.post(`${BASE_URL}/employer/create-recruitment-posts`, jobPosts,
+        const response = await axios.post(`${BASE_URL}/employer/create-recruitment-posts`, newJobPosts,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -86,6 +86,7 @@ export const createJobPosts = (jobPosts) => async (dispatch) => {
         if (response && response.data && response.status === 200) {
             const newJobPost = response.data.newJobPostData
             dispatch(addJobPost(newJobPost))
+            navigate('/employer-dashboard/manage-jobs')
             toast.success(response.data.message, {
                 position: "top-center",
                 autoClose: 3000,
@@ -116,12 +117,11 @@ export const createJobPosts = (jobPosts) => async (dispatch) => {
 }
 
 //update job posts
-export const updateJobPostsData = (jobPosts, navigate) => async (dispatch) => {
-    console.log(jobPosts)
+export const updateJobPostsData = (updateJobPosts, navigate) => async (dispatch) => {
     dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
-        const response = await axios.patch(`${BASE_URL}/employer/update-recruitment-posts/${jobPosts._id}`, jobPosts,
+        const response = await axios.patch(`${BASE_URL}/employer/update-recruitment-posts/${updateJobPosts._id}`, updateJobPosts,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -173,8 +173,8 @@ export const getAllJobPostsPostedByEmployer = () => async (dispatch) => {
             }
         )
         if (response && response.data && response.status === 200) {
-            const result = response.data.getJobPostsList
-            dispatch(setJobPosts(result))
+            const results = response.data.getJobPostsList
+            dispatch(setJobPosts(results))
             return {
                 success: true,
                 data: response.data
@@ -241,7 +241,7 @@ export const deleteJobPostsData = (jobId) => async (dispatch) => {
 }
 
 //get all job posts applied by employee posted by employer
-export const getAllAppliedJobPostsPostedByEmployer = () => async(dispatch) => {
+export const getAllAppliedJobPostsPostedByEmployer = () => async (dispatch) => {
     dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
@@ -252,7 +252,6 @@ export const getAllAppliedJobPostsPostedByEmployer = () => async(dispatch) => {
                 }
             }
         )
-        console.log(response)
         if (response && response.data && response.status === 200) {
             const result = response?.data?.jobAppliedPostsList
             dispatch(setJobAppliedUsers(result))

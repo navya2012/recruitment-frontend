@@ -1,16 +1,16 @@
-import { Box, Typography, Grid, Modal, Avatar, Paper, Divider } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { Box, Typography, Grid, Avatar, Paper, Divider, IconButton } from '@mui/material';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
-import EmployeeProfileUpdateForm from './EditEmployeeProfile';
 import WorkIcon from '@mui/icons-material/Work';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
-import EditIcon from '@mui/icons-material/Edit'; // Import the Edit Icon
+import EditIcon from '@mui/icons-material/Edit';
 import WorkingExperience from '../workingExperience/WorkingExperience';
 import { getUserImages } from '../../../../../api\'s/authApi\'s';
 import { useAuthContextData } from '../../../../../context/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 
 const EmployeeProfile = () => {
@@ -19,16 +19,15 @@ const EmployeeProfile = () => {
   const userDetails = useSelector((state) => state.authReducer.userData);
   const profilePic = useSelector((state) => state.authReducer.profileImage);
 
-  const [open, setOpen] = useState(false);
-
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(getUserImages());
   }, [dispatch]);
 
   const handleEdit = () => {
-    setOpen(true);
+    navigate('/candidate-dashboard/edit-employee-profile')
     setUpdateEmployeeFormData({
       _id: userDetails._id,
       role: 'employee',
@@ -46,89 +45,66 @@ const EmployeeProfile = () => {
     });
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const userProfileImage = profilePic.find((pic) => pic.user_id === userDetails._id);
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', padding: '40px 0', backgroundColor: '#f5f6fa' }}>
-      <Box
-        sx={{
-          width: '75%',
-          maxWidth: '900px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          backgroundColor: '#ffffff',
-          borderRadius: '10px',
-          boxShadow: '0 8px 15px rgba(0, 0, 0, 0.1)',
-          padding: '20px',
-        }}
-      >
-        <Paper
-          elevation={3}
+    <>
+      <Typography variant="h4" sx={{ color: 'black', mb: 3 }}>
+        My Profile!
+      </Typography>
+      <Typography variant="body2" sx={{ mb: 3 }} >
+        Ready to jump back in?
+      </Typography>
+
+      <Paper sx={{ padding: '30px', borderRadius: '10px' }}>
+        <Typography variant='h5' sx={{ color: 'black', mb: 2 }}>My Profile</Typography>
+
+        <Box
           sx={{
-            width: '100%',
-            padding: '30px',
+            padding: '30px ',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            borderRadius: '10px',
-            marginBottom: '30px',
-            position: 'relative', 
+            position: 'relative'
           }}
         >
-          <Box sx={{ position: 'relative', marginBottom: '20px' }}>
-            <Avatar
-              alt={`${userDetails.firstName} ${userDetails.lastName}`}
-              src={userProfileImage?.profileImage}
-              sx={{
-                width: 140,
-                height: 140,
-                border: '4px solid #0073e6',
-                boxShadow: '0 6px 15px rgba(0, 0, 0, 0.2)',
-              }}
-            />
-          </Box>
-
+          <Avatar
+            alt=''
+            src={userProfileImage?.profileImage}
+            sx={{
+              width: 140,
+              height: 140,
+              border: '4px solid #0073e6',
+              boxShadow: '0 6px 15px rgba(0, 0, 0, 0.2)',
+            }}
+          />
           <Typography
             variant="h5"
             fontWeight="bold"
-            sx={{ marginBottom: '5px', textTransform: 'capitalize' }}
+            sx={{ margin: '25px 0', textTransform: 'capitalize' }}
           >
             {`${userDetails.firstName} ${userDetails.lastName}`}
           </Typography>
-          
-          <Box 
-            sx={{ 
-              position: 'absolute', 
-              top: '20px', 
-              right: '20px', 
-              cursor: 'pointer',
-              color: '#0073e6',
-            }} 
+          <IconButton
             onClick={handleEdit}
+            sx={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              color: '#0073e6',
+            }}
           >
             <EditIcon fontSize='large' />
-          </Box>
-        </Paper>
+          </IconButton>
 
-        <Paper
-          elevation={1}
-          sx={{
-            width: '100%',
-            padding: '20px',
-            borderRadius: '10px',
-            backgroundColor: '#f9f9f9',
-          }}
-        >
-          <Typography variant="h5" fontWeight="bold" sx={{ marginBottom: '25px' }}>
-            Personal Information
+        </Box>
+
+        <Box sx={{ padding: '0 0 30px  130px' }}>
+          <Typography variant="h5" fontWeight="bold" sx={{ margin: '25px 0', }}>
+            Personal Information :
           </Typography>
 
-          <Grid container spacing={3}>
+          <Grid container spacing={4} >
             <Grid item xs={12} sm={6}>
               <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
                 <EmailIcon sx={{ marginRight: 1 }} /> Email:
@@ -150,11 +126,13 @@ const EmployeeProfile = () => {
               <Typography variant="body1">{userDetails.location}</Typography>
             </Grid>
           </Grid>
+        </Box>
 
-          <Divider sx={{ margin: '20px 0' }} />
+        <Divider sx={{ margin: '20px 0' }} />
 
+        <Box sx={{ padding: '0 0 40px  130px' }}>
           <Typography variant="h5" fontWeight="bold" sx={{ marginBottom: '25px' }}>
-            Employment
+            Employment :
           </Typography>
 
           <Grid container spacing={3}>
@@ -172,36 +150,16 @@ const EmployeeProfile = () => {
               <Typography variant="body1">{userDetails.position}</Typography>
             </Grid>
           </Grid>
+        </Box>
 
-          <Divider sx={{ margin: '20px 0' }} />
-          
-          <WorkingExperience/>
-        </Paper>
+        <Divider sx={{ margin: '20px 0' }} />
 
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="edit-profile-modal-title"
-          aria-describedby="edit-profile-modal-description"
-          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          <Box
-            sx={{
-              maxHeight: '90vh',
-              overflowY: 'auto',
-              backgroundColor: 'white',
-              padding: '40px',
-              borderRadius: '8px',
-              boxShadow: 24,
-              width: '90%',
-              maxWidth: '750px',
-            }}
-          >
-            <EmployeeProfileUpdateForm handleClose={handleClose} setOpen={setOpen} />
-          </Box>
-        </Modal>
-      </Box>
-    </Box>
+        <Box sx={{ padding: '0 0 30px  130px' }}>
+          <WorkingExperience />
+        </Box>
+      </Paper>
+    </>
+
   );
 };
 

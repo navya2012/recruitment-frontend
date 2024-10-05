@@ -8,8 +8,6 @@ import {  updateJobPostsData } from '../../../../api\'s/employerApi\'s';
 import {  useNavigate, useParams } from 'react-router-dom';
 
 
-
-
 const EditJobPosts = () => {
   const [updateJobPosts, setUpdateJobPosts] = useState({
     companyName: '',
@@ -25,11 +23,8 @@ const EditJobPosts = () => {
   const { jobPosts } = useSelector((state) => state.employerReducer);
 
   const { id } = useParams();
-  console.log(id)
 
   const jobData = jobPosts.find(job => job._id === id);
-
-  console.log(jobData );
 
   useEffect(() => {
     if (jobData) {
@@ -47,7 +42,6 @@ const EditJobPosts = () => {
     }
   }, [jobData]);
 
-  console.log(updateJobPosts)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUpdateJobPosts((prevData) => ({

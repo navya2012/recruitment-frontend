@@ -67,7 +67,7 @@ const EmployerProfile = () => {
 
                 <Box
                     sx={{
-                        padding: '30px ',
+                        padding: '50px 0',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
