@@ -292,7 +292,7 @@ export const getAllAppliedJobPostsByEmployee = () => async (dispatch) => {
     dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
-        const response = await axios.get(`${BASE_URL}/employee/get-applied-job-posts`,
+        const response = await axios.get(`${BASE_URL}/employee/get-applied-jobs`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
