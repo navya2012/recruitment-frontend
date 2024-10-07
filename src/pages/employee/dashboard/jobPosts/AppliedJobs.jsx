@@ -15,10 +15,13 @@ const AppliedJobs = () => {
   // Pagination state
   const [page, setPage] = useState(1);
   const itemsPerPage = 6;
-
+console.log('jobs....')
   useEffect(() => {
+    console.log('jobs fdfeds....')
     dispatch(getAllAppliedJobPostsByEmployee());
+    console.log('jobs feeeeeeeeeeeeee....')
   }, [dispatch]);
+  console.log('jobs xxxxxxxxxxxxxxx....')
 
   // Pagination logic
   const totalAppliedJobs = appliedJobs.length;
