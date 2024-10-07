@@ -5,7 +5,7 @@ const initialState = {
     experienceData: {},
     allJobPosts: [],
     allUsersAppliedJobPosts:[],
-    appliedJobPosts:[],
+    appliedJobs:[],
     error: null
 }
 
@@ -54,10 +54,10 @@ const employeeSlice = createSlice({
                 error: null
             }
         },
-        setAppliedJobPosts: (state, action) => {
+        setAppliedJobs: (state, action) => {
             return {
                 ...state,
-                appliedJobPosts: action.payload,
+                appliedJobs: action.payload,
                 error: null
             }
         },
@@ -71,7 +71,7 @@ export const {
     setLoading,
     setAllJobPosts,
     setAllUsersAppliedJobPosts,
-    setAppliedJobPosts,
+    setAppliedJobs,
     setAllExperienceData,
     setExperienceSuccess,
     setAddJobAppliedPosts,

@@ -55,7 +55,7 @@ export const SideBarProvider = ({ children }) => {
       const candidateMenuList = [
         { menuItem: 'Dashboard', path: '/candidate-dashboard/home', icon: <HomeIcon /> },
         { menuItem: 'My Profile', path: '/candidate-dashboard/employee-profile-details', icon: <AccountCircleIcon /> },
-        { menuItem: 'Applied Jobs', path: '/candidate-dashboard/applied-job-posts-list', icon: <AssignmentIcon /> },
+        { menuItem: 'Applied Jobs', path: '/candidate-dashboard/applied-jobs-list', icon: <AssignmentIcon /> },
         { menuItem: 'Change Password', path: '/candidate-dashboard/change-password', icon: <LockIcon /> },
         { menuItem: 'Logout', path: '/login', icon: <ExitToAppIcon /> },
       ];

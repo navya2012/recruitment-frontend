@@ -2,7 +2,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import '../CSSModules/formStyles/formPageStyles.css'
 import { loginSuccess, setLoading } from '../redux/slices/authSlice'
-import { setAddJobAppliedPosts, setAllExperienceData, setAllJobPosts, setExperienceSuccess, setAllUsersAppliedJobPosts, setAppliedJobPosts } from '../redux/slices/employeeSlice'
+import { setAddJobAppliedPosts, setAllExperienceData, setAllJobPosts, setExperienceSuccess, setAllUsersAppliedJobPosts, setAppliedJobs } from '../redux/slices/employeeSlice'
 
 
 const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
@@ -288,6 +288,7 @@ export const getAllJobPostsAppliedByAllEmployees = () => async (dispatch) => {
 
 //get all job posts applied by employee posted by employer
 export const getAllAppliedJobPostsByEmployee = () => async (dispatch) => {
+    console.log("applied jobs ....")
     dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
@@ -301,7 +302,7 @@ export const getAllAppliedJobPostsByEmployee = () => async (dispatch) => {
         console.log(response)
         if (response && response.data && response.status === 200) {
             const appliedJobs = response.data.jobsAppliedList
-            dispatch(setAppliedJobPosts(appliedJobs))
+            dispatch(setAppliedJobs(appliedJobs))
             console.log("jobs", appliedJobs)
             toast.success(response.data.message, {
                 position: "top-center",

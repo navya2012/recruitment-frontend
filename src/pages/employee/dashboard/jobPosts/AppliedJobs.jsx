@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllAppliedJobPostsByEmployee } from '../../../../api\'s/employeeApi\'s';
 import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Pagination, PaginationItem } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllAppliedJobPostsByEmployee } from '../../../../api\'s/employeeApi\'s';
 
-const AppliedJobPostsList = () => {
-  const { appliedJobPosts } = useSelector((state) => state?.employeeReducer);
-  console.log(appliedJobPosts)
+const AppliedJobs = () => {
+  console.log('applied jobs component')
+  const { appliedJobs } = useSelector((state) => state?.employeeReducer);
+  console.log(appliedJobs)
 
   const dispatch = useDispatch();
 
@@ -20,8 +21,8 @@ const AppliedJobPostsList = () => {
   }, [dispatch]);
 
   // Pagination logic
-  const totalAppliedJobs = appliedJobPosts.length;
-  const appliedJobsToDisplay = appliedJobPosts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  const totalAppliedJobs = appliedJobs.length;
+  const appliedJobsToDisplay = appliedJobs.slice((page - 1) * itemsPerPage, page * itemsPerPage);
   
   return (
     <>
@@ -90,7 +91,6 @@ const AppliedJobPostsList = () => {
           </Box>
         )}
 
-        {/* Centered Pagination */}
         <Box sx={{ display: 'flex', justifyContent: 'center', margin: '50px 0' }}>
           <Pagination
             count={Math.ceil(totalAppliedJobs / itemsPerPage)}
@@ -111,4 +111,4 @@ const AppliedJobPostsList = () => {
   );
 };
 
-export default AppliedJobPostsList;
+export default AppliedJobs;
