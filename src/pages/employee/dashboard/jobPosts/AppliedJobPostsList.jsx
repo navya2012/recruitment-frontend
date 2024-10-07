@@ -7,6 +7,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const AppliedJobPostsList = () => {
   const { appliedJobPosts } = useSelector((state) => state?.employeeReducer);
+  console.log(appliedJobPosts)
+
   const dispatch = useDispatch();
 
   // Pagination state
