@@ -55,7 +55,7 @@ function App() {
                     <Route path='/forgot-password' element={<ForgotPassword />} />
                     <Route path='/update-password' element={<UpdatePassword />} />
                     <Route path='/verify-otp' element={<OTPVerification />} />
-                    <Route path='/home-page' element={<Home />} />
+                    <Route path='/home-page'element={<PrivatePath><Home /></PrivatePath>} />
                     <Route path='/find-jobs' element={<PrivatePath><JobsPage /></PrivatePath>} />
                   </Route>
 
