@@ -300,7 +300,7 @@ export const getAllAppliedJobPostsByEmployee = () => async (dispatch) => {
         )
         console.log(response)
         if (response && response.data && response.status === 200) {
-            const appliedJobs = response.data.jobAppliedPostsList
+            const appliedJobs = response.data.jobsAppliedList
             dispatch(setAppliedJobPosts(appliedJobs))
             console.log("jobs", appliedJobs)
             toast.success(response.data.message, {
