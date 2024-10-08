@@ -4,9 +4,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import LockIcon from '@mui/icons-material/Lock';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 
 
 const SideBarContext = createContext();
@@ -34,30 +32,12 @@ export const SideBarProvider = ({ children }) => {
           menuItem: 'All Applications',
           path: '/employer-dashboard/applied-job-posts',
           icon: <AssignmentIcon />
-        },
-        {
-          menuItem: 'View Profile',
-          path: '/employer-dashboard/employer-profile-details',
-          icon: <AccountCircleIcon />
-        },
-        {
-          menuItem: 'Change Password',
-          path: '/employer-dashboard/change-password',
-          icon: <LockIcon />
-        },
-        {
-          menuItem: 'Logout',
-          path: '/login',
-          icon: <ExitToAppIcon />
         }
       ];
 
       const candidateMenuList = [
         { menuItem: 'Dashboard', path: '/candidate-dashboard/home', icon: <HomeIcon /> },
-        { menuItem: 'My Profile', path: '/candidate-dashboard/employee-profile-details', icon: <AccountCircleIcon /> },
-        { menuItem: 'Applied Jobs', path: '/candidate-dashboard/applied-jobs-list', icon: <AssignmentIcon /> },
-        { menuItem: 'Change Password', path: '/candidate-dashboard/change-password', icon: <LockIcon /> },
-        { menuItem: 'Logout', path: '/login', icon: <ExitToAppIcon /> },
+        { menuItem: 'Applied Jobs', path: '/candidate-dashboard/applied-jobs-list', icon: <AssignmentIcon /> }
       ];
   return (
     <>

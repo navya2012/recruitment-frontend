@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import SideBar from '../sidebar/SideBar';
 import { useSideBarContextData } from '../../context/SideBarProvider';
+import SidebarFooter from '../footer/SidebarFooter';
 
 
 const EmployerSidebarLayout = () => {
@@ -22,7 +23,7 @@ const EmployerSidebarLayout = () => {
         }}
       >
         <Outlet />
-        {/* <Footer /> */}
+        <SidebarFooter/>
       </Box>
     </Box>
   );

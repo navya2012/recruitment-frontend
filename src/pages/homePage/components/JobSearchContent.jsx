@@ -10,6 +10,7 @@ const JobSearchContent = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        margin:'50px 0'
       }}
     >
       <Grid container spacing={4} alignItems="center">

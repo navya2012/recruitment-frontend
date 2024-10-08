@@ -12,7 +12,6 @@ import LanguageIcon from '@mui/icons-material/Language';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 
-
 const StyledButton = styled(Button)(({ theme }) => ({
   borderRadius: '10px',
   textTransform: 'none',
@@ -54,9 +53,14 @@ const FindJobPosts = () => {
     }
   };
 
+  // Filter out jobs that the user has already applied to
+  const filteredJobs = allJobPosts.filter((job) =>
+    !allUsersAppliedJobPosts.some((appliedJob) => appliedJob.jobId === job._id && appliedJob.employee_id === currentEmployeeId)
+  );
+
   // Calculate total number of jobs and jobs for the current page
-  const totalJobs = allJobPosts.length;
-  const jobsToDisplay = allJobPosts.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  const totalJobs = filteredJobs.length;
+  const jobsToDisplay = filteredJobs.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   return (
     <>
@@ -116,11 +120,8 @@ const FindJobPosts = () => {
                         <StyledButton
                           onClick={() => handleJobApply(job._id)}
                           variant="contained"
-                          disabled={Array.isArray(allUsersAppliedJobPosts) && allUsersAppliedJobPosts.some((post) => post.jobId === job._id && post.employee_id === currentEmployeeId)}
                         >
-                          {Array.isArray(allUsersAppliedJobPosts) && allUsersAppliedJobPosts.some((post) => post.jobId === job._id && post.employee_id === currentEmployeeId)
-                            ? 'Applied'
-                            : 'Apply Now'}
+                          Apply Now
                         </StyledButton>
                       </Box>
                     </CardContent>
@@ -163,7 +164,6 @@ const FindJobPosts = () => {
                 <PaginationItem
                   slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
                   {...item}
-
                 />
               )}
             />

@@ -420,7 +420,7 @@ export const changePassword =  (oldPassword, newPassword, navigate) => async (di
                  className: 'custom-toast'
             });
             dispatch(logout())
-            navigate('/login')
+            navigate('/')
             return  { 
                 success: true, 
                 data: response.data 

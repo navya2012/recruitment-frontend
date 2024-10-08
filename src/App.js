@@ -48,7 +48,8 @@ function App() {
               <BrowserRouter>
                 <Routes>
                   <Route element={<MainLayout />}>
-                    <Route path='/' element={<WelcomePage />} />
+                    <Route path='/' element={<Home />} />
+                    <Route path='/register' element={<WelcomePage />} />
                     <Route path='/employer/signup' element={<EmployerSignUpPage />} />
                     <Route path='/employee/signup' element={<EmployeeSignUpPage />} />
                     <Route path='/login' element={<LoginPage />} />

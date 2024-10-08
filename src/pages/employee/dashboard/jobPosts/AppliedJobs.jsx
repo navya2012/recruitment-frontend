@@ -3,29 +3,34 @@ import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, Ta
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllAppliedJobPostsByEmployee } from '../../../../api\'s/employeeApi\'s';
+import { getAllAppliedJobsByEmployee } from '../../../../api\'s/employeeApi\'s';
 
 const AppliedJobs = () => {
   console.log('applied jobs component')
-  const { appliedJobs } = useSelector((state) => state?.employeeReducer);
-  console.log(appliedJobs)
+  const [page, setPage] = useState(1);
+
+  const itemsPerPage = 6;
+
+  const  jobApplications  = useSelector((state) => state.employeeReducer.allAppliedJobs);
+  console.log(jobApplications)
 
   const dispatch = useDispatch();
 
-  // Pagination state
-  const [page, setPage] = useState(1);
-  const itemsPerPage = 6;
 console.log('jobs....')
-  useEffect(() => {
-    console.log('jobs fdfeds....')
-    dispatch(getAllAppliedJobPostsByEmployee());
-    console.log('jobs feeeeeeeeeeeeee....')
-  }, [dispatch]);
+  // useEffect(() => {
+  //   console.log('jobs fdfeds....')
+  //   dispatch(getAllAppliedJobsByEmployee());
+  //   console.log('jobs feeeeeeeeeeeeee....')
+  // }, [dispatch]);
   console.log('jobs xxxxxxxxxxxxxxx....')
 
+  useEffect(() => {
+dispatch(getAllAppliedJobsByEmployee())
+  },[dispatch])
+
   // Pagination logic
-  const totalAppliedJobs = appliedJobs.length;
-  const appliedJobsToDisplay = appliedJobs.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  const totalAppliedJobs = jobApplications.length;
+  const appliedJobsToDisplay = jobApplications.slice((page - 1) * itemsPerPage, page * itemsPerPage);
   
   return (
     <>
@@ -40,7 +45,6 @@ console.log('jobs....')
       <Paper sx={{ padding: '40px', borderRadius: '10px' }}>
         <Typography variant='h5' sx={{ color: 'black', mb: 4 }}>My Applied Jobs</Typography>
 
-        {/* Show the range message */}
         <Typography variant="body1" sx={{ fontWeight:'bold', mb: 3 }}>
           Show {appliedJobsToDisplay.length} of {totalAppliedJobs} jobs
         </Typography>
@@ -94,7 +98,7 @@ console.log('jobs....')
           </Box>
         )}
 
-        <Box sx={{ display: 'flex', justifyContent: 'center', margin: '50px 0' }}>
+         <Box sx={{ display: 'flex', justifyContent: 'center', margin: '50px 0' }}>
           <Pagination
             count={Math.ceil(totalAppliedJobs / itemsPerPage)}
             page={page}
@@ -107,7 +111,7 @@ console.log('jobs....')
               />
             )}
           />
-        </Box>
+        </Box> 
 
       </Paper>
     </>

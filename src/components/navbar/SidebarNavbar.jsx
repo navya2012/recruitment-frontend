@@ -22,7 +22,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import LockIcon from '@mui/icons-material/Lock';
 
-const Navbar = () => {
+const SidebarNavbar = () => {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -54,7 +54,9 @@ const Navbar = () => {
 
     const drawerList = () => (
         <Box
-            sx={{ width: 300 }}
+            sx={{ width: 300,
+
+             }}
             role="presentation"
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
@@ -69,7 +71,6 @@ const Navbar = () => {
                             <ListItemText primary="Find Jobs" />
                         </ListItem>
 
-                        {/* Conditionally render Employers or Candidates menu */}
                         {loginData.role === 'employer' ? (
                             <ListItem button onClick={() => navigate('/employer-dashboard/home')}>
                                 <ListItemText primary="Employers" />
@@ -80,7 +81,6 @@ const Navbar = () => {
                             </ListItem>
                         )}
 
-                        {/* Show Job Post button only for employers */}
                         {loginData.role === 'employer' && (
                             <Box sx={{ p: 2 }}>
                                 <Button
@@ -150,21 +150,9 @@ const Navbar = () => {
                         </Typography>
                     </Box>
 
-                    {loginData && loginData.email ? (
-                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-
-                            <Box sx={{ display: { md: 'flex', xs: 'none' }, gap: 2, flexGrow: 1, justifyContent: 'center' }}>
-                                <Button sx={{ color: '#000' }} onClick={() => navigate('/home-page')}>Home</Button>
-                                <Button sx={{ color: '#000' }} onClick={() => navigate('/find-jobs')}>Find Jobs</Button>
-                                {loginData.role === 'employer' ? (
-                                    <Button sx={{ color: '#000' }} onClick={() => navigate('/employer-dashboard/home')}>Employers</Button>
-                                ) : (
-                                    <Button sx={{ color: '#000' }} onClick={() => navigate('/candidate-dashboard/home')}>Candidates</Button>
-                                )}
-                            </Box>
-
+                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                             <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 2 }}>
-                                {loginData.role === 'employer' && (
+                            {loginData.role === 'employer' && (
                                     <Box
                                         component="div"
                                         sx={{
@@ -182,6 +170,7 @@ const Navbar = () => {
                                         Job Post
                                     </Box>
                                 )}
+                            <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#000' }}> {loginData.email.replace('@gmail.com', '')}</Typography>
                                 <IconButton onClick={handleOpenUserMenu}>
                                     <Avatar alt="Profile" src={userProfileImage?.profileImage} />
                                 </IconButton>
@@ -219,45 +208,6 @@ const Navbar = () => {
                             </Box>
                         </Box>
 
-                    ) : (
-                        <>
-                            <Box sx={{ display: { md: 'flex', xs: 'none' }, gap: 2 }}>
-                                <Box
-                                    component="div"
-                                    sx={{
-                                        fontSize: '16px',
-                                        borderRadius: '10px',
-                                        padding: '10px 20px',
-                                        backgroundColor: '#0557A2',
-                                        color: '#fff',
-                                        textAlign: 'center',
-                                        cursor: 'pointer',
-                                        fontWeight: 'bold'
-                                    }}
-                                    onClick={() => navigate('/login')}
-                                >
-                                    Login
-                                </Box>
-                                <Box
-                                    component="div"
-                                    sx={{
-                                        fontSize: '16px',
-                                        borderRadius: '10px',
-                                        padding: '10px 20px',
-                                        backgroundColor: '#0557A2',
-                                        color: '#fff',
-                                        textAlign: 'center',
-                                        cursor: 'pointer',
-                                        fontWeight: 'bold'
-                                    }}
-                                    onClick={() => navigate('/register')}
-                                >
-                                    Register
-                                </Box>
-                            </Box>
-                        </>
-                    )}
-
                     {/* Mobile Hamburger Menu and Profile Icon */}
                     <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 2 }}>
                         <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
@@ -274,11 +224,11 @@ const Navbar = () => {
             </Container>
 
             {/* Drawer for Mobile Menu */}
-            <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+            <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)} sx={{                zIndex: (theme) => theme.zIndex.drawer + 2,}}>
                 {drawerList()}
             </Drawer>
         </AppBar>
     );
 }
 
-export default Navbar;
+export default SidebarNavbar;

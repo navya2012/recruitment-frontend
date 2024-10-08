@@ -9,7 +9,7 @@ const JobsHeader = () => {
     <Box
       sx={{
         width: '100%',
-        height: '40vh',
+        height: '30vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
