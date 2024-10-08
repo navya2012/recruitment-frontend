@@ -1,6 +1,6 @@
 import { Box, Typography, Grid, Avatar, Paper, IconButton } from '@mui/material';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAuthContextData } from '../../../../context/AuthProvider';
 import EditIcon from '@mui/icons-material/Edit';
 import EmailIcon from '@mui/icons-material/Email';
@@ -11,14 +11,27 @@ import GroupIcon from '@mui/icons-material/Group';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WorkIcon from '@mui/icons-material/Work';
 import { useNavigate } from 'react-router-dom';
+import { getUserImages } from '../../../../api\'s/authApi\'s';
+import LoadingSpinner from '../../../../common/spinner/LoadingSpinner';
 
 const EmployerProfile = () => {
     const { setUpdateEmployerFormData } = useAuthContextData();
 
+    const [loading, setLoading] = useState(false)
+
     const profilePic = useSelector((state) => state.authReducer.profileImage);
     const userDetails = useSelector((state) => state.authReducer.userData);
 
+    const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await dispatch(getUserImages());
+            setLoading(false);
+        };
+        fetchData();
+    }, [dispatch]);
 
     const handleEdit = () => {
         navigate('/employer-dashboard/edit-employer-profile')
@@ -65,87 +78,93 @@ const EmployerProfile = () => {
             <Paper sx={{ padding: '40px', borderRadius: '10px' }}>
                 <Typography variant='h5' sx={{ color: 'black', mb: 3 }}>My Profile</Typography>
 
-                <Box
-                    sx={{
-                        padding: '50px 0',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        position: 'relative'
-                    }}
-                >
-                    <Avatar
-                        alt=''
-                        src={userProfileImage?.profileImage}
-                        sx={{
-                            width: 140,
-                            height: 140,
-                            border: '4px solid #0073e6',
-                            boxShadow: '0 6px 15px rgba(0, 0, 0, 0.2)',
-                        }}
-                    />
-                    <IconButton
-                        onClick={handleEdit}
-                        sx={{
-                            position: 'absolute',
-                            top: '10px',
-                            right: '10px',
-                            color: '#0073e6',
-                        }}
-                    >
-                        <EditIcon fontSize='large' />
-                    </IconButton>
+                {
+                    loading ? (
+                        <LoadingSpinner />
+                    ) : (
+                        <Box
+                            sx={{
+                                padding: '50px 0',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                position: 'relative'
+                            }}
+                        >
+                            <Avatar
+                                alt=''
+                                src={userProfileImage?.profileImage}
+                                sx={{
+                                    width: 140,
+                                    height: 140,
+                                    border: '4px solid #0073e6',
+                                    boxShadow: '0 6px 15px rgba(0, 0, 0, 0.2)',
+                                }}
+                            />
+                            <IconButton
+                                onClick={handleEdit}
+                                sx={{
+                                    position: 'absolute',
+                                    top: '10px',
+                                    right: '10px',
+                                    color: '#0073e6',
+                                }}
+                            >
+                                <EditIcon fontSize='large' />
+                            </IconButton>
 
-                    <Grid container spacing={4} sx={{ padding: { md: '50px 20px 50px 130px', xs: '50px 20px' } }}>
-                        <Grid item xs={12} sm={6} md={6}>
-                            <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-                                <WorkIcon sx={{ marginRight: 1 }} /> Company Name:
-                            </Typography>
-                            <Typography variant="body1">{userDetails.companyName}</Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-                                <EmailIcon sx={{ marginRight: 3 }} /> Email:
-                            </Typography>
-                            <Typography variant="body1">{userDetails.email}</Typography>
-                        </Grid>
+                            <Grid container spacing={4} sx={{ padding: { md: '50px 20px 50px 130px', xs: '50px 20px' } }}>
+                                <Grid item xs={12} sm={6} md={6}>
+                                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                                        <WorkIcon sx={{ marginRight: 1 }} /> Company Name:
+                                    </Typography>
+                                    <Typography variant="body1">{userDetails.companyName}</Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                                        <EmailIcon sx={{ marginRight: 3 }} /> Email:
+                                    </Typography>
+                                    <Typography variant="body1">{userDetails.email}</Typography>
+                                </Grid>
 
-                        <Grid item xs={12} sm={6}>
-                            <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-                                <PhoneIcon sx={{ marginRight: 1 }} /> Mobile Number:
-                            </Typography>
-                            <Typography variant="body1">{userDetails.mobileNumber}</Typography>
-                        </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                                        <PhoneIcon sx={{ marginRight: 1 }} /> Mobile Number:
+                                    </Typography>
+                                    <Typography variant="body1">{userDetails.mobileNumber}</Typography>
+                                </Grid>
 
-                        <Grid item xs={12} sm={6}>
-                            <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-                                <BusinessIcon sx={{ marginRight: 1 }} /> Company Type:
-                            </Typography>
-                            <Typography variant="body1">{userDetails.companyType}</Typography>
-                        </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                                        <BusinessIcon sx={{ marginRight: 1 }} /> Company Type:
+                                    </Typography>
+                                    <Typography variant="body1">{userDetails.companyType}</Typography>
+                                </Grid>
 
-                        <Grid item xs={12} sm={6}>
-                            <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-                                <HomeIcon sx={{ marginRight: 1 }} /> Address:
-                            </Typography>
-                            <Typography variant="body1">{formatAddress(userDetails.address)}</Typography>
-                        </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                                        <HomeIcon sx={{ marginRight: 1 }} /> Address:
+                                    </Typography>
+                                    <Typography variant="body1">{formatAddress(userDetails.address)}</Typography>
+                                </Grid>
 
-                        <Grid item xs={12} sm={6}>
-                            <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-                                <GroupIcon sx={{ marginRight: 1 }} /> No of Employees:
-                            </Typography>
-                            <Typography variant="body1">{userDetails.employeesCount}</Typography>
-                        </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                                        <GroupIcon sx={{ marginRight: 1 }} /> No of Employees:
+                                    </Typography>
+                                    <Typography variant="body1">{userDetails.employeesCount}</Typography>
+                                </Grid>
 
-                        <Grid item xs={12} sm={6}>
-                            <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-                                <LocationOnIcon sx={{ marginRight: 1 }} /> Head Quarters:
-                            </Typography>
-                            <Typography variant="body1" sx={{ textTransform: 'capitalize' }}>{userDetails.headQuarters}</Typography>
-                        </Grid>
-                    </Grid>
-                </Box>
+                                <Grid item xs={12} sm={6}>
+                                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                                        <LocationOnIcon sx={{ marginRight: 1 }} /> Head Quarters:
+                                    </Typography>
+                                    <Typography variant="body1" sx={{ textTransform: 'capitalize' }}>{userDetails.headQuarters}</Typography>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    )
+                }
             </Paper>
         </>
     );

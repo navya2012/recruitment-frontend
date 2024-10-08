@@ -9,23 +9,22 @@ const LoadingSpinner = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh', // Full-screen height
-        backgroundColor: '#f5f5f5', // Light background color
+        height: '100vh'
       }}
     >
       <CircularProgress
         sx={{
-          color: '#3f51b5', // Primary theme color for the spinner
-          marginBottom: 2, // Spacing below the spinner
+          color: '#3f51b5', 
+          marginBottom: 2
         }}
-        size={60} // Spinner size
-        thickness={5} // Spinner thickness
+        size={60}
+        thickness={5}
       />
       <Typography
         variant="h6"
         sx={{
-          color: '#3f51b5', // Text color matching the spinner
-          fontWeight: 'bold',
+          color: '#3f51b5',
+          fontWeight: 'bold'
         }}
       >
         Loading, please wait...

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import '../CSSModules/formStyles/formPageStyles.css'
-import { loginSuccess, setLoading } from '../redux/slices/authSlice'
+import { loginSuccess } from '../redux/slices/authSlice'
 import { setAddJobAppliedPosts, setAllExperienceData, setAllJobPosts, setExperienceSuccess, setAllUsersAppliedJobPosts, setAllAppliedJobs } from '../redux/slices/employeeSlice'
 
 
@@ -9,7 +9,6 @@ const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
 
 //update details
 export const updateEmployeeDetails = (formData, navigate) => async (dispatch) => {
-    dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
         const response = await axios.patch(`${BASE_URL}/employee/update-details`, formData,
@@ -65,13 +64,9 @@ export const updateEmployeeDetails = (formData, navigate) => async (dispatch) =>
             errors: errorMessages
         };
     }
-    finally {
-        dispatch(setLoading(false));
-    }
 }
 
 export const getWorkingExperience = () => async (dispatch) => {
-    dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
         const response = await axios.get(`${BASE_URL}/employee/get-working-experience`,
@@ -108,15 +103,10 @@ export const getWorkingExperience = () => async (dispatch) => {
             errors: errorMessage
         };
     }
-    finally {
-        dispatch(setLoading(false));
-    }
-
 }
 
 //working experience
 export const workingExperience = (experienceData) => async (dispatch) => {
-    dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
         const employeeId = JSON.parse(localStorage.getItem('employeeId'));
@@ -148,14 +138,10 @@ export const workingExperience = (experienceData) => async (dispatch) => {
             errors: errors
         };
     }
-    finally {
-        dispatch(setLoading(false));
-    }
 }
 
 //get job posts
 export const getAllJobPostsData = () => async (dispatch) => {
-    dispatch(setLoading(true));
     try {
         const response = await axios.get(`${BASE_URL}/employee/get-all-recruitment-posts`)
         if (response && response.data && response.status === 200) {
@@ -186,16 +172,11 @@ export const getAllJobPostsData = () => async (dispatch) => {
             errors: errorMessage
         };
     }
-    finally {
-        dispatch(setLoading(false));
-    }
-
 }
 
 
 //post job applied status
 export const JobAppliedPostsStatus = (jobId) => async (dispatch) => {
-    dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
         const response = await axios.post(`${BASE_URL}/employee/update-job-applied-status/${jobId}`, {},
@@ -238,14 +219,10 @@ export const JobAppliedPostsStatus = (jobId) => async (dispatch) => {
             errors: errorMessage
         };
     }
-    finally {
-        dispatch(setLoading(false));
-    }
 }
 
 //all job post applied status by employees
 export const getAllJobPostsAppliedByAllEmployees = () => async (dispatch) => {
-    dispatch(setLoading(true));
     try {
         const response = await axios.get(`${BASE_URL}/employee/get-all-applied-job-posts`)
         if (response && response.data && response.status === 200) {
@@ -281,15 +258,11 @@ export const getAllJobPostsAppliedByAllEmployees = () => async (dispatch) => {
             errors: errorMessage
         };
     }
-    finally {
-        dispatch(setLoading(false));
-    }
 }
 
 //get all job posts applied by employee posted by employer
 export const getAllAppliedJobsByEmployee = () => async (dispatch) => {
     console.log("applied jobs ....")
-    dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
         const response = await axios.get(`${BASE_URL}/employee/get-applied-jobs`,
@@ -326,8 +299,5 @@ export const getAllAppliedJobsByEmployee = () => async (dispatch) => {
             success: false,
             errors: errors
         };
-    }
-    finally {
-        dispatch(setLoading(false));
     }
 }

@@ -5,7 +5,7 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 
 
 const EmployeeDashboard = () => {
-  const { appliedJobPosts } = useSelector((state) => state?.employeeReducer);
+  const { allAppliedJobs } = useSelector((state) => state?.employeeReducer);
 
   return (
     <Box component="main" sx={{ flexGrow: 1, bgcolor: '#F0F5F7', p: 3 }}>
@@ -50,7 +50,7 @@ const EmployeeDashboard = () => {
             flexDirection: 'column'
           }}>
             <Typography variant="h4" sx={{ color: '#d93025', fontWeight: 600 }}>
-            {appliedJobPosts?.length > 0 ? appliedJobPosts.length : 0}
+            {allAppliedJobs?.length > 0 ? allAppliedJobs.length : 0}
             </Typography>
             <Typography variant="body1" sx={{ color: '#595959', fontWeight: 500 }}>
               Applied Jobs

@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  loading: false,
   userData: {},
   profileImage:[],
   error: null
@@ -11,12 +10,6 @@ const authSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    setLoading: (state, action) => {
-      return {
-        ...state,
-        loading: action.payload,
-      }
-    },
     loginSuccess: (state, action) => {
       return {
        ...state,
@@ -55,7 +48,6 @@ const authSlice = createSlice({
 })
 
 export const {
-  setLoading,
   loginSuccess,
   setAddProfileImage,
   setAllUsersImages,

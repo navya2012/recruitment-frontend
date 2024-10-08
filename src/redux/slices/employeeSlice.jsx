@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    loading: false,
     experienceData: {},
     allJobPosts: [],
     allUsersAppliedJobPosts:[],
@@ -14,12 +13,6 @@ const employeeSlice = createSlice({
     name: 'employee',
     initialState,
     reducers: {
-        setLoading: (state, action) => {
-            return {
-                ...state,
-                loading: action.payload,
-            }
-        },
         setAllExperienceData: (state, action) => {
             return {
                 ...state,
@@ -69,7 +62,6 @@ const employeeSlice = createSlice({
 })
 
 export const {
-    setLoading,
     setAllJobPosts,
     setAllUsersAppliedJobPosts,
     setAllAppliedJobs,

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import '../CSSModules/formStyles/formPageStyles.css'
-import { loginSuccess, setLoading } from '../redux/slices/authSlice'
+import { loginSuccess } from '../redux/slices/authSlice'
 import { addJobPost, setDeleteJobPosts, setJobAppliedUsers, setJobPosts, setUpdateJobPost } from '../redux/slices/employerSlice'
 
 
@@ -10,7 +10,6 @@ const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
 
 //update details
 export const updateEmployerDetails = (formData, navigate) => async (dispatch) => {
-    dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
         const response = await axios.patch(`${BASE_URL}/employer/update-details`, formData,
@@ -66,14 +65,10 @@ export const updateEmployerDetails = (formData, navigate) => async (dispatch) =>
             errors: errorMessages
         };
     }
-    finally {
-        dispatch(setLoading(false));
-    }
 }
 
 //create job posts
 export const createJobPosts = (newJobPosts, navigate) => async (dispatch) => {
-    dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
         const response = await axios.post(`${BASE_URL}/employer/create-recruitment-posts`, newJobPosts,
@@ -110,15 +105,10 @@ export const createJobPosts = (newJobPosts, navigate) => async (dispatch) => {
             errors: errors
         };
     }
-    finally {
-        dispatch(setLoading(false));
-    }
-
 }
 
 //update job posts
 export const updateJobPostsData = (updateJobPosts, navigate) => async (dispatch) => {
-    dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
         const response = await axios.patch(`${BASE_URL}/employer/update-recruitment-posts/${updateJobPosts._id}`, updateJobPosts,
@@ -155,14 +145,10 @@ export const updateJobPostsData = (updateJobPosts, navigate) => async (dispatch)
             errors: errors
         };
     }
-    finally {
-        dispatch(setLoading(false));
-    }
 }
 
 //get job posts
 export const getAllJobPostsPostedByEmployer = () => async (dispatch) => {
-    dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
         const response = await axios.get(`${BASE_URL}/employer/get-recruitment-posts`,
@@ -193,14 +179,10 @@ export const getAllJobPostsPostedByEmployer = () => async (dispatch) => {
             errors: errors
         };
     }
-    finally {
-        dispatch(setLoading(false));
-    }
 }
 
 //delete job posts
 export const deleteJobPostsData = (jobId) => async (dispatch) => {
-    dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
         const response = await axios.delete(`${BASE_URL}/employer/delete-recruitment-posts/${jobId}`,
@@ -235,14 +217,10 @@ export const deleteJobPostsData = (jobId) => async (dispatch) => {
             errors: errors
         };
     }
-    finally {
-        dispatch(setLoading(false));
-    }
 }
 
 //get all job posts applied by employee posted by employer
 export const getAllAppliedJobPostsPostedByEmployer = () => async (dispatch) => {
-    dispatch(setLoading(true));
     try {
         const token = localStorage.getItem('loginToken');
         const response = await axios.get(`${BASE_URL}/employer/get-job-applied-posts`,
@@ -277,9 +255,6 @@ export const getAllAppliedJobPostsPostedByEmployer = () => async (dispatch) => {
             success: false,
             errors: errors
         };
-    }
-    finally {
-        dispatch(setLoading(false));
     }
 }
 

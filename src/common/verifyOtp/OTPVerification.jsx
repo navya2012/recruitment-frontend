@@ -4,8 +4,8 @@ import '../../CSSModules/formStyles/formPageStyles.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import AuthCoverPage from '../authCoverPage/AuthCoverPage';
-import { setLoading } from '../../redux/slices/authSlice';
 import { resendOtp, verifyOtp } from '../../api\'s/authApi\'s';
+import LoadingSpinner from '../spinner/LoadingSpinner';
 
 const TimerStyle = styled(Typography)(({ theme }) => ({
     color: "#0557A2",
@@ -17,6 +17,7 @@ const TimerStyle = styled(Typography)(({ theme }) => ({
 const OTPVerification = () => {
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(false)
     const [otp, setOtp] = useState(Array(6).fill(''));
     const [timer, setTimer] = useState(60);
     const [canResend, setCanResend] = useState(false);
@@ -63,6 +64,7 @@ const OTPVerification = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         if (timer === 0) {
             toast.error("OTP has expired. Please Resend Code.", {
                 position: "top-center",
@@ -71,72 +73,83 @@ const OTPVerification = () => {
             return;
         }
         const otpString = otp.join('');
-        setLoading(true);
         try {
             const response = await verifyOtp(otpString, navigate);
             if (response.success) {
                 setOtp(Array(6).fill(''));
             }
+        } catch (err) {
+            throw new Error(err.message)
         } finally {
             setLoading(false);
         }
     };
 
     const handleResendOtp = async () => {
-        setLoading(true);
-        const response = await resendOtp();
-        if (response.success) {
-            setTimer(120); // Reset timer
-            setOtp(Array(6).fill('')); // Clear OTP fields if needed
-            setCanResend(false); // Disable resend button while timer is active
+        setLoading(true)
+        try {
+            const response = await resendOtp();
+            if (response.success) {
+                setTimer(120);
+                setOtp(Array(6).fill(''));
+                setCanResend(false); // Disable resend button while timer is active
+            }
+        } catch (error) {
+            throw new Error(error.message);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
-
     return (
         <>
-            <Grid container height="auto" sx={{paddingBottom:'50px'}}>
+            <Grid container height="auto" sx={{ paddingBottom: '50px' }}>
                 <Grid item xs={12} sm={6}>
                     <AuthCoverPage />
                 </Grid>
-                <Grid item xs={12} sm={6} display="flex" alignItems="center" justifyContent="center">
-                    <Box className='form-page-styles'>
-                        <Typography variant="h4" sx={{ paddingBottom: '15px' }}>
-                            Verify your email address
-                        </Typography>
-                        <Box component='form' onSubmit={handleSubmit}>
-                            <Typography variant="body2" sx={{ paddingBottom: '20px', color: '#7D8FB3' }}>
-                                Please enter the 6-digit code sent to your email:
-                            </Typography>
-                            <Box display="flex" gap={1}>
-                                {otp.map((value, index) => (
-                                    <TextField
-                                        key={index}
-                                        id={`otp-input-${index}`}
-                                        variant="outlined"
-                                        value={value}
-                                        onChange={(e) => handleOtpChange(e, index)}
-                                        inputProps={{ maxLength: 1 }}
-                                        className='otp-field'
-                                    />
-                                ))}
+                {
+                    loading ? (
+                        <LoadingSpinner />
+                    ) : (
+                        <Grid item xs={12} sm={6} display="flex" alignItems="center" justifyContent="center">
+                            <Box className='form-page-styles'>
+                                <Typography variant="h4" sx={{ paddingBottom: '15px' }}>
+                                    Verify your email address
+                                </Typography>
+                                <Box component='form' onSubmit={handleSubmit}>
+                                    <Typography variant="body2" sx={{ paddingBottom: '20px', color: '#7D8FB3' }}>
+                                        Please enter the 6-digit code sent to your email:
+                                    </Typography>
+                                    <Box display="flex" gap={1}>
+                                        {otp.map((value, index) => (
+                                            <TextField
+                                                key={index}
+                                                id={`otp-input-${index}`}
+                                                variant="outlined"
+                                                value={value}
+                                                onChange={(e) => handleOtpChange(e, index)}
+                                                inputProps={{ maxLength: 1 }}
+                                                className='otp-field'
+                                            />
+                                        ))}
+                                    </Box>
+                                    <Box display='flex' alignItems="center" justifyContent="space-between" flexWrap="wrap">
+                                        <TimerStyle variant="body2">
+                                            {formatTime(timer)}
+                                        </TimerStyle>
+                                        <Button
+                                            variant="text"
+                                            onClick={handleResendOtp}
+                                            disabled={!canResend}
+                                        >
+                                            Resend OTP
+                                        </Button>
+                                    </Box>
+                                    <Button type="submit" variant="contained">Submit</Button>
+                                </Box>
                             </Box>
-                            <Box display='flex' alignItems="center" justifyContent="space-between" flexWrap="wrap">
-                                <TimerStyle variant="body2">
-                                    {formatTime(timer)}
-                                </TimerStyle>
-                                <Button 
-                                    variant="text" 
-                                    onClick={handleResendOtp} 
-                                    disabled={!canResend}
-                                >
-                                    Resend OTP
-                                </Button>
-                            </Box>
-                            <Button type="submit" variant="contained">Submit</Button>
-                        </Box>
-                    </Box>
-                </Grid>
+                        </Grid>
+                    )
+                }
             </Grid>
         </>
     );

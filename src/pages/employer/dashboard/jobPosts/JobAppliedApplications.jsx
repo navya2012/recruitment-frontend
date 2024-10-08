@@ -4,6 +4,7 @@ import { styled } from "@mui/system";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllAppliedJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s'; // Ensure the correct import path
+import LoadingSpinner from '../../../../common/spinner/LoadingSpinner';
 
 // Styled component for Job Card
 const JobCard = styled(Paper)(({ theme }) => ({
@@ -20,13 +21,26 @@ const JobCard = styled(Paper)(({ theme }) => ({
 const JobAppliedApplications = () => {
   const dispatch = useDispatch();
   const { jobAppliedUsers } = useSelector((state) => state?.employerReducer);
-  
-  const [currentPage, setCurrentPage] = useState(1); // State to manage current page
-  const itemsPerPage = 6; // Number of applicants per page
+
+  const [loading, setLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 6;
 
   useEffect(() => {
-    dispatch(getAllAppliedJobPostsPostedByEmployer(currentPage, itemsPerPage)); // Fetch job applications for the current page
-  }, [dispatch, currentPage]); // Fetch when the current page changes
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        await dispatch(getAllAppliedJobPostsPostedByEmployer(currentPage, itemsPerPage));
+      } catch (error) {
+        throw new Error(error.message)
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [dispatch, currentPage, itemsPerPage]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -56,65 +70,71 @@ const JobAppliedApplications = () => {
       <Paper sx={{ padding: '30px', borderRadius: '10px' }}>
         <Typography variant='h5' sx={{ color: 'black', mb: 3 }}>Applicant</Typography>
 
-        <>
-          <Typography variant='h6' sx={{  mb: 3 }}>
-            {hasApplicants ? ` show ${indexOfFirstPost + 1} - ${Math.min(indexOfLastPost, totalJobs)} of ${totalJobs} jobs` : "0 jobs"}
-          </Typography>
+        {
+          loading ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              <Typography variant='h6' sx={{ mb: 3 }}>
+                {hasApplicants ? ` show ${indexOfFirstPost + 1} - ${Math.min(indexOfLastPost, totalJobs)} of ${totalJobs} jobs` : "0 jobs"}
+              </Typography>
 
-          <Grid container spacing={3}>
-            {hasApplicants ? (
-              currentJobPosts.map((data, id) => (
-                <Grid item xs={12} sm={12} md={6} key={id}>
-                  <JobCard elevation={3}>
-                    <Avatar
-                      alt=''
-                      src={data.employee_profileImage}
-                      sx={{ width: 80, height: 80, marginRight: '20px' }}
-                    />
-                    <Box sx={{ textAlign: 'left', textTransform: 'capitalize' }}>
-                      <Typography variant="h5" gutterBottom>
-                        {data.employee_firstName || "-"} {data.employee_lastName || "-"}
-                      </Typography>
-                      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5, mb: 1.5, flexDirection: { xs: 'column', md: 'row' } }}>
-                        <Typography variant="body1" color="textSecondary" gutterBottom>
-                          {data.employee_position || "-"}
-                        </Typography>
+              <Grid container spacing={3}>
+                {hasApplicants ? (
+                  currentJobPosts.map((data, id) => (
+                    <Grid item xs={12} sm={12} md={6} key={id}>
+                      <JobCard elevation={3}>
+                        <Avatar
+                          alt=''
+                          src={data.employee_profileImage}
+                          sx={{ width: 80, height: 80, marginRight: '20px' }}
+                        />
+                        <Box sx={{ textAlign: 'left', textTransform: 'capitalize' }}>
+                          <Typography variant="h5" gutterBottom>
+                            {data.employee_firstName || "-"} {data.employee_lastName || "-"}
+                          </Typography>
+                          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5, mb: 1.5, flexDirection: { xs: 'column', md: 'row' } }}>
+                            <Typography variant="body1" color="textSecondary" gutterBottom>
+                              {data.employee_position || "-"}
+                            </Typography>
 
-                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-                          <LocationOnOutlinedIcon />
-                          <Typography variant="body1" color="textSecondary" gutterBottom>
-                            {data.employee_location || "-"}
+                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+                              <LocationOnOutlinedIcon />
+                              <Typography variant="body1" color="textSecondary" gutterBottom>
+                                {data.employee_location || "-"}
+                              </Typography>
+                            </Box>
+                          </Box>
+                          <Typography variant="body2" color="textSecondary">
+                            Applied on: {data.employee_jobAppliedDate ? formatDate(data.employee_jobAppliedDate) : "-"}
                           </Typography>
                         </Box>
-                      </Box>
-                      <Typography variant="body2" color="textSecondary">
-                        Applied on: {data.employee_jobAppliedDate ? formatDate(data.employee_jobAppliedDate) : "-"}
-                      </Typography>
-                    </Box>
-                  </JobCard>
-                </Grid>
-              ))
-            ) : (
-              <Grid item xs={12}>
-                <Typography variant="h6" sx={{ textAlign: 'center' }}>
-                  No applications found.
-                </Typography>
+                      </JobCard>
+                    </Grid>
+                  ))
+                ) : (
+                  <Grid item xs={12}>
+                    <Typography variant="h6" sx={{ textAlign: 'center' }}>
+                      No applications found.
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
-            )}
-          </Grid>
 
-          {/* Pagination */}
-          {totalJobs > 0 && (
-            <Stack spacing={2} sx={{ padding: '20px', justifyContent: 'center', alignItems: 'center' }}>
-              <Pagination
-                count={Math.ceil(totalJobs / itemsPerPage)}
-                page={currentPage}
-                onChange={(event, value) => setCurrentPage(value)}
-                color='primary'
-              />
-            </Stack>
-          )}
-        </>
+              {/* Pagination */}
+              {totalJobs > 0 && (
+                <Stack spacing={2} sx={{ padding: '20px', justifyContent: 'center', alignItems: 'center' }}>
+                  <Pagination
+                    count={Math.ceil(totalJobs / itemsPerPage)}
+                    page={currentPage}
+                    onChange={(event, value) => setCurrentPage(value)}
+                    color='primary'
+                  />
+                </Stack>
+              )}
+            </>
+          )
+        }
       </Paper>
     </>
   );

@@ -97,7 +97,7 @@ const EditEmployeeProfile = () => {
             <Box component="form" onSubmit={handleSubmit} sx={{ textAlign: 'center', position: 'relative' }}>
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 3, position: 'relative' }}>
                 <Avatar
-                  src={imagePreview || '/default-profile.png'} // Use the existing profile image or a default image
+                  src={imagePreview || '/default-profile.png'} 
                   alt="Profile Image"
                   sx={{
                     width: 150,
@@ -112,7 +112,7 @@ const EditEmployeeProfile = () => {
                   sx={{
                     position: 'absolute',
                     bottom: 0,
-                    right: '40%',
+                    right: '43%',
                     backgroundColor: '#ffffff',
                     borderRadius: '50%',
                     padding: '5px',

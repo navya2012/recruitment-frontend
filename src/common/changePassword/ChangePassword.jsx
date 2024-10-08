@@ -1,10 +1,11 @@
-import React, { useReducer, useRef } from 'react'
-import { Box, Button    , TextField, Typography, InputAdornment, IconButton } from '@mui/material';
+import React, { useReducer, useRef, useState } from 'react'
+import { Box, Button, TextField, Typography, InputAdornment, IconButton } from '@mui/material';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useNavigate } from 'react-router-dom';
 import { changePassword } from '../../api\'s/authApi\'s';
 import { useDispatch } from 'react-redux';
+import LoadingSpinner from '../spinner/LoadingSpinner';
 
 
 
@@ -21,6 +22,7 @@ const ChangePassword = () => {
     };
 
     const [state, dispatch] = useReducer(passwordReducer, { oldPassword: '', newPassword: '', showPassword: false });
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate()
     const reduxDispatch = useDispatch()
@@ -44,6 +46,7 @@ const ChangePassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true);
         try {
             const oldPassword = oldPasswordRef.current.value;
             const newPassword = newPasswordRef.current.value;
@@ -54,6 +57,8 @@ const ChangePassword = () => {
             }
         } catch (error) {
             throw new Error(error.message);
+        } finally {
+            setLoading(false);
         }
     }
     return (
@@ -62,62 +67,69 @@ const ChangePassword = () => {
                 <Typography variant="h4" sx={{ paddingBottom: '20px' }} >
                     Change Password
                 </Typography>
-                <Box component='form' onSubmit={handleSubmit}>
-                    <TextField variant="outlined" fullWidth margin="normal"
-                        label="Old Password" name="oldPassword"
-                        type={state.showPassword ? "text" : "password"}
-                        inputRef={oldPasswordRef}
-                        onChange={handleChange}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position='end'>
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                    >
-                                        {state.showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
-                                    </IconButton>
-                                </InputAdornment>
 
-                            )
-                        }}
-                    />
+                {
+                    loading ? (
+                        <LoadingSpinner />
+                    ) : (
+                        <Box component='form' onSubmit={handleSubmit}>
+                            <TextField variant="outlined" fullWidth margin="normal"
+                                label="Old Password" name="oldPassword"
+                                type={state.showPassword ? "text" : "password"}
+                                inputRef={oldPasswordRef}
+                                onChange={handleChange}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position='end'>
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                            >
+                                                {state.showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
+                                            </IconButton>
+                                        </InputAdornment>
 
-                    <TextField variant="outlined" fullWidth margin="normal"
-                        label="New Password" name="newPassword"
-                        type={state.showPassword ? "text" : "password"}
-                        inputRef={newPasswordRef}
-                        onChange={handleChange}
-                        sx={{ mb: 4 }}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position='end'>
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                    >
-                                        {state.showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
-                                    </IconButton>
-                                </InputAdornment>
+                                    )
+                                }}
+                            />
 
-                            )
-                        }}
-                    />
+                            <TextField variant="outlined" fullWidth margin="normal"
+                                label="New Password" name="newPassword"
+                                type={state.showPassword ? "text" : "password"}
+                                inputRef={newPasswordRef}
+                                onChange={handleChange}
+                                sx={{ mb: 4 }}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position='end'>
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                            >
+                                                {state.showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
+                                            </IconButton>
+                                        </InputAdornment>
 
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        sx={{
-                            width: '50%',
-                            display: 'block',
-                            margin: '0 auto',
-                            textAlign: 'center'
-                        }}>
-                        Reset Password
-                    </Button>
-                </Box>
+                                    )
+                                }}
+                            />
+
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                sx={{
+                                    width: '50%',
+                                    display: 'block',
+                                    margin: '0 auto',
+                                    textAlign: 'center'
+                                }}>
+                                Reset Password
+                            </Button>
+                        </Box>
+                    )
+                }
             </Box>
         </>
     )

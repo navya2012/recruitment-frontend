@@ -1,13 +1,12 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import {  loginSuccess, logout, setAddProfileImage, setAllUsersImages, setLoading } from '../redux/slices/authSlice'
+import {  loginSuccess, logout, setAddProfileImage, setAllUsersImages } from '../redux/slices/authSlice'
 import '../CSSModules/formStyles/formPageStyles.css'
 
 const BASE_URL = "https://recruitment-backend-production.up.railway.app/api/auth"
 
 //sign up
-export const signUp = (formData, navigate) => async (dispatch) => {
-    dispatch(setLoading(true));
+export const signUp = (formData, navigate) => async () => {
     try {
         const response = await axios.post(`${BASE_URL}/signup`, formData)
         if (response && response.data.token &&  response.status === 200) {
@@ -52,14 +51,10 @@ export const signUp = (formData, navigate) => async (dispatch) => {
             errors: errorMessages 
         };
     }
-    finally {
-        dispatch(setLoading(false)); 
-      }
 }
 
 //profile pic upload
 export const imageUploads = (formData) => async (dispatch) => {
-    dispatch(setLoading(true))
     try{
         const token = localStorage.getItem('loginToken');
         const response = await axios.post(`${BASE_URL}/profile-pic-upload`,formData,
@@ -105,14 +100,10 @@ export const imageUploads = (formData) => async (dispatch) => {
             errors: errorMessages 
         };
     }
-    finally {
-        dispatch(setLoading(false)); 
-      }
 }
 
 //profile pic upload
 export const getUserImages = () => async (dispatch) => {
-    dispatch(setLoading(true))
     try{
         const response = await axios.get(`${BASE_URL}/users-profile-images`)
         if (response && response.data && response.status === 200) {
@@ -147,9 +138,6 @@ export const getUserImages = () => async (dispatch) => {
             errors: errorMessages 
         };
     }
-    finally {
-        dispatch(setLoading(false)); 
-      }
 }
 
 //verify otp
@@ -245,7 +233,6 @@ export const resendOtp =  async() => {
 
 //login
 export const login =  ( formData, navigate) => async (dispatch) => {
-    dispatch(setLoading(true))
     try{
         const response = await axios.post(`${BASE_URL}/login`, formData)
         if (response &&  response.status === 200) {
@@ -301,11 +288,7 @@ export const login =  ( formData, navigate) => async (dispatch) => {
             success: false, 
             errors: errorMessages 
         };
-    }
-    finally {
-        dispatch(setLoading(false)); 
-      }
-    
+    } 
 }
 
 //forgot password
@@ -399,7 +382,6 @@ export const updatePassword =async  ( newPassword, navigate)  => {
 
 //reset password
 export const changePassword =  (oldPassword, newPassword, navigate) => async (dispatch)  => {
-    dispatch(setLoading(true))
     try{
         const token = localStorage.getItem('loginToken');
         const response = await axios.post(`${BASE_URL}/change-password`,
@@ -451,7 +433,4 @@ export const changePassword =  (oldPassword, newPassword, navigate) => async (di
             errors: errorMessages 
         };
     }
-    finally {
-        dispatch(setLoading(false)); 
-      }
 }

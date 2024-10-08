@@ -1,5 +1,5 @@
 import { Box, Typography, Grid } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
@@ -12,10 +12,13 @@ import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import { getWorkingExperience } from '../../../../../api\'s/employeeApi\'s';
 import { useExperienceContextData } from '../../../../../context/ExperienceProvider';
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from '../../../../../common/spinner/LoadingSpinner';
 
 
 const WorkingExperience = () => {
   const { setUpdateExperienceData } = useExperienceContextData();
+
+  const [loading, setLoading] = useState(true);
 
   const { experienceData } = useSelector((state) => state.employeeReducer);
 
@@ -23,7 +26,17 @@ const WorkingExperience = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    dispatch(getWorkingExperience());
+    const fetchExperienceData = async () => {
+      setLoading(true);
+      try {
+        await dispatch(getWorkingExperience());
+      } catch (error) {
+        console.error('Error fetching working experience:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchExperienceData();
   }, [dispatch]);
 
   const handleAddNewData = () => {
@@ -31,6 +44,7 @@ const WorkingExperience = () => {
   };
 
   const handleEdit = () => {
+    setLoading(true);
     navigate('/candidate-dashboard/edit-working-experience')
     setUpdateExperienceData({
       _id: experienceData._id,
@@ -41,6 +55,7 @@ const WorkingExperience = () => {
       languages: experienceData.languages,
       noticePeriod: experienceData.noticePeriod,
     });
+    setLoading(false);
   };
   return (
     <>
@@ -62,59 +77,65 @@ const WorkingExperience = () => {
         </Box>
       </Box>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-            <CodeIcon sx={{ marginRight: 1 }} />Technologies:
-          </Typography>
-          <Typography variant="body1">
-            {Array.isArray(experienceData.technologies)
-              ? experienceData.technologies.join(', ')
-              : experienceData.technologies}
-          </Typography>
-        </Grid>
+      {
+        loading ? (
+          <LoadingSpinner />
+        ) : (
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                <CodeIcon sx={{ marginRight: 1 }} />Technologies:
+              </Typography>
+              <Typography variant="body1">
+                {Array.isArray(experienceData.technologies)
+                  ? experienceData.technologies.join(', ')
+                  : experienceData.technologies}
+              </Typography>
+            </Grid>
 
 
-        <Grid item xs={12} sm={6}>
-          <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-            <WorkIcon sx={{ marginRight: 1 }} />Experience:
-          </Typography>
-          <Typography variant="body1">{experienceData.experience}</Typography>
-        </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                <WorkIcon sx={{ marginRight: 1 }} />Experience:
+              </Typography>
+              <Typography variant="body1">{experienceData.experience}</Typography>
+            </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-            <SchoolIcon sx={{ marginRight: 1 }} />Graduation:
-          </Typography>
-          <Typography variant="body1">{experienceData.graduation}</Typography>
-        </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                <SchoolIcon sx={{ marginRight: 1 }} />Graduation:
+              </Typography>
+              <Typography variant="body1">{experienceData.graduation}</Typography>
+            </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-            <LocationOnIcon sx={{ marginRight: 1 }} />Location:
-          </Typography>
-          <Typography variant="body1">{experienceData.location}</Typography>
-        </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                <LocationOnIcon sx={{ marginRight: 1 }} />Location:
+              </Typography>
+              <Typography variant="body1">{experienceData.location}</Typography>
+            </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-            <LanguageIcon sx={{ marginRight: 1 }} />Languages:
-          </Typography>
-          <Typography variant="body1">
-            {Array.isArray(experienceData.languages)
-              ? experienceData.languages.join(', ')
-              : experienceData.languages}
-          </Typography>
-        </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                <LanguageIcon sx={{ marginRight: 1 }} />Languages:
+              </Typography>
+              <Typography variant="body1">
+                {Array.isArray(experienceData.languages)
+                  ? experienceData.languages.join(', ')
+                  : experienceData.languages}
+              </Typography>
+            </Grid>
 
 
-        <Grid item xs={12} sm={6}>
-          <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
-            <QueryBuilderIcon sx={{ marginRight: 1 }} />Notice Period:
-          </Typography>
-          <Typography variant="body1">{experienceData.noticePeriod}</Typography>
-        </Grid>
-      </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>
+                <QueryBuilderIcon sx={{ marginRight: 1 }} />Notice Period:
+              </Typography>
+              <Typography variant="body1">{experienceData.noticePeriod}</Typography>
+            </Grid>
+          </Grid>
+        )
+      }
     </>
   );
 };
