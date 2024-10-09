@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux'; // Import to access Redux state
+import { useSelector } from 'react-redux'; 
 import { Box, Typography, ListItemIcon, Paper } from '@mui/material';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 

@@ -7,23 +7,30 @@ import { getAllAppliedJobsByEmployee } from '../../../../api\'s/employeeApi\'s';
 import LoadingSpinner from '../../../../common/spinner/LoadingSpinner';
 
 const AppliedJobs = () => {
+  console.log('jobApplications pagesss'  )
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false); 
   
   const itemsPerPage = 6;
   const jobApplications = useSelector((state) => state.employeeReducer.allAppliedJobs);
+  console.log(jobApplications)
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('jobs')
     const fetchAppliedJobs = async () => {
       setLoading(true); 
+      console.log('jobApplications api')
       await dispatch(getAllAppliedJobsByEmployee());
+      console.log('jobApplications dispatch')
       setLoading(false);
     };
-    
+    console.log('jobApplications response')
     fetchAppliedJobs();
   }, [dispatch]);
+
+  console.log('data')
 
   // Pagination logic
   const totalAppliedJobs = jobApplications?.length;

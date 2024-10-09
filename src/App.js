@@ -49,9 +49,9 @@ function App() {
                 <Routes>
                   <Route element={<MainLayout />}>
                     <Route path='/' element={<Home />} />
-                    <Route path='/register' element={<WelcomePage />} />
-                    <Route path='/employer/signup' element={<EmployerSignUpPage />} />
-                    <Route path='/employee/signup' element={<EmployeeSignUpPage />} />
+                    <Route path='/welcome-page' element={<WelcomePage />} />
+                    <Route path='/welcome-page/employer/signup' element={<EmployerSignUpPage />} />
+                    <Route path='/welcome-page/employee/signup' element={<EmployeeSignUpPage />} />
                     <Route path='/login' element={<LoginPage />} />
                     <Route path='/forgot-password' element={<ForgotPassword />} />
                     <Route path='/update-password' element={<UpdatePassword />} />

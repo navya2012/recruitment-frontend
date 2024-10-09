@@ -14,15 +14,16 @@ const EmployerSidebarLayout = () => {
       <Box 
         component="main" 
         sx={{ 
-          flexGrow: 1, 
-          padding: '150px 50px', 
+          flexGrow: 1,  
           backgroundColor: '#F0F5F7', 
           minHeight: '100vh', 
           display: 'flex', 
           flexDirection: 'column' 
         }}
       >
-        <Outlet />
+        <Box sx={{ flexGrow: 1, padding: '150px 50px 80px 50px' }}>
+          <Outlet />
+        </Box>
         <SidebarFooter/>
       </Box>
     </Box>

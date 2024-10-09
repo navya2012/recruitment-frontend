@@ -79,19 +79,6 @@ const Navbar = () => {
                                 <ListItemText primary="Candidates" />
                             </ListItem>
                         )}
-
-                        {/* Show Job Post button only for employers */}
-                        {loginData.role === 'employer' && (
-                            <Box sx={{ p: 2 }}>
-                                <Button
-                                    fullWidth
-                                    variant="contained"
-                                    onClick={() => navigate('/employer-dashboard/add-new-jobs')}
-                                >
-                                    Job Post
-                                </Button>
-                            </Box>
-                        )}
                     </>
                 ) : (
                     <>
@@ -125,7 +112,7 @@ const Navbar = () => {
                                     cursor: 'pointer',
                                     fontWeight: 'bold'
                                 }}
-                                onClick={() => navigate('/register')}
+                                onClick={() => navigate('/welcome-page')}
                             >
                                 Register
                             </Box>
@@ -141,19 +128,19 @@ const Navbar = () => {
     return (
         <AppBar position="fixed" sx={{ backgroundColor: '#fff', boxShadow: 'none', padding: { xs: '10px', md: '20px 90px' } }}>
             <Container maxWidth="xl">
-                <Toolbar disableGutters sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                <Toolbar disableGutters sx={{ display:'flex', justifyContent: 'center', alignItems: 'center' }}>
                     {/* Logo and Company Name */}
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box component="img" src={require('../../Assets/logo.png')} alt="logo" sx={{ height: 40, mr: 2 }} />
+                        <Box component="img" src={require('../../Assets/main-logo.jpg')} alt="logo" sx={{ height: 50, mr: 2 }} />
                         <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#000' }}>
-                            Superio
+                            Careerpedia 
                         </Typography>
                     </Box>
 
                     {loginData && loginData.email ? (
-                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
-                            <Box sx={{ display: { md: 'flex', xs: 'none' }, gap: 2, flexGrow: 1, justifyContent: 'center' }}>
+                            <Box sx={{ display: { md: 'flex', xs: 'none' }, gap: 2, flexGrow: 1, justifyContent: 'center' , alignItems:'center'}}>
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/home-page')}>Home</Button>
                                 <Button sx={{ color: '#000' }} onClick={() => navigate('/find-jobs')}>Find Jobs</Button>
                                 {loginData.role === 'employer' ? (
@@ -163,25 +150,7 @@ const Navbar = () => {
                                 )}
                             </Box>
 
-                            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 2 }}>
-                                {loginData.role === 'employer' && (
-                                    <Box
-                                        component="div"
-                                        sx={{
-                                            fontSize: '16px',
-                                            borderRadius: '10px',
-                                            padding: '10px 20px',
-                                            backgroundColor: '#0557A2',
-                                            color: '#fff',
-                                            textAlign: 'center',
-                                            cursor: 'pointer',
-                                            fontWeight: 'bold'
-                                        }}
-                                        onClick={() => navigate('/employer-dashboard/add-new-jobs')}
-                                    >
-                                        Job Post
-                                    </Box>
-                                )}
+                            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', justifyContent:'center', gap: 2 }}>
                                 <IconButton onClick={handleOpenUserMenu}>
                                     <Avatar alt="Profile" src={userProfileImage?.profileImage} />
                                 </IconButton>
@@ -250,7 +219,7 @@ const Navbar = () => {
                                         cursor: 'pointer',
                                         fontWeight: 'bold'
                                     }}
-                                    onClick={() => navigate('/register')}
+                                    onClick={() => navigate('/welcome-page')}
                                 >
                                     Register
                                 </Box>

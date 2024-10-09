@@ -9,9 +9,9 @@ const Footer = () => {
         <Grid container spacing={4}> 
           <Grid item xs={12} sm={6} md={2.4} sx={{ mb: 6, lineHeight: 1.8 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
-              <Box component="img" src={require('../../Assets/logo.png')} alt="logo" sx={{ height: 50, mr: 2 }} />
-              <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#000' }}>
-                Superio
+              <Box component="img" src={require('../../Assets/main-logo.jpg')} alt="logo" sx={{ height: 40, mr: 2 }} />
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#000' }}>
+                Careerpedia 
               </Typography>
             </Box >
             <Box sx={{ mb: 2, lineHeight: 1}}>
@@ -20,7 +20,7 @@ const Footer = () => {
             </Box>
             <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>329 Queensberry Street, North Melbourne VIC</Typography>
             <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>3051, Australia.</Typography>
-            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>support@superio.com</Typography>
+            <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>support@Careerpedia .com</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} md={2.4} >
@@ -60,7 +60,7 @@ const Footer = () => {
         <Grid container spacing={2} sx={{ marginTop: '40px' }}>
           <Grid item xs={12} sm={6}>
             <Typography variant="body1" sx={{ lineHeight: '1.8' }}>
-              © 2023 Superio by ib-themes. All Right Reserved.
+              © 2023 Careerpedia  by ib-themes. All Right Reserved.
             </Typography>
           </Grid>
 

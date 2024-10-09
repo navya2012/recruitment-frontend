@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, Typography, Container, RadioGroup, FormControlLabel, Radio, Grid, useTheme } from '@mui/material';
 import { styled } from '@mui/system';
 import AuthCoverPage from '../../common/authCoverPage/AuthCoverPage';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Outlet } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import '../../CSSModules/formStyles/formPageStyles.css'
 
@@ -51,7 +51,7 @@ const WelcomePage = () => {
 
   const handleNext = () => {
     if (customer !== '') {
-      customer === 'Employer' ? navigate(`employer/signup`) : navigate(`employee/signup`)
+      customer === 'Employer' ? navigate(`/welcome-page/employer/signup`) : navigate(`/welcome-page/employee/signup`)
     } else {
       toast.error('Please select any from Employee or Employer', {
         position: "top-center",
@@ -72,7 +72,7 @@ const WelcomePage = () => {
             <RightSideForm>
               <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                 <Typography variant="h3" sx={theme.typography.welcomeHeader}>
-                  Welcome to <span style={{ color: '#364BC6', }}>Superio</span>
+                  Welcome to <span style={{ color: '#364BC6', }}>Careerpedia </span>
                 </Typography>
                 <Typography variant="h6" component="h6" sx={theme.typography.welcomeSubheader}>
                   Sign Up as a  . . .
@@ -102,6 +102,7 @@ const WelcomePage = () => {
              
             </RightSideForm>
           </WelcomeContainer>
+          <Outlet/>
         </Container>
       </Grid>
     </Grid>

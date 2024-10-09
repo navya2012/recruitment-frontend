@@ -80,18 +80,15 @@ const SidebarNavbar = () => {
                                 <ListItemText primary="Candidates" />
                             </ListItem>
                         )}
-
-                        {loginData.role === 'employer' && (
                             <Box sx={{ p: 2 }}>
                                 <Button
                                     fullWidth
                                     variant="contained"
-                                    onClick={() => navigate('/employer-dashboard/add-new-jobs')}
+                                    onClick={() => navigate('/find-jobs')}
                                 >
-                                    Job Post
+                                    Find Jobs
                                 </Button>
                             </Box>
-                        )}
                     </>
                 ) : (
                     <>
@@ -125,7 +122,7 @@ const SidebarNavbar = () => {
                                     cursor: 'pointer',
                                     fontWeight: 'bold'
                                 }}
-                                onClick={() => navigate('/register')}
+                                onClick={() => navigate('/welcome-page')}
                             >
                                 Register
                             </Box>
@@ -144,15 +141,14 @@ const SidebarNavbar = () => {
                 <Toolbar disableGutters sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                     {/* Logo and Company Name */}
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box component="img" src={require('../../Assets/logo.png')} alt="logo" sx={{ height: 40, mr: 2 }} />
+                        <Box component="img" src={require('../../Assets/main-logo.jpg')} alt="logo" sx={{ height: 50, mr: 2 }} />
                         <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#000' }}>
-                            Superio
+                            Careerpedia 
                         </Typography>
                     </Box>
 
                         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                             <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 2 }}>
-                            {loginData.role === 'employer' && (
                                     <Box
                                         component="div"
                                         sx={{
@@ -165,11 +161,11 @@ const SidebarNavbar = () => {
                                             cursor: 'pointer',
                                             fontWeight: 'bold'
                                         }}
-                                        onClick={() => navigate('/employer-dashboard/add-new-jobs')}
+                                        onClick={() => navigate('/find-jobs')}
                                     >
-                                        Job Post
+                                        Find Jobs
                                     </Box>
-                                )}
+
                             <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#000' }}> {loginData.email.replace('@gmail.com', '')}</Typography>
                                 <IconButton onClick={handleOpenUserMenu}>
                                     <Avatar alt="Profile" src={userProfileImage?.profileImage} />
