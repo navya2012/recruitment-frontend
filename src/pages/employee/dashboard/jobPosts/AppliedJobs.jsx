@@ -12,7 +12,7 @@ const AppliedJobs = () => {
   const [loading, setLoading] = useState(false); 
   
   const itemsPerPage = 6;
-  const jobApplications = useSelector((state) => state.employeeReducer.allAppliedJobs);
+  const jobApplications = useSelector((state) => state?.employeeReducer?.allAppliedJobs);
   console.log(jobApplications)
 
   const dispatch = useDispatch();

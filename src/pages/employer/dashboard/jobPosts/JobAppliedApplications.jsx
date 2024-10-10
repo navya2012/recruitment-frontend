@@ -19,13 +19,14 @@ const JobCard = styled(Paper)(({ theme }) => ({
 }));
 
 const JobAppliedApplications = () => {
-  const dispatch = useDispatch();
-  const { jobAppliedUsers } = useSelector((state) => state?.employerReducer);
-
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
+  
+  const { jobAppliedUsers } = useSelector((state) => state?.employerReducer);
 
   const itemsPerPage = 6;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {

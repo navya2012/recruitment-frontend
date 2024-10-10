@@ -128,7 +128,7 @@ const Navbar = () => {
     return (
         <AppBar position="fixed" sx={{ backgroundColor: '#fff', boxShadow: 'none', padding: { xs: '10px', md: '20px 90px' } }}>
             <Container maxWidth="xl">
-                <Toolbar disableGutters sx={{ display:'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Toolbar disableGutters sx={{ display:'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     {/* Logo and Company Name */}
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Box component="img" src={require('../../Assets/main-logo.jpg')} alt="logo" sx={{ height: 50, mr: 2 }} />
