@@ -13,7 +13,6 @@ const NewsLetter = () => {
                 backgroundRepeat: 'no-repeat',
             }}
         >
-            {/* Content Box */}
             <Container maxWidth="lg" sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -43,6 +42,7 @@ const NewsLetter = () => {
                     component="form"
                     sx={{
                         display: 'flex',
+                        justifyContent:'center',
                         alignItems: 'center',
                         width: '100%',
                         maxWidth:  { xs:'300px', md:'650px'},

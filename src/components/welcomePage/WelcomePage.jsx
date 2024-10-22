@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Typography, Container, RadioGroup, FormControlLabel, Radio, Grid, useTheme } from '@mui/material';
+import { Box, Button, Typography, Container, RadioGroup, FormControlLabel, Radio, Grid } from '@mui/material';
 import { styled } from '@mui/system';
 import AuthCoverPage from '../../common/authCoverPage/AuthCoverPage';
 import { Link, useNavigate, Outlet } from 'react-router-dom';
@@ -41,9 +41,7 @@ const StyledButton = styled(Button)(({ theme, disabled }) => ({
 const WelcomePage = () => {
   const [customer, setCustomer] = useState('');
 
-  const theme = useTheme()
   const navigate = useNavigate()
-
 
   const handleRadioChange = (event) => {
     setCustomer(event.target.value);
@@ -66,15 +64,12 @@ const WelcomePage = () => {
       <Grid item xs={12} sm={6}>
         <AuthCoverPage />
       </Grid>
-      <Grid item xs={12} sm={6} display="flex" alignItems="center" justifyContent="center">
+      <Grid item xs={12} sm={6} display="flex" alignItems="start" justifyContent="center">
         <Container maxWidth="xl">
           <WelcomeContainer>
             <RightSideForm>
               <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                <Typography variant="h3" sx={theme.typography.welcomeHeader}>
-                  Welcome to <span style={{ color: '#364BC6', }}>Careerpedia </span>
-                </Typography>
-                <Typography variant="h6" component="h6" sx={theme.typography.welcomeSubheader}>
+                <Typography variant="h5" sx={{fontSize:'25px'}}>
                   Sign Up as a  . . .
                 </Typography>
                 <RadioGroup

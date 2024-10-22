@@ -5,32 +5,26 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllAppliedJobsByEmployee } from '../../../../api\'s/employeeApi\'s';
 import LoadingSpinner from '../../../../common/spinner/LoadingSpinner';
+import { useNavigate } from 'react-router-dom';
 
 const AppliedJobs = () => {
-  console.log('jobApplications pagesss'  )
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false); 
   
   const itemsPerPage = 6;
   const jobApplications = useSelector((state) => state?.employeeReducer?.allAppliedJobs);
-  console.log(jobApplications)
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   useEffect(() => {
-    console.log('jobs')
     const fetchAppliedJobs = async () => {
       setLoading(true); 
-      console.log('jobApplications api')
-      await dispatch(getAllAppliedJobsByEmployee());
-      console.log('jobApplications dispatch')
+      await dispatch(getAllAppliedJobsByEmployee(navigate));
       setLoading(false);
     };
-    console.log('jobApplications response')
     fetchAppliedJobs();
-  }, [dispatch]);
-
-  console.log('data')
+  }, [dispatch, navigate]);
 
   // Pagination logic
   const totalAppliedJobs = jobApplications?.length;

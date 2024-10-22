@@ -51,7 +51,7 @@ const EditEmployeeProfile = () => {
       if (file) {
         const formData = new FormData();
         formData.append('profileImage', file);
-        await dispatch(imageUploads(formData));
+        await dispatch(imageUploads(formData, navigate));
       }
     } catch (error) {
       throw new Error("error in image upload", error.message)

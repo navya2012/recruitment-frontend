@@ -13,9 +13,12 @@ const Business = () => {
                         <Card sx={{ maxWidth: 400, mx: 'auto', padding: '40px' }}>
                             <CardMedia
                                 component="img"
-                                height="auto"
                                 image={require('../../../Assets/businessImage1.webp')}
                                 alt="Card Title 1"
+                                sx={{
+                                            height: '200px',
+                                            objectFit: 'cover'
+                                        }}
                             />
                             <CardContent sx={{ textAlign: 'center' }}>
                                 <Typography variant="h6" gutterBottom>
@@ -33,7 +36,10 @@ const Business = () => {
                         <Card sx={{ maxWidth: 400, mx: 'auto', padding: '40px' }}>
                             <CardMedia
                                 component="img"
-                                height="auto"
+                                sx={{
+                                    height: '200px',
+                                    objectFit: 'cover'
+                                }}
                                 image={require('../../../Assets/businessImage1.webp')}
                                 alt="Card Title 1"
                             />
@@ -53,7 +59,10 @@ const Business = () => {
                         <Card sx={{ maxWidth: 400, mx: 'auto', padding: '40px' }}>
                             <CardMedia
                                 component="img"
-                                height="auto"
+                                sx={{
+                                    height: '200px',
+                                    objectFit: 'cover'
+                                }}
                                 image={require('../../../Assets/businessImage3.webp')}
                                 alt="Card Title 1"
                             />

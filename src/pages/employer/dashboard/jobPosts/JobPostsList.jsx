@@ -28,7 +28,7 @@ const JobPostsList = () => {
       setLoading(true);
       try {
         await Promise.all([
-          dispatch(getAllJobPostsPostedByEmployer()),
+          dispatch(getAllJobPostsPostedByEmployer(navigate)),
           dispatch(getAllJobPostsAppliedByAllEmployees())
         ]);
       } catch (error) {
@@ -39,10 +39,10 @@ const JobPostsList = () => {
     };
 
     fetchData();
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   const handleDelete = (jobId) => {
-    dispatch(deleteJobPostsData(jobId));
+    dispatch(deleteJobPostsData(jobId, navigate));
   };
 
   const handleEdit = (jobData) => {

@@ -49,8 +49,7 @@ const EditEmployerProfile = () => {
     const formData = new FormData();
     if (file) {
       formData.append('profileImage', file);
-      // You might want to dispatch an action here for image upload
-      await dispatch(imageUploads(formData));  // Update image in backend and Redux
+      await dispatch(imageUploads(formData, navigate)); 
     }
 
     // Submit the rest of the form
@@ -97,12 +96,12 @@ const EditEmployerProfile = () => {
           <Box component='form' onSubmit={handleSubmit} sx={{ textAlign: 'center', position: 'relative' }}>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 3, position: 'relative' }}>
               <Avatar
-                src={imagePreview || '/default-profile.png'} // Use the existing profile image or a default image
+                src={imagePreview || '/default-profile.png'}
                 alt="Profile Image"
                 sx={{
-                  width: 150, // Larger size for the circular avatar
+                  width: 150,
                   height: 150,
-                  border: '2px solid #3f51b5', // Optional border to make it more stylish
+                  border: '2px solid #3f51b5',
                 }}
               />
               <IconButton
@@ -111,8 +110,8 @@ const EditEmployerProfile = () => {
                 sx={{
                   position: 'absolute',
                   bottom: 0,
-                  right: '42%', // Align with the avatar circle
-                  backgroundColor: '#ffffff', // White background for the icon
+                  right: '42%',
+                  backgroundColor: '#ffffff', 
                   borderRadius: '50%',
                   padding: '5px',
                 }}
@@ -127,7 +126,6 @@ const EditEmployerProfile = () => {
               </IconButton>
             </Box>
 
-            {/* Other Form Fields */}
             <TextField variant="outlined" fullWidth margin="normal"
               label="Role" name="role" value="employer" required
               InputProps={{

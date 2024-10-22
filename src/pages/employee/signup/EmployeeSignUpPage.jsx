@@ -10,7 +10,7 @@ const EmployeeSignUpPage = () => {
       <Grid item xs={12} sm={6}>
         <AuthCoverPage />
       </Grid>
-      <Grid item xs={12} sm={6} display="flex" alignItems="start" justifyContent="center">
+      <Grid item xs={12} sm={6} display="flex" alignItems="start" justifyContent="center" sx={{ position: 'relative' }}>
         <EmployeeSignUpForm />
       </Grid>     
     </Grid>

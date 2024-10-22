@@ -4,6 +4,7 @@ import { Box, Typography, ListItemIcon, Paper } from '@mui/material';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import { getAllAppliedJobsByEmployee } from '../../../../api\'s/employeeApi\'s';
 import LoadingSpinner from '../../../../common/spinner/LoadingSpinner';
+import { useNavigate } from 'react-router-dom';
 
 
 const EmployeeDashboard = () => {
@@ -12,12 +13,13 @@ const EmployeeDashboard = () => {
   const { allAppliedJobs } = useSelector((state) => state?.employeeReducer);
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        await dispatch(getAllAppliedJobsByEmployee());
+        await dispatch(getAllAppliedJobsByEmployee(navigate));
       } catch (error) {
         throw new Error(error.message)
       } finally {
@@ -26,7 +28,7 @@ const EmployeeDashboard = () => {
     };
 
     fetchData();
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   return (
     <Box component="main" sx={{ flexGrow: 1, bgcolor: '#F0F5F7', p: 3 }}>

@@ -2,6 +2,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import {  loginSuccess, logout, setAddProfileImage, setAllUsersImages } from '../redux/slices/authSlice'
 import '../CSSModules/formStyles/formPageStyles.css'
+import { checkTokenAndProceed } from '../utils/accessToken'
 
 const BASE_URL = "https://recruitment-backend-production.up.railway.app/api/auth"
 
@@ -54,9 +55,11 @@ export const signUp = (formData, navigate) => async () => {
 }
 
 //profile pic upload
-export const imageUploads = (formData) => async (dispatch) => {
+export const imageUploads = (formData, navigate) => async (dispatch) => {
     try{
-        const token = localStorage.getItem('loginToken');
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return; 
+
         const response = await axios.post(`${BASE_URL}/profile-pic-upload`,formData,
             {
                 headers: {
@@ -329,9 +332,11 @@ export const forgotPassword =  async( email, navigate) => {
 }
 
 //update password
-export const updatePassword =async  ( newPassword, navigate)  => {
+export const updatePassword =async  ( newPassword,dispatch, navigate)  => {
     try{
-        const token = localStorage.getItem('passwordToken');
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return; 
+
         const response = await axios.post(`${BASE_URL}/update-password`,
             {
                 "newPassword":newPassword
@@ -383,7 +388,9 @@ export const updatePassword =async  ( newPassword, navigate)  => {
 //reset password
 export const changePassword =  (oldPassword, newPassword, navigate) => async (dispatch)  => {
     try{
-        const token = localStorage.getItem('loginToken');
+       const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return; 
+
         const response = await axios.post(`${BASE_URL}/change-password`,
             {
                 "oldPassword":oldPassword,

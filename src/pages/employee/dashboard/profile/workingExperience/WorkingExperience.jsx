@@ -11,8 +11,8 @@ import LanguageIcon from '@mui/icons-material/Language';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import { getWorkingExperience } from '../../../../../api\'s/employeeApi\'s';
 import { useExperienceContextData } from '../../../../../context/ExperienceProvider';
-import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../../../../../common/spinner/LoadingSpinner';
+import { useNavigate } from 'react-router-dom';
 
 
 const WorkingExperience = () => {
@@ -23,21 +23,21 @@ const WorkingExperience = () => {
   const { experienceData } = useSelector((state) => state.employeeReducer);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchExperienceData = async () => {
       setLoading(true);
       try {
-        await dispatch(getWorkingExperience());
+        await dispatch(getWorkingExperience(navigate));
       } catch (error) {
-        console.error('Error fetching working experience:', error);
+        throw new Error(error.message)
       } finally {
         setLoading(false);
       }
     };
     fetchExperienceData();
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   const handleAddNewData = () => {
     navigate('/candidate-dashboard/add-working-experience')

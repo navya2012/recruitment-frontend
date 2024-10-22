@@ -5,31 +5,29 @@ const BuildResumeContent = () => {
   return (
     <Box
       sx={{
-        padding: '30px',
+        padding: '40px',
         backgroundColor: '#fff',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'start',
       }}
     >
-      <Grid container spacing={4} alignItems="center">
-        {/* Left Section - Illustration */}
+      <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <Box
             component="img"
             src={require('../../../Assets/build-resume.webp')}
             alt="Resume Illustration"
             sx={{
-              width: '100%',
-              height: 'auto',
+              width: '70%',
               borderRadius: '10px',
+              objectFit:'cover'
             }}
           />
         </Grid>
 
-        {/* Right Section - Text Content */}
         <Grid item xs={12} md={6}>
-          <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
             Build a good resume
           </Typography>
 
@@ -41,13 +39,12 @@ const BuildResumeContent = () => {
             variant="contained"
             size="large"
             sx={{
-              backgroundColor: '#0056D2',
               color: '#fff',
               textTransform: 'none',
               padding: '10px 30px',
-              '&:hover': {
-                backgroundColor: '#0041A8',
-              },
+              width:'35%',
+              height:'50px',
+              fontSize:'1 rem'
             }}
           >
             Discover More

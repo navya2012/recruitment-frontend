@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import '../CSSModules/formStyles/formPageStyles.css'
 import { loginSuccess } from '../redux/slices/authSlice'
 import { addJobPost, setDeleteJobPosts, setJobAppliedUsers, setJobPosts, setUpdateJobPost } from '../redux/slices/employerSlice'
+import { checkTokenAndProceed } from '../utils/accessToken'
 
 
 const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
@@ -11,7 +12,9 @@ const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
 //update details
 export const updateEmployerDetails = (formData, navigate) => async (dispatch) => {
     try {
-        const token = localStorage.getItem('loginToken');
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return;
+
         const response = await axios.patch(`${BASE_URL}/employer/update-details`, formData,
             {
                 headers: {
@@ -70,7 +73,9 @@ export const updateEmployerDetails = (formData, navigate) => async (dispatch) =>
 //create job posts
 export const createJobPosts = (newJobPosts, navigate) => async (dispatch) => {
     try {
-        const token = localStorage.getItem('loginToken');
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return;
+
         const response = await axios.post(`${BASE_URL}/employer/create-recruitment-posts`, newJobPosts,
             {
                 headers: {
@@ -110,7 +115,9 @@ export const createJobPosts = (newJobPosts, navigate) => async (dispatch) => {
 //update job posts
 export const updateJobPostsData = (updateJobPosts, navigate) => async (dispatch) => {
     try {
-        const token = localStorage.getItem('loginToken');
+      const token = checkTokenAndProceed(navigate);
+        if (!token) return;
+
         const response = await axios.patch(`${BASE_URL}/employer/update-recruitment-posts/${updateJobPosts._id}`, updateJobPosts,
             {
                 headers: {
@@ -148,9 +155,11 @@ export const updateJobPostsData = (updateJobPosts, navigate) => async (dispatch)
 }
 
 //get job posts
-export const getAllJobPostsPostedByEmployer = () => async (dispatch) => {
+export const getAllJobPostsPostedByEmployer = (navigate) => async (dispatch) => {
     try {
-        const token = localStorage.getItem('loginToken');
+       const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return;
+
         const response = await axios.get(`${BASE_URL}/employer/get-recruitment-posts`,
             {
                 headers: {
@@ -182,9 +191,11 @@ export const getAllJobPostsPostedByEmployer = () => async (dispatch) => {
 }
 
 //delete job posts
-export const deleteJobPostsData = (jobId) => async (dispatch) => {
+export const deleteJobPostsData = (jobId, navigate) => async (dispatch) => {
     try {
-        const token = localStorage.getItem('loginToken');
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return;
+
         const response = await axios.delete(`${BASE_URL}/employer/delete-recruitment-posts/${jobId}`,
             {
                 headers: {
@@ -220,9 +231,11 @@ export const deleteJobPostsData = (jobId) => async (dispatch) => {
 }
 
 //get all job posts applied by employee posted by employer
-export const getAllAppliedJobPostsPostedByEmployer = () => async (dispatch) => {
+export const getAllAppliedJobPostsPostedByEmployer = (navigate) => async (dispatch) => {
     try {
-        const token = localStorage.getItem('loginToken');
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return;
+
         const response = await axios.get(`${BASE_URL}/employer/get-job-applied-posts`,
             {
                 headers: {

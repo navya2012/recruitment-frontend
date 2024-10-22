@@ -6,7 +6,7 @@ const SidebarFooter = () => {
     <>
      <Box component="footer" sx={{ height:'20vH',display:'flex', alignItems:'center', justifyContent:'center' }}>
       <Typography variant='body2' sx={{fontSize:'17px'}}>
-      © 2023 Careerpedia by ib-themes. All Right Reserved.
+      © 2023  Careerbridge by ib-themes. All Right Reserved.
       </Typography>
      </Box>
     </>

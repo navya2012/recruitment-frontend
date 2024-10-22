@@ -16,10 +16,7 @@ const Home = () => {
         <BuildResumeContent />
         <Business />
       </Box>
-      <Box>
         <NewsLetter />
-      </Box>
-
     </>
   )
 }

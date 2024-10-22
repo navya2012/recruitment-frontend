@@ -31,6 +31,7 @@ const SidebarNavbar = () => {
 
     const loginData = useSelector((state) => state.authReducer.userData);
     const profilePic = useSelector((state) => state.authReducer.profileImage);
+    console.log(loginData)
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -143,7 +144,7 @@ const SidebarNavbar = () => {
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Box component="img" src={require('../../Assets/main-logo.jpg')} alt="logo" sx={{ height: 50, mr: 2 }} />
                         <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#000' }}>
-                            Careerpedia 
+                             Careerbridge 
                         </Typography>
                     </Box>
 

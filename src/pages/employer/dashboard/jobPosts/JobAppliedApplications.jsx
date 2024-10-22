@@ -5,8 +5,9 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllAppliedJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s'; // Ensure the correct import path
 import LoadingSpinner from '../../../../common/spinner/LoadingSpinner';
+import { useNavigate } from 'react-router-dom';
 
-// Styled component for Job Card
+
 const JobCard = styled(Paper)(({ theme }) => ({
   padding: '50px 20px',
   borderRadius: '12px',
@@ -27,12 +28,13 @@ const JobAppliedApplications = () => {
   const itemsPerPage = 6;
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        await dispatch(getAllAppliedJobPostsPostedByEmployer(currentPage, itemsPerPage));
+        await dispatch(getAllAppliedJobPostsPostedByEmployer(currentPage, itemsPerPage, navigate));
       } catch (error) {
         throw new Error(error.message)
       } finally {
@@ -41,7 +43,7 @@ const JobAppliedApplications = () => {
     };
 
     fetchData();
-  }, [dispatch, currentPage, itemsPerPage]);
+  }, [dispatch, currentPage, itemsPerPage, navigate]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

@@ -2,7 +2,6 @@ import { Box, Button, ListItemIcon, Paper, TextField, Typography } from '@mui/ma
 import React, { useState } from 'react';
 import '../../../../CSSModules/formStyles/formPageStyles.css';
 import { useDispatch } from 'react-redux';
-import '../../../../CSSModules/pageStyles/jobPostsStyles.css';
 import { createJobPosts } from '../../../../api\'s/employerApi\'s';
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
 import { useNavigate } from 'react-router-dom';

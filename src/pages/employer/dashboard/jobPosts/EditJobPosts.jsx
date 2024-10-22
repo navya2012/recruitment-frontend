@@ -3,7 +3,6 @@ import { Box, Button, Paper, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import '../../../../CSSModules/formStyles/formPageStyles.css'
 import { useDispatch, useSelector } from 'react-redux';
-import '../../../../CSSModules/pageStyles/jobPostsStyles.css'
 import {  updateJobPostsData } from '../../../../api\'s/employerApi\'s';
 import {  useNavigate, useParams } from 'react-router-dom';
 

@@ -16,6 +16,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import LoadingSpinner from '../../../common/spinner/LoadingSpinner';
+import { useNavigate } from 'react-router-dom';
 
 const StyledButton = styled(Button)(({ theme }) => ({
   borderRadius: '10px',
@@ -40,6 +41,7 @@ const FindJobPosts = () => {
   const currentEmployeeId = useSelector((state) => state.authReducer.userData._id);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const [page, setPage] = useState(1);
   const itemsPerPage = 6;
@@ -63,7 +65,7 @@ const FindJobPosts = () => {
 
   const handleJobApply = async (jobId) => {
     try {
-      await dispatch(JobAppliedPostsStatus(jobId));
+      await dispatch(JobAppliedPostsStatus(jobId, navigate));
       dispatch(getAllJobPostsAppliedByAllEmployees());
     } catch (error) {
       throw new Error(error.message);

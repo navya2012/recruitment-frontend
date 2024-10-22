@@ -138,8 +138,7 @@ const BannerSection = () => {
                 Find Jobs
               </Box>
             </Box>
-
-            {/* Popular Searches */}
+            
             <Typography
               variant="h6"
               sx={{ mt: 2 }}

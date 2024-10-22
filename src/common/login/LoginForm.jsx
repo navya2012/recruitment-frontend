@@ -8,12 +8,14 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useDispatch } from 'react-redux';
 import { clearError } from '../../redux/slices/authSlice';
 import { login } from '../../api\'s/authApi\'s';
+import LoadingSpinner from '../spinner/LoadingSpinner';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    email:'',
-    password:''
+    email: '',
+    password: ''
   })
 
   const dispatch = useDispatch()
@@ -21,12 +23,12 @@ const LoginForm = () => {
   const theme = useTheme();
 
   const handleChange = (e) => {
-      const {name, value} = e.target
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-      dispatch(clearError());
+    const { name, value } = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    dispatch(clearError());
   }
 
   const handleClickShowPassword = () => {
@@ -37,52 +39,87 @@ const LoginForm = () => {
   }
 
   const handleSubmit = async (e) => {
-        e.preventDefault()
-        const response = await dispatch(login(formData, navigate));
-        if (response.success) {
-          setFormData({
-            email: '',
-            password: '',
-          });
-        }
+    e.preventDefault()
+    setLoading(true);
+    try {
+      const response = await dispatch(login(formData, navigate));
+      if (response.success) {
+        setFormData({
+          email: '',
+          password: '',
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   }
   return (
     <>
-      <Box className='form-page-styles'>
-      <Typography variant="h3" sx={theme.typography.welcomeHeader}>
-          Welcome to <span style={{ color: '#364BC6' }}>Careerpedia </span>
-        </Typography>
-        <Typography variant="h6" component="h6" sx={theme.typography.welcomeSubheader}>
-          Login  . . .
-        </Typography>
-        <Box component='form' onSubmit={handleSubmit}>
-          <TextField variant="outlined" fullWidth margin="normal"
-            label="Email" name="email" type="email"
-          value={formData.email}
-          onChange={handleChange}     
-          />
-          <TextField variant="outlined" fullWidth margin="normal"
-            label="Password" name="password" type={showPassword ? "text" : "password"}
-            value={formData.password}
-            onChange={handleChange}   
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
-                  </IconButton>
-                </InputAdornment>
+      <Box className='form-page-styles' sx={{ width: '100%', position: 'relative', height: '100vh' }}>
+        {
+          loading ? (
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                zIndex: 10
+              }}
+            >
+              <LoadingSpinner />
+            </Box>
+          ) : (
+            <>
+              <Typography variant="h5" sx={theme.typography.welcomeHeader}>
+                Login Form
+              </Typography>
+              <Box component='form' onSubmit={handleSubmit}>
+                <TextField variant="outlined" fullWidth margin="normal" 
+                  label="Email" name="email" type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+                <TextField variant="outlined" fullWidth margin="normal"
+                  label="Password" name="password" type={showPassword ? "text" : "password"}
+                  value={formData.password}
+                  onChange={handleChange}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
+                        </IconButton>
+                      </InputAdornment>
 
-              )
-            }}
-          />
-          <Link to='/forgot-password'  className='link-style' style={{ float: 'right', paddingTop: '15px' }}>Forgot Password ?</Link>
-          <Button type="submit" variant="contained" sx={{ marginTop: '40px' }}>Sign In</Button>
-        </Box>
+                    )
+                  }}
+                />
+                <Link to='/forgot-password' className='link-style' style={{ float: 'right', paddingTop: '25px' }}>Forgot Password ?</Link>
+                <Button type="submit" variant="contained"
+                  sx={{
+                    width: '50%',
+                    display: 'block',
+                    margin: '80px auto',
+                    textAlign: 'center',
+                    marginBottom: 0
+                  }}
+                >
+                  Sign In
+                </Button>
+              </Box>
+            </>
+          )
+        }
         <div className='line-design'>
           <hr />
           <span className='text'>Or sign In with</span>

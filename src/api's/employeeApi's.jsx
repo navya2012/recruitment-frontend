@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import '../CSSModules/formStyles/formPageStyles.css'
 import { loginSuccess } from '../redux/slices/authSlice'
 import { setAddJobAppliedPosts, setAllExperienceData, setAllJobPosts, setExperienceSuccess, setAllUsersAppliedJobPosts, setAllAppliedJobs } from '../redux/slices/employeeSlice'
+import { checkTokenAndProceed } from '../utils/accessToken'
 
 
 const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
@@ -10,7 +11,9 @@ const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
 //update details
 export const updateEmployeeDetails = (formData, navigate) => async (dispatch) => {
     try {
-        const token = localStorage.getItem('loginToken');
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return; 
+
         const response = await axios.patch(`${BASE_URL}/employee/update-details`, formData,
             {
                 headers: {
@@ -66,9 +69,11 @@ export const updateEmployeeDetails = (formData, navigate) => async (dispatch) =>
     }
 }
 
-export const getWorkingExperience = () => async (dispatch) => {
+export const getWorkingExperience = (navigate) => async (dispatch) => {
     try {
-        const token = localStorage.getItem('loginToken');
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return; 
+
         const response = await axios.get(`${BASE_URL}/employee/get-working-experience`,
             {
                 headers: {
@@ -106,9 +111,11 @@ export const getWorkingExperience = () => async (dispatch) => {
 }
 
 //working experience
-export const workingExperience = (experienceData) => async (dispatch) => {
+export const addAndUpdateWorkingExperience = (experienceData, navigate) => async (dispatch) => {
     try {
-        const token = localStorage.getItem('loginToken');
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return; 
+        
         const employeeId = JSON.parse(localStorage.getItem('employeeId'));
         const data = { ...experienceData, employee_id: employeeId };
         const response = await axios.post(`${BASE_URL}/employee/working-experience`, data,
@@ -176,9 +183,11 @@ export const getAllJobPostsData = () => async (dispatch) => {
 
 
 //post job applied status
-export const JobAppliedPostsStatus = (jobId) => async (dispatch) => {
+export const JobAppliedPostsStatus = (jobId, navigate) => async (dispatch) => {
     try {
-        const token = localStorage.getItem('loginToken');
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return;
+        
         const response = await axios.post(`${BASE_URL}/employee/update-job-applied-status/${jobId}`, {},
             {
                 headers: {
@@ -261,10 +270,11 @@ export const getAllJobPostsAppliedByAllEmployees = () => async (dispatch) => {
 }
 
 //get all job posts applied by employee posted by employer
-export const getAllAppliedJobsByEmployee = () => async (dispatch) => {
-    console.log("applied jobs ....")
+export const getAllAppliedJobsByEmployee = (navigate) => async (dispatch) => {
     try {
-        const token = localStorage.getItem('loginToken');
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return;
+
         const response = await axios.get(`${BASE_URL}/employee/get-applied-jobs`,
             {
                 headers: {
@@ -272,11 +282,10 @@ export const getAllAppliedJobsByEmployee = () => async (dispatch) => {
                 }
             }
         )
-        console.log(response)
         if (response && response.data && response.status === 200) {
             const appliedJobs = response.data.jobsAppliedList
             dispatch(setAllAppliedJobs(appliedJobs))
-            console.log("jobs", appliedJobs)
+
             toast.success(response.data.message, {
                 position: "top-center",
                 autoClose: 3000,

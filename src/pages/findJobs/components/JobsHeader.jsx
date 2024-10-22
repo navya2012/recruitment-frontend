@@ -36,7 +36,6 @@ const JobsHeader = () => {
           Find Jobs
         </Typography>
 
-        {/* Centered Breadcrumbs */}
         <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
           <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'center' }}>
             <Link underline="hover" color="inherit" href="/home-page">

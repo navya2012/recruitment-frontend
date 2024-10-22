@@ -5,6 +5,7 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
 import LoadingSpinner from '../../../../common/spinner/LoadingSpinner';
 import { getAllJobPostsPostedByEmployer, getAllAppliedJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s';
+import { useNavigate } from 'react-router-dom';
 
 const EmployerDashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -12,14 +13,15 @@ const EmployerDashboard = () => {
   const { jobPosts, jobAppliedUsers } = useSelector((state) => state?.employerReducer);
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         await Promise.all([
-          dispatch(getAllJobPostsPostedByEmployer()),
-          dispatch(getAllAppliedJobPostsPostedByEmployer())
+          dispatch(getAllJobPostsPostedByEmployer(navigate)),
+          dispatch(getAllAppliedJobPostsPostedByEmployer(navigate))
         ]);
       } catch (error) {
         throw new Error(error.message)
@@ -29,7 +31,7 @@ const EmployerDashboard = () => {
     };
 
     fetchData();
-  }, [dispatch]);
+  }, [dispatch,navigate]);
 
   return (
     <>

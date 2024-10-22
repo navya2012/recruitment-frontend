@@ -7,7 +7,7 @@ const initialState = {
     allAppliedJobs:[],
     error: null
 }
-console.log(initialState)
+
 
 const employeeSlice = createSlice({
     name: 'employee',
