@@ -1,32 +1,23 @@
-import React from 'react';
-import { Box, Typography } from '@mui/material';
+import React from 'react'
+import { Box } from '@mui/material';
 
 const AuthCoverPage = () => {
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign:'center'
-        }}
-      >
-        <Typography variant="h4">Welcome to Careerbridge </Typography>
-        <Box
-            component="img"
-            src={require('../../Assets/signup.png')}
-            alt="cover page"
-            sx={{
-              width: '100%',
-              borderRadius: '10px',
-              objectFit:'cover'
-            }}
-          />
-      </Box>
+       <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="start"
+      height="100%"
+    >
+      <img
+        src={require("../../Assets/signup.png")} 
+        alt="cover"
+        style={{ maxWidth: '100%', maxHeight: '100%', width:'500px' }}
+      />
+    </Box>
     </>
-  );
-};
+  )
+}
 
-export default AuthCoverPage;
+export default AuthCoverPage

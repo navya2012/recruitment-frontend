@@ -4,14 +4,14 @@ import { Facebook, Twitter, Instagram, LinkedIn } from '@mui/icons-material';
 
 const Footer = () => {
   return (
-    <Box component="footer" sx={{ backgroundColor: '#f5f5f5', padding: { xs: '20px', md: '80px 90px' } }}>
+    <Box component="footer" sx={{ backgroundColor: '#f5f5f5', padding: { xs: '20px', md: '60px 90px' } }}>
       <Container>
         <Grid container spacing={4}> 
           <Grid item xs={12} sm={6} md={2.4} sx={{ mb: 6, lineHeight: 1.8 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
               <Box component="img" src={require('../../Assets/main-logo.jpg')} alt="logo" sx={{ height: 40, mr: 2 }} />
-              <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#000' }}>
-                Careerpedia 
+              <Typography variant="h6" sx={{ fontWeight: 'bold',  color: '#0557A2' }}>
+                Careerbridge
               </Typography>
             </Box >
             <Box sx={{ mb: 2, lineHeight: 1}}>
@@ -24,7 +24,7 @@ const Footer = () => {
           </Grid>
 
           <Grid item xs={12} sm={6} md={2.4} >
-            <Typography variant="h6" gutterBottom sx={{ mb: 6, lineHeight: 1.8 }}>For Candidates</Typography>
+            <Typography variant="h6" gutterBottom sx={{ mb: 6,  color: '#0557A2', lineHeight: 1.8 }}>For Candidates</Typography>
             <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Browse Jobs</Typography>
             <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Browse Categories</Typography>
             <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Candidate Dashboard</Typography>
@@ -33,7 +33,7 @@ const Footer = () => {
           </Grid>
           
           <Grid item xs={12} sm={6} md={2.4} >
-            <Typography variant="h6" gutterBottom sx={{ mb: 6, lineHeight: 1.8 }}>For Employers</Typography>
+            <Typography variant="h6" gutterBottom sx={{ mb: 6,  color: '#0557A2', lineHeight: 1.8 }}>For Employers</Typography>
             <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Browse Candidates</Typography>
             <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Employer Dashboard</Typography>
             <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Add Job</Typography>
@@ -41,7 +41,7 @@ const Footer = () => {
           </Grid>
           
           <Grid item xs={12} sm={6} md={2.4} >
-            <Typography variant="h6" gutterBottom sx={{ mb: 6, lineHeight: 1.8 }}>About Us</Typography>
+            <Typography variant="h6" gutterBottom sx={{ mb: 6,  color: '#0557A2', lineHeight: 1.8 }}>About Us</Typography>
             <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>About Us</Typography>
             <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Job Page Invoice</Typography>
             <Typography variant="body2" gutterBottom sx={{ lineHeight: 2 }}>Candidate Dashboard</Typography>
@@ -51,7 +51,7 @@ const Footer = () => {
           </Grid>
           
           <Grid item xs={12} sm={6} md={2.4} >
-            <Typography variant="h6" gutterBottom sx={{ mb: 6, lineHeight: 1.8 }}>Mobile Apps</Typography>
+            <Typography variant="h6" gutterBottom sx={{ mb: 6,  color: '#0557A2', lineHeight: 1.8 }}>Mobile Apps</Typography>
             <Typography variant="body2" gutterBottom>Click and Get Started in Seconds</Typography>
           </Grid>         
         </Grid>
@@ -59,7 +59,7 @@ const Footer = () => {
 
         <Grid container spacing={2} sx={{ marginTop: '40px' }}>
           <Grid item xs={12} sm={6}>
-            <Typography variant="body1" sx={{ lineHeight: '1.8' }}>
+            <Typography variant="body1" sx={{   color: '#0557A2',lineHeight: '1.8' }}>
               © 2023 Careerpedia  by ib-themes. All Right Reserved.
             </Typography>
           </Grid>

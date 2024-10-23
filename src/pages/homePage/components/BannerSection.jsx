@@ -30,6 +30,7 @@ const BannerSection = () => {
             width='1583'
             height='599'
             style={{
+              objectFit:'cover',
               width: '100%',
               maxWidth: '100%',
               height: '100%',
@@ -37,7 +38,6 @@ const BannerSection = () => {
               borderRadius: '32px',
               display: 'inline-block',
               verticalAlign: 'middle',
-              objectFit: 'cover'
             }}
           />
           <img
@@ -46,6 +46,7 @@ const BannerSection = () => {
             height='516'
             alt="Second"
             style={{
+              objectFit:'cover',
               position: 'absolute',
               bottom: 0,
               right: '-90px',
@@ -64,16 +65,17 @@ const BannerSection = () => {
             margin: '0 auto',
             maxWidth: '1300px',
             width: '100%',
-            padding: '130px 0px',
+            padding: '110px 0px',
 
           }}
         >
-          <Typography variant="h3" align="left" sx={{ mb: 2, fontWeight: 'bold', color: 'black', fontSize: { xs: '41px' } }}>
+          <Typography variant="h4" align="left" sx={{ mb: 2, fontWeight: 'bold', fontSize: { xs: '38px' } }}>
             Join us & Explore
             <Typography
-              variant="h3"
+              variant="h4"
               component="span"
               sx={{
+                mt: 2,
                 fontWeight: 'inherit',
                 display: 'block',
                 fontSize: { xs: '41px' }
@@ -108,7 +110,7 @@ const BannerSection = () => {
               }}
             >
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'column', gap: 3, }}>
-                <Typography variant='h6'>What</Typography>
+                <Typography variant='h6' sx={{  color: '#0557A2',}}>What</Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: 1 }}>
                   <Typography variant='body1'>Job Titles, Keywords or Company</Typography>
                   <SearchIcon />
@@ -116,7 +118,7 @@ const BannerSection = () => {
               </Box>
 
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'column', gap: 3 }}>
-                <Typography variant='h6'>Where</Typography>
+                <Typography variant='h6' sx={{  color: '#0557A2',}}>Where</Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: 1 }}>
                   <Typography variant='body1'>City Or Postcodes</Typography>
                   <LocationOnOutlinedIcon />

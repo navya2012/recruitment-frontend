@@ -29,7 +29,6 @@ const JobsHeader = () => {
             letterSpacing: '1px',
             marginBottom: '16px',
             display: 'block',
-            color: 'black',
             fontWeight: 'bold'
           }}
         >
@@ -38,10 +37,10 @@ const JobsHeader = () => {
 
         <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
           <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'center' }}>
-            <Link underline="hover" color="inherit" href="/home-page">
+            <Link underline="hover" sx={{color:'#0557A2'}} href="/home-page">
               Home
             </Link>
-            <Typography sx={{ color: 'text.primary' }}>Jobs</Typography>
+            <Typography sx={{ color: '#0557A2' }}>Jobs</Typography>
           </Breadcrumbs>
         </Box>
       </Container>

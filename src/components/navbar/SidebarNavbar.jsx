@@ -143,7 +143,7 @@ const SidebarNavbar = () => {
                     {/* Logo and Company Name */}
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Box component="img" src={require('../../Assets/main-logo.jpg')} alt="logo" sx={{ height: 50, mr: 2 }} />
-                        <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#000' }}>
+                        <Typography variant="h5" sx={{ fontWeight: 'bold'}}>
                              Careerbridge 
                         </Typography>
                     </Box>
@@ -167,7 +167,7 @@ const SidebarNavbar = () => {
                                         Find Jobs
                                     </Box>
 
-                            <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#000' }}> {loginData.email.replace('@gmail.com', '')}</Typography>
+                            <Typography variant="h6" sx={{ color: '#0557A2',fontWeight:'bold'}}> {loginData.email.replace('@gmail.com', '')}</Typography>
                                 <IconButton onClick={handleOpenUserMenu}>
                                     <Avatar alt="Profile" src={userProfileImage?.profileImage} />
                                 </IconButton>

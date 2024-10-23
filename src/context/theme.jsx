@@ -3,12 +3,12 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   typography: {
-    h4: {
+    h5: {
       color: '#0557A2',
       fontWeight: 700,
       lineHeight: '30px'
     },
-    h5: {
+    h4: {
       color: '#0557A2',
       fontWeight: 700,
       lineHeight: '30px'

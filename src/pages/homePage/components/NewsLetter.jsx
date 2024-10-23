@@ -6,7 +6,7 @@ const NewsLetter = () => {
     return (
         <Box
             sx={{
-                padding: '100px 0',
+                padding: '80px 0',
                 backgroundImage: `url(${bgImage})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
@@ -21,11 +21,11 @@ const NewsLetter = () => {
                 color: '#fff',
                 textAlign: 'center',
             }}>
-                <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
+                <Typography variant="h4" sx={{ fontWeight: 'bold', fontSize:'38px', mb: 2 }}>
                     Subscribe Our Newsletter
                 </Typography>
 
-                <Typography variant="body1" sx={{ mb: 4 }}>
+                <Typography variant="body2" sx={{ mb: 4 }}>
                     Advertise your jobs to millions of monthly users and search 15.8 million
                     <Typography
                         component="span"

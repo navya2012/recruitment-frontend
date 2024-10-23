@@ -5,7 +5,7 @@ const Business = () => {
     return (
         <>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 2, padding: '100px 0' }}>
-                <Typography variant='h4' sx={{ color: 'black' }} gutterBottom> Few Simple Steps for Successful Business</Typography>
+                <Typography variant='h4'  gutterBottom> Few Simple Steps for Successful Business</Typography>
                 <Typography variant='body2' sx={{ mb: 5 }} gutterBottom>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor</Typography>
 
                 <Grid container spacing={4} >

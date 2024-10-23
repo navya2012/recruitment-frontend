@@ -132,7 +132,7 @@ const Navbar = () => {
                     {/* Logo and Company Name */}
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Box component="img" src={require('../../Assets/main-logo.jpg')} alt="logo" sx={{ height: 50, mr: 2 }} />
-                        <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#000' }}>
+                        <Typography variant="h5" sx={{ fontWeight: 'bold'}}>
                              Careerbridge 
                         </Typography>
                     </Box>
@@ -141,12 +141,12 @@ const Navbar = () => {
                         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
                             <Box sx={{ display: { md: 'flex', xs: 'none' }, gap: 2, flexGrow: 1, justifyContent: 'center' , alignItems:'center'}}>
-                                <Button sx={{ color: '#000' }} onClick={() => navigate('/home-page')}>Home</Button>
-                                <Button sx={{ color: '#000' }} onClick={() => navigate('/find-jobs')}>Find Jobs</Button>
+                                <Button sx={{  color: '#0557A2', fontWeight:'bold' }} onClick={() => navigate('/home-page')}>Home</Button>
+                                <Button sx={{  color: '#0557A2',fontWeight:'bold' }} onClick={() => navigate('/find-jobs')}>Find Jobs</Button>
                                 {loginData.role === 'employer' ? (
-                                    <Button sx={{ color: '#000' }} onClick={() => navigate('/employer-dashboard/home')}>Employers</Button>
+                                    <Button sx={{  color: '#0557A2', fontWeight:'bold'}} onClick={() => navigate('/employer-dashboard/home')}>Employers</Button>
                                 ) : (
-                                    <Button sx={{ color: '#000' }} onClick={() => navigate('/candidate-dashboard/home')}>Candidates</Button>
+                                    <Button sx={{ color: '#0557A2',fontWeight:'bold'}} onClick={() => navigate('/candidate-dashboard/home')}>Candidates</Button>
                                 )}
                             </Box>
 

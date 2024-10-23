@@ -91,7 +91,7 @@ const FindJobPosts = () => {
               <LoadingSpinner />
             ) : (
               <>
-                <Typography variant="h6" sx={{ textAlign: 'left', padding: '0 0 50px 30px', width: '100%' }}>
+                <Typography variant="h6" sx={{ color:'#0557A2', textAlign: 'left', padding: '0 0 50px 30px', width: '100%' }}>
                   Show {jobsToDisplay.length} of {totalJobs} jobs
                 </Typography>
 
