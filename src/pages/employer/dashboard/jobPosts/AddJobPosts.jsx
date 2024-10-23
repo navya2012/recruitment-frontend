@@ -49,15 +49,15 @@ const AddJobPosts = () => {
 
   return (
     <>
-      <Typography variant="h4" sx={{ color: 'black', mb: 3 }}>
+      <Typography variant="h4" sx={{  mb: 3 }}>
         Post a New Job!
       </Typography>
-      <Typography variant="body2" sx={{ mb: 3 }}>
+      <Typography variant="body2" sx={{ mb: 3, color:'#0557A2' }}>
         Ready to jump back in?
       </Typography>
 
       <Paper sx={{ padding: '30px', borderRadius: '10px' }}>
-        <Typography variant='h5' sx={{ color: 'black', mb: 2 }}>Post Job</Typography>
+        <Typography variant='h5' sx={{  mb: 2 }}>Post Job</Typography>
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: 4, padding: '20px 0' }}>
           <ListItemIcon>
@@ -65,7 +65,7 @@ const AddJobPosts = () => {
               textAlign: "center", backgroundColor: '#1967d21a', width: '100px', height: '100px', borderRadius: '50%', fontSize: '30px', color: '#1967d2', padding: '20px'
             }} />
           </ListItemIcon>
-          <Typography variant="h6" sx={{ color: '#595959', fontWeight: 500 }}>
+          <Typography variant="h6" sx={{ color:'#0557A2', fontWeight: 500 }}>
             Job Details
           </Typography>
         </Box>

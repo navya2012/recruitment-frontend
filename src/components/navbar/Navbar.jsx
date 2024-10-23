@@ -169,19 +169,19 @@ const Navbar = () => {
                                         <IconButton onClick={handleOpenUserMenu}>
                                     <Avatar alt="Profile" src={userProfileImage?.profileImage} />
                                 </IconButton>
-                                            <Typography textAlign="center">View Profile</Typography>
+                                            <Typography textAlign="center" sx={{color:'#0557A2'}} >View Profile</Typography>
                                         </Box>
                                     </MenuItem>
                                     <MenuItem onClick={() => navigate(loginData.role === 'employer' ? '/employer-dashboard/change-password' : '/candidate-dashboard/change-password')}>
                                         <Box display="flex" alignItems="center" gap={4}>
-                                            <LockIcon fontSize="large" />
-                                            <Typography textAlign="center">Change Password</Typography>
+                                            <LockIcon fontSize="large" sx={{color:'#0557A2'}} />
+                                            <Typography textAlign="center" sx={{color:'#0557A2'}}>Change Password</Typography>
                                         </Box>
                                     </MenuItem>
                                     <MenuItem onClick={handleLogout}>
                                         <Box display="flex" alignItems="center" gap={4}>
-                                            <LogoutIcon fontSize="large" />
-                                            <Typography textAlign="center">Logout</Typography>
+                                            <LogoutIcon fontSize="large" sx={{color:'#0557A2'}} />
+                                            <Typography textAlign="center" sx={{color:'#0557A2'}}>Logout</Typography>
                                         </Box>
                                     </MenuItem>
                                 </Menu>

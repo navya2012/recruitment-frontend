@@ -56,15 +56,15 @@ const EmployeeProfile = () => {
 
   return (
     <>
-      <Typography variant="h4" sx={{ color: 'black', mb: 3 }}>
+      <Typography variant="h4" sx={{  mb: 3 }}>
         My Profile!
       </Typography>
-      <Typography variant="body2" sx={{ mb: 3 }} >
+      <Typography variant="body2" sx={{ mb: 3, color:'#0557A2'  }} >
         Ready to jump back in?
       </Typography>
 
       <Paper sx={{ padding: '30px', borderRadius: '10px' }}>
-        <Typography variant='h5' sx={{ color: 'black', mb: 2 }}>My Profile</Typography>
+        <Typography variant='h5' sx={{  mb: 2 }}>My Profile</Typography>
 
         {
           loading ? (

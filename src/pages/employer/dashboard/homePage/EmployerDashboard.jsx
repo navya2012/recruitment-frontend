@@ -39,10 +39,10 @@ const EmployerDashboard = () => {
 
   return (
     <Box component="main" sx={{ flexGrow: 1, bgcolor: '#F0F5F7', p: 3 }}>
-      <Typography variant="h4" sx={{ color: 'black', mb: 3 }}>
+      <Typography variant="h4" sx={{  mb: 3 }}>
         Dashboard Home!
       </Typography>
-      <Typography variant="body2" sx={{ mb: 3 }}>
+      <Typography variant="body2" sx={{ mb: 3, color:'#0557A2' }}>
         Ready to jump back in?
       </Typography>
 
@@ -50,30 +50,6 @@ const EmployerDashboard = () => {
         <LoadingSpinner />
       ) : (
         <>
-          {/* Bar Chart Section */}
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 5 }}>
-            <BarChart
-              xAxis={[{ scaleType: 'band', data: ['Posted Jobs', 'Applications'] }]}
-              series={[
-                { 
-                  data: [postedJobsCount], 
-                  label: 'Posted Jobs',
-                  color: '#1976d2', // Color for Posted Jobs
-                },
-                { 
-                  data: [applicationsCount], 
-                  label: 'Applications',
-                  color: '#d32f2f', // Color for Applications
-                },
-              ]}
-              barLabel="value"
-              width={500}
-              height={300}
-              barLabelFormatter={(value) => `${value}`} // Display value directly on the bar
-            />
-          </Box>
-
-          {/* Cards Section */}
           <Box
             sx={{
               display: 'flex',
@@ -121,7 +97,7 @@ const EmployerDashboard = () => {
                 <Typography variant="h4" sx={{ color: '#1890ff', fontWeight: 600 }}>
                   {postedJobsCount}
                 </Typography>
-                <Typography variant="body1" sx={{ color: '#595959', fontWeight: 500 }}>
+                <Typography variant="body1" sx={{ color:'#0557A2', fontWeight: 500 }}>
                   Posted Jobs
                 </Typography>
               </Box>
@@ -166,12 +142,39 @@ const EmployerDashboard = () => {
                 <Typography variant="h4" sx={{ color: '#d93025', fontWeight: 600 }}>
                   {applicationsCount}
                 </Typography>
-                <Typography variant="body1" sx={{ color: '#595959', fontWeight: 500 }}>
+                <Typography variant="body1" sx={{ color:'#0557A2', fontWeight: 500 }}>
                   Applications
                 </Typography>
               </Box>
             </Paper>
           </Box>
+
+          <Paper elevation={2} sx={{ margin: '30px 0', width: '50%', paddingTop: '30px', borderRadius: '10px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 5 }}>
+              <BarChart
+                xAxis={[{
+                  scaleType: 'band',
+                  data: ['jobs Data']
+                }]}
+                series={[
+                  {
+                    data: [postedJobsCount],
+                    label: 'Posted Jobs',
+                    color: '#1976d2',
+                  },
+                  {
+                    data: [applicationsCount],
+                    label: 'Applications',
+                    color: '#d32f2f',
+                  },
+                ]}
+                width={450}
+                height={350}
+              />
+            </Box>
+          </Paper>
+
+
         </>
       )}
     </Box>

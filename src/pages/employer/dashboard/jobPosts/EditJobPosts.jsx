@@ -70,10 +70,10 @@ const EditJobPosts = () => {
   }
   return (
     <>
-  <Typography variant="h4"  sx={{color:'black', mb:3}}>
+  <Typography variant="h4"  sx={{ mb:3}}>
       Update a New Job!
       </Typography>
-      <Typography variant="body2"  sx={{ mb:3}}>
+      <Typography variant="body2"  sx={{ mb:3, color:'#0557A2' }}>
         Ready to jump back in?
       </Typography>
 
