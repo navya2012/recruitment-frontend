@@ -38,7 +38,7 @@ const BannerSection = () => {
                 alignItems: 'center',
                  maxWidth: '1005%',
                 gap: 2,
-                backgroundColor: 'pink',
+                backgroundColor: 'white',
                 padding: ' 15px',
                 borderRadius: '10px',
               }}

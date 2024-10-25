@@ -8,10 +8,10 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Box, List, ListItem, ListItemText, ListItemIcon, AppBar, Toolbar, Button, IconButton, Avatar, Menu, Typography, MenuItem, Drawer } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
-import DashboardIcon from '@mui/icons-material/Dashboard'; // Import the appropriate icon
-import PeopleIcon from '@mui/icons-material/People'; // Import the appropriate icon
-import LoginIcon from '@mui/icons-material/Login'; // Import the appropriate icon
-import RegisterIcon from '@mui/icons-material/PersonAdd'; // Import the appropriate icon
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PeopleIcon from '@mui/icons-material/People'; 
+import LoginIcon from '@mui/icons-material/Login'; 
+import RegisterIcon from '@mui/icons-material/PersonAdd'; 
 
 
 
@@ -152,7 +152,7 @@ const Navbar = () => {
     const userProfileImage = profilePic.find((pic) => pic.user_id === loginData?._id);
 
     return (
-        <AppBar position="fixed" sx={{ height: '10vh', backgroundColor: 'pink', boxShadow: 'none', padding: { xs: '0 30px', md: '0px 90px' }, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <AppBar position="fixed" sx={{ height: '10vh', backgroundColor: 'white', boxShadow: 'none', padding: { xs: '0 30px', md: '0px 90px' }, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                 {/* Logo and Company Name */}
                 <Box sx={{ display: 'flex', alignItems: 'center', cursor:'pointer' }} onClick={()=>navigate('/home-page')}>
