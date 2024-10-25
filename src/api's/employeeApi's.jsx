@@ -6,15 +6,13 @@ import { setAddJobAppliedPosts, setAllExperienceData, setAllJobPosts, setExperie
 import { checkTokenAndProceed } from '../utils/accessToken'
 
 
-const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
-
 //update details
 export const updateEmployeeDetails = (formData, navigate) => async (dispatch) => {
     try {
         const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return; 
 
-        const response = await axios.patch(`${BASE_URL}/employee/update-details`, formData,
+        const response = await axios.patch(`${process.env.REACT_APP_BASE_CANDIDATE_URL}/update-details`, formData,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -74,7 +72,7 @@ export const getWorkingExperience = (navigate) => async (dispatch) => {
         const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return; 
 
-        const response = await axios.get(`${BASE_URL}/employee/get-working-experience`,
+        const response = await axios.get(`${process.env.REACT_APP_BASE_CANDIDATE_URL}/get-working-experience`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -118,7 +116,7 @@ export const addAndUpdateWorkingExperience = (experienceData, navigate) => async
         
         const employeeId = JSON.parse(localStorage.getItem('employeeId'));
         const data = { ...experienceData, employee_id: employeeId };
-        const response = await axios.post(`${BASE_URL}/employee/working-experience`, data,
+        const response = await axios.post(`${process.env.REACT_APP_BASE_CANDIDATE_URL}/working-experience`, data,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -150,7 +148,7 @@ export const addAndUpdateWorkingExperience = (experienceData, navigate) => async
 //get job posts
 export const getAllJobPostsData = () => async (dispatch) => {
     try {
-        const response = await axios.get(`${BASE_URL}/employee/get-all-recruitment-posts`)
+        const response = await axios.get(`${process.env.REACT_APP_BASE_CANDIDATE_URL}/get-all-recruitment-posts`)
         if (response && response.data && response.status === 200) {
             const allJobPosts = response.data.getAllJobPostsData
             dispatch(setAllJobPosts(allJobPosts))
@@ -188,7 +186,7 @@ export const JobAppliedPostsStatus = (jobId, navigate) => async (dispatch) => {
         const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return;
         
-        const response = await axios.post(`${BASE_URL}/employee/update-job-applied-status/${jobId}`, {},
+        const response = await axios.post(`${process.env.REACT_APP_BASE_CANDIDATE_URL}/update-job-applied-status/${jobId}`, {},
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -233,7 +231,7 @@ export const JobAppliedPostsStatus = (jobId, navigate) => async (dispatch) => {
 //all job post applied status by employees
 export const getAllJobPostsAppliedByAllEmployees = () => async (dispatch) => {
     try {
-        const response = await axios.get(`${BASE_URL}/employee/get-all-applied-job-posts`)
+        const response = await axios.get(`${process.env.REACT_APP_BASE_CANDIDATE_URL}/get-all-applied-job-posts`)
         if (response && response.data && response.status === 200) {
             const allUsersAppliedJobs = response.data.getAllJobAppliedPostsData
             dispatch(setAllUsersAppliedJobPosts(allUsersAppliedJobs));
@@ -275,7 +273,7 @@ export const getAllAppliedJobsByEmployee = (navigate) => async (dispatch) => {
         const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return;
 
-        const response = await axios.get(`${BASE_URL}/employee/get-applied-jobs`,
+        const response = await axios.get(`${process.env.REACT_APP_BASE_CANDIDATE_URL}/get-applied-jobs`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,

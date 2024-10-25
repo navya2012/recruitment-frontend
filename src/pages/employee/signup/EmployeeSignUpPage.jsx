@@ -1,19 +1,21 @@
 import React from 'react';
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import AuthCoverPage from '../../../common/authCoverPage/AuthCoverPage';
 import EmployeeSignUpForm from './EmployeeSignUpForm';
 
 
 const EmployeeSignUpPage = () => {
   return (
-    <Grid container height="auto" sx={{paddingBottom:'50px'}}>
-      <Grid item xs={12} sm={6}>
+    <Grid container height="100vh" >
+    <Grid item xs={12} sm={6}>
+    <Box sx={{position: 'sticky',top: 0,height: '100vh', width: '100%',overflow: 'hidden'}}>
         <AuthCoverPage />
-      </Grid>
-      <Grid item xs={12} sm={6} display="flex" alignItems="start" justifyContent="center" sx={{ position: 'relative' }}>
-        <EmployeeSignUpForm />
-      </Grid>     
+      </Box>
     </Grid>
+    <Grid item xs={12} sm={6} display="flex" alignItems="start" justifyContent="center" sx={{ position: 'relative',overflowY: 'auto', }}>
+      <EmployeeSignUpForm />
+    </Grid>
+  </Grid>    
   );
 };
 

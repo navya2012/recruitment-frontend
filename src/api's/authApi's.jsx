@@ -4,12 +4,11 @@ import {  loginSuccess, logout, setAddProfileImage, setAllUsersImages } from '..
 import '../CSSModules/formStyles/formPageStyles.css'
 import { checkTokenAndProceed } from '../utils/accessToken'
 
-const BASE_URL = "https://recruitment-backend-production.up.railway.app/api/auth"
 
 //sign up
 export const signUp = (formData, navigate) => async () => {
     try {
-        const response = await axios.post(`${BASE_URL}/signup`, formData)
+        const response = await axios.post(`${process.env.REACT_APP_BASE_AUTH_URL}/signup`, formData)
         if (response && response.data.token &&  response.status === 200) {
             const { token,signUpDetails } = response.data; 
             localStorage.setItem(`signUpToken`, token);
@@ -60,7 +59,7 @@ export const imageUploads = (formData, navigate) => async (dispatch) => {
         const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return; 
 
-        const response = await axios.post(`${BASE_URL}/profile-pic-upload`,formData,
+        const response = await axios.post(`${process.env.REACT_APP_BASE_AUTH_URL}/profile-pic-upload`,formData,
             {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -108,7 +107,7 @@ export const imageUploads = (formData, navigate) => async (dispatch) => {
 //profile pic upload
 export const getUserImages = () => async (dispatch) => {
     try{
-        const response = await axios.get(`${BASE_URL}/users-profile-images`)
+        const response = await axios.get(`${process.env.REACT_APP_BASE_AUTH_URL}/users-profile-images`)
         if (response && response.data && response.status === 200) {
             dispatch(setAllUsersImages(response.data))
             return  { 
@@ -151,7 +150,7 @@ export const verifyOtp =  async ( otp, navigate) => {
 
         const token = signUpToken ? signUpToken : passwordToken;
 
-        const response = await axios.post(`${BASE_URL}/verify-otp`, 
+        const response = await axios.post(`${process.env.REACT_APP_BASE_AUTH_URL}/verify-otp`, 
             {
                 "otp" : otp
             },
@@ -201,7 +200,7 @@ export const resendOtp =  async() => {
 
         const token = signUpToken ? signUpToken : passwordToken;
 
-        const response = await axios.post(`${BASE_URL}/resend-otp`,{ },
+        const response = await axios.post(`${process.env.REACT_APP_BASE_AUTH_URL}/resend-otp`,{ },
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -237,7 +236,7 @@ export const resendOtp =  async() => {
 //login
 export const login =  ( formData, navigate) => async (dispatch) => {
     try{
-        const response = await axios.post(`${BASE_URL}/login`, formData)
+        const response = await axios.post(`${process.env.REACT_APP_BASE_AUTH_URL}/login`, formData)
         if (response &&  response.status === 200) {
             const { token, loginDetails } = response.data;
             const { _id, role, email } = loginDetails;
@@ -248,14 +247,6 @@ export const login =  ( formData, navigate) => async (dispatch) => {
             
             dispatch(loginSuccess({loginDetails}));
             navigate('/home-page')
-
-            // if (loginDetails.role === 'employee') {
-            //     navigate('/employee/dashboard');
-            //     localStorage.setItem('employeeId', JSON.stringify(loginDetails._id));
-            // } else if (loginDetails.role === 'employer') {
-            //     navigate('/employer/dashboard');
-            //     localStorage.setItem('employerId', JSON.stringify(loginDetails._id));
-            // }
             toast.success(response.data.message, {
                 position: "top-center",
                 autoClose: 3000 ,
@@ -297,7 +288,7 @@ export const login =  ( formData, navigate) => async (dispatch) => {
 //forgot password
 export const forgotPassword =  async( email, navigate) => {
     try{
-        const response = await axios.post(`${BASE_URL}/forgot-password`,
+        const response = await axios.post(`${process.env.REACT_APP_BASE_AUTH_URL}/forgot-password`,
             {
                 "email":email
             }
@@ -337,7 +328,7 @@ export const updatePassword =async  ( newPassword,dispatch, navigate)  => {
         const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return; 
 
-        const response = await axios.post(`${BASE_URL}/update-password`,
+        const response = await axios.post(`${process.env.REACT_APP_BASE_AUTH_URL}/update-password`,
             {
                 "newPassword":newPassword
             },
@@ -391,7 +382,7 @@ export const changePassword =  (oldPassword, newPassword, navigate) => async (di
        const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return; 
 
-        const response = await axios.post(`${BASE_URL}/change-password`,
+        const response = await axios.post(`${process.env.REACT_APP_BASE_AUTH_URL}/change-password`,
             {
                 "oldPassword":oldPassword,
                 "newPassword":newPassword

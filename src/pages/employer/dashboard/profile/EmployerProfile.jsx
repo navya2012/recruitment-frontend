@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUserImages } from '../../../../api\'s/authApi\'s';
 import LoadingSpinner from '../../../../common/spinner/LoadingSpinner';
 
+
 const EmployerProfile = () => {
     const { setUpdateEmployerFormData } = useAuthContextData();
 

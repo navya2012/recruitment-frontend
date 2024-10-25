@@ -49,7 +49,7 @@ const WelcomePage = () => {
 
   const handleNext = () => {
     if (customer !== '') {
-      customer === 'Employer' ? navigate(`/welcome-page/employer/signup`) : navigate(`/welcome-page/employee/signup`)
+      customer === 'Employer' ? navigate('/new-employer/signup') : navigate('/new-candidate/signup')
     } else {
       toast.error('Please select any from Employee or Employer', {
         position: "top-center",

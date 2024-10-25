@@ -12,6 +12,7 @@ import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import LoadingSpinner from '../../../../common/spinner/LoadingSpinner';
 
+
 const JobPostsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false)

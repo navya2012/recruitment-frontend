@@ -6,7 +6,6 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
 
-
 const SideBarContext = createContext();
 
 export const useSideBarContextData = () => useContext(SideBarContext);

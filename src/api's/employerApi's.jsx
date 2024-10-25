@@ -6,16 +6,13 @@ import { addJobPost, setDeleteJobPosts, setJobAppliedUsers, setJobPosts, setUpda
 import { checkTokenAndProceed } from '../utils/accessToken'
 
 
-const BASE_URL = "https://recruitment-backend-production.up.railway.app/api"
-
-
 //update details
 export const updateEmployerDetails = (formData, navigate) => async (dispatch) => {
     try {
         const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return;
 
-        const response = await axios.patch(`${BASE_URL}/employer/update-details`, formData,
+        const response = await axios.patch(`${process.env.REACT_APP_BASE_EMPLOYER_URL}/update-details`, formData,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -76,7 +73,7 @@ export const createJobPosts = (newJobPosts, navigate) => async (dispatch) => {
         const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return;
 
-        const response = await axios.post(`${BASE_URL}/employer/create-recruitment-posts`, newJobPosts,
+        const response = await axios.post(`${process.env.REACT_APP_BASE_EMPLOYER_URL}/create-recruitment-posts`, newJobPosts,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -118,7 +115,7 @@ export const updateJobPostsData = (updateJobPosts, navigate) => async (dispatch)
       const token = checkTokenAndProceed(navigate);
         if (!token) return;
 
-        const response = await axios.patch(`${BASE_URL}/employer/update-recruitment-posts/${updateJobPosts._id}`, updateJobPosts,
+        const response = await axios.patch(`${process.env.REACT_APP_BASE_EMPLOYER_URL}/update-recruitment-posts/${updateJobPosts._id}`, updateJobPosts,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -160,7 +157,7 @@ export const getAllJobPostsPostedByEmployer = (navigate) => async (dispatch) => 
        const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return;
 
-        const response = await axios.get(`${BASE_URL}/employer/get-recruitment-posts`,
+        const response = await axios.get(`${process.env.REACT_APP_BASE_EMPLOYER_URL}/get-recruitment-posts`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -196,7 +193,7 @@ export const deleteJobPostsData = (jobId, navigate) => async (dispatch) => {
         const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return;
 
-        const response = await axios.delete(`${BASE_URL}/employer/delete-recruitment-posts/${jobId}`,
+        const response = await axios.delete(`${process.env.REACT_APP_BASE_EMPLOYER_URL}/delete-recruitment-posts/${jobId}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -236,7 +233,7 @@ export const getAllAppliedJobPostsPostedByEmployer = (navigate) => async (dispat
         const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return;
 
-        const response = await axios.get(`${BASE_URL}/employer/get-job-applied-posts`,
+        const response = await axios.get(`${process.env.REACT_APP_BASE_EMPLOYER_URL}/get-job-applied-posts`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`

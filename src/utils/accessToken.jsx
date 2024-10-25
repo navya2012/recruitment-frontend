@@ -3,6 +3,7 @@ import {jwtDecode} from 'jwt-decode';
 import { toast } from 'react-toastify';
 import { logout } from '../redux/slices/authSlice';
 
+
 export const isTokenExpired = (token) => {
   if (!token) return true; 
   const decodedToken = jwtDecode(token);

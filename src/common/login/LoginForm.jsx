@@ -127,7 +127,7 @@ const LoginForm = () => {
         </div>
 
         <Box className='link-text-style'> Don't have an account?{'  '}
-          <Link to='/' className='link-style'>Sign Up</Link>
+          <Link to='/new-registration' className='link-style'>Sign Up</Link>
         </Box>
       </Box>
     </>

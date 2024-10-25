@@ -14,8 +14,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import SchoolIcon from '@mui/icons-material/School';
 import LanguageIcon from '@mui/icons-material/Language';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import EngineeringIcon from '@mui/icons-material/Engineering';
 import LoadingSpinner from '../../../common/spinner/LoadingSpinner';
+import CodeIcon from '@mui/icons-material/Code';
 import { useNavigate } from 'react-router-dom';
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -95,10 +95,10 @@ const FindJobPosts = () => {
                   Show {jobsToDisplay.length} of {totalJobs} jobs
                 </Typography>
 
-                <Grid container spacing={3}>
+                <Grid container spacing={5}>
                   {jobsToDisplay.length > 0 ? (
                     jobsToDisplay.map((job) => (
-                      <Grid item xs={12} sm={6} md={6} key={job._id}>
+                      <Grid item xs={12} sm={6} md={4} key={job._id}>
                         <StyledCard>
                           <CardContent>
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -111,7 +111,7 @@ const FindJobPosts = () => {
 
                               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginBottom: '30px' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <EngineeringIcon sx={{ marginRight: '8px' }} />
+                                  <CodeIcon sx={{ marginRight: '8px' }} />
                                   <Typography>
                                     {Array.isArray(job.technologies) && job.technologies.length > 0
                                       ? job.technologies.join(', ')

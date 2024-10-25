@@ -183,7 +183,7 @@ const EmployerSignUpForm = () => {
         </div>
 
         <p className='link-text-style'>Already have an account?{'   '}
-          <Link to='/' className='link-style'>Login</Link>
+          <Link to='/login' className='link-style'>Login</Link>
         </p>
       </Box>
     </>

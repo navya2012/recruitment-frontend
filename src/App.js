@@ -32,10 +32,8 @@ import AddWorkingExperience from './pages/employee/dashboard/profile/workingExpe
 import EditWorkingExperience from './pages/employee/dashboard/profile/workingExperience/EditWorkingExperience';
 import JobPostsList from './pages/employer/dashboard/jobPosts/JobPostsList';
 import AppliedJobs from './pages/employee/dashboard/jobPosts/AppliedJobs';
-
-
-
-
+import MainPage from './components/mainPage/MainPage';
+import PageNotFound from './common/errorPage/PageNotFound';
 
 
 function App() {
@@ -47,21 +45,23 @@ function App() {
             <ExperienceProvider>
               <BrowserRouter>
                 <Routes>
-                  <Route element={<MainLayout />}>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/welcome-page' element={<WelcomePage />} />
-                    <Route path='/welcome-page/employer/signup' element={<EmployerSignUpPage />} />
-                    <Route path='/welcome-page/employee/signup' element={<EmployeeSignUpPage />} />
+                   <Route element={<MainLayout />}>
+                    <Route path='/' element={<MainPage />} />
+                    <Route path='/new-registration' element={<WelcomePage />} />
+                    <Route path='/new-employer/signup' element={<EmployerSignUpPage />} />
+                    <Route path='/new-candidate/signup' element={<EmployeeSignUpPage />} />
                     <Route path='/login' element={<LoginPage />} />
                     <Route path='/forgot-password' element={<ForgotPassword />} />
                     <Route path='/update-password' element={<UpdatePassword />} />
                     <Route path='/verify-otp' element={<OTPVerification />} />
-                    <Route path='/home-page'element={<PrivatePath><Home /></PrivatePath>} />
-                    <Route path='/find-jobs' element={<PrivatePath><JobsPage /></PrivatePath>} />
-                  </Route>
+                  </Route> 
+
+                  <Route path='/home-page' element={<PrivatePath><Home /></PrivatePath>} />
+                  <Route path='/find-jobs' element={<PrivatePath><JobsPage /></PrivatePath>} />
+
 
                   <Route element={<EmployerSidebarLayout />}>
-                    <Route path='/employer-dashboard'>
+                    <Route path={`/employer-dashboard`}>
                       <Route path='home' element={<PrivatePath><EmployerDashboard /></PrivatePath>} />
                       <Route path='change-password' element={<PrivatePath><ChangePassword /></PrivatePath>} />
                       <Route path='applied-job-posts' element={<PrivatePath><JobAppliedApplications /></PrivatePath>} />
@@ -74,7 +74,7 @@ function App() {
                   </Route>
 
                   <Route element={<CandidatesSidebarLayout />}>
-                    <Route path='/candidate-dashboard'>
+                    <Route path={`/candidate-dashboard`}>
                       <Route path='home' element={<PrivatePath><EmployeeDashboard /></PrivatePath>} />
                       <Route path='change-password' element={<PrivatePath><ChangePassword /></PrivatePath>} />
                       <Route path='applied-jobs-list' element={<PrivatePath><AppliedJobs /></PrivatePath>} />
@@ -85,6 +85,7 @@ function App() {
                     </Route>
                   </Route>
 
+                  <Route path='*' element={<PageNotFound/>}/>
                 </Routes>
               </BrowserRouter>
             </ExperienceProvider>
