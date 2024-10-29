@@ -11,7 +11,7 @@ const MainPage = () => {
   return (
     <>
       <BannerSection />
-      <Box sx={{ backgroundColor: '#F0F5F7', padding: { xs: '10px', md: '20px 90px' } }}>
+      <Box sx={{  padding: { xs: '10px', md: '20px 90px' } }}>
         <JobSearchContent />
       </Box>
         <NewsLetter />

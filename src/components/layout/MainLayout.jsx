@@ -7,7 +7,7 @@ const MainLayout = () => {
   return (
     <>
       <Navbar />
-      <Box sx={{ paddingTop: '155px' }}>
+      <Box sx={{ paddingTop: '4%' }}>
         <Outlet />
       </Box>
     </>

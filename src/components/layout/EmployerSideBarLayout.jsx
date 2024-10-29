@@ -1,10 +1,9 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import SideBar from '../sidebar/SideBar';
 import { useSideBarContextData } from '../../context/SideBarProvider';
 import SidebarFooter from '../footer/SidebarFooter';
-
+import SideBar from '../sidebar/Sidebar';
 
 const EmployerSidebarLayout = () => {
   const {employerMenuList} = useSideBarContextData()
@@ -21,7 +20,7 @@ const EmployerSidebarLayout = () => {
           flexDirection: 'column' 
         }}
       >
-        <Box sx={{ flexGrow: 1, padding: '150px 50px 80px 50px' }}>
+        <Box sx={{ flexGrow: 1, padding: '100px 50px 50px 50px' }}>
           <Outlet />
         </Box>
         <SidebarFooter/>

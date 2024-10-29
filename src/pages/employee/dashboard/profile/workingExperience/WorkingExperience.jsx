@@ -1,4 +1,4 @@
-import { Box, Typography, Grid } from '@mui/material';
+import { Box, Typography, Grid, Tooltip } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import EditIcon from '@mui/icons-material/Edit';
@@ -9,10 +9,10 @@ import SchoolIcon from '@mui/icons-material/School';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import LanguageIcon from '@mui/icons-material/Language';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
-import { getWorkingExperience } from '../../../../../api\'s/employeeApi\'s';
 import { useExperienceContextData } from '../../../../../context/ExperienceProvider';
 import LoadingSpinner from '../../../../../common/spinner/LoadingSpinner';
 import { useNavigate } from 'react-router-dom';
+import { getWorkingExperienceData } from '../../../../../api\'s/employeeApi\'s';
 
 
 const WorkingExperience = () => {
@@ -21,7 +21,7 @@ const WorkingExperience = () => {
   const [loading, setLoading] = useState(true);
 
   const { experienceData } = useSelector((state) => state.employeeReducer);
-
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ const WorkingExperience = () => {
     const fetchExperienceData = async () => {
       setLoading(true);
       try {
-        await dispatch(getWorkingExperience(navigate));
+        await dispatch(getWorkingExperienceData(navigate));
       } catch (error) {
         throw new Error(error.message)
       } finally {
@@ -72,8 +72,12 @@ const WorkingExperience = () => {
           Working Experience
         </Typography>
         <Box sx={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
-          <EditIcon onClick={handleEdit} fontSize="large" sx={{ color: '#0557A2', cursor: 'pointer' }} />
-          <AddIcon onClick={handleAddNewData} fontSize="large" sx={{ color: '#0557A2', cursor: 'pointer' }} />
+          <Tooltip title="Edit Application" placement="top">
+            <EditIcon onClick={()=>handleEdit()} fontSize="large" sx={{ color: '#0557A2', cursor: 'pointer' }} />
+          </Tooltip>
+          <Tooltip title="Add Application" placement="top">
+            <AddIcon onClick={handleAddNewData} fontSize="large" sx={{ color: '#0557A2', cursor: 'pointer' }} />
+          </Tooltip>
         </Box>
       </Box>
 
@@ -92,7 +96,6 @@ const WorkingExperience = () => {
                   : experienceData.technologies}
               </Typography>
             </Grid>
-
 
             <Grid item xs={12} sm={6}>
               <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#0073e6' }}>

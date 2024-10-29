@@ -4,7 +4,7 @@ import {  loginSuccess, logout, setAddProfileImage, setAllUsersImages } from '..
 import '../CSSModules/formStyles/formPageStyles.css'
 import { checkTokenAndProceed } from '../utils/accessToken'
 
-console.log(process.env.REACT_APP_BASE_AUTH_URL)
+
 //sign up
 export const signUp = (formData, navigate) => async () => {
     try {

@@ -12,10 +12,10 @@ const BannerSection = () => {
         backgroundImage: `url(${firstImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundRepeat: 'no-repeat'
       }}
     >
-      <Box sx={{ padding: { xs: '85px 30px', md: '65px 90px' } }}>
+      <Box sx={{ padding: { xs: '85px 30px', md: '55px 90px' } }}>
         <Grid container>
           <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
 

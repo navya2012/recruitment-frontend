@@ -13,14 +13,14 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <Box sx={{marginTop:'4%'}}>
-      <BannerSection />
-      <Box sx={{ backgroundColor: '#F0F5F7', padding: { xs: '10px', md: '20px 90px' } }}>
-        <JobSearchContent />
-        <BuildResumeContent />
-        <Business />
-      </Box>
-      <NewsLetter />
+      <Box sx={{ paddingTop: '4%' ,backgroundColor: '#F0F5F7',}}>
+        <BannerSection />
+        <Box sx={{  padding: { xs: '10px', md: '20px 90px' } }}>
+          <JobSearchContent />
+          <BuildResumeContent />
+          <Business />
+        </Box>
+        <NewsLetter />
       </Box>
       <Footer />
     </>

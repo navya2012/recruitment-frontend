@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { clearError } from '../../redux/slices/authSlice';
 import { login } from '../../api\'s/authApi\'s';
 import LoadingSpinner from '../spinner/LoadingSpinner';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -37,6 +38,13 @@ const LoginForm = () => {
   const handleMouseDownPassword = () => {
     setShowPassword(!showPassword)
   }
+
+  const handleClearField = (field) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: '',
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -84,6 +92,15 @@ const LoginForm = () => {
                   label="Email" name="email" type="email"
                   value={formData.email}
                   onChange={handleChange}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton onClick={() => handleClearField('email')}>
+                          {formData.email ? <ClearIcon sx={{color:'black'}} /> : null} 
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
                 />
                 <TextField variant="outlined" fullWidth margin="normal"
                   label="Password" name="password" type={showPassword ? "text" : "password"}
@@ -99,6 +116,9 @@ const LoginForm = () => {
                         >
                           {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
                         </IconButton>
+                        <IconButton onClick={() => handleClearField('password')}>
+                        {formData.password ? <ClearIcon  sx={{color:'black'}}/> : null} 
+                      </IconButton>
                       </InputAdornment>
 
                     )

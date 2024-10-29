@@ -3,20 +3,21 @@ import { Box, Paper, Grid, Typography, Avatar, Pagination, Stack } from "@mui/ma
 import { styled } from "@mui/system";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllAppliedJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s'; // Ensure the correct import path
+import { getAllAppliedJobPostsPostedByEmployer } from '../../../../api\'s/employerApi\'s';
 import LoadingSpinner from '../../../../common/spinner/LoadingSpinner';
 import { useNavigate } from 'react-router-dom';
 
-
 const JobCard = styled(Paper)(({ theme }) => ({
-  padding: '50px 20px',
+  padding: ' 20px',
   borderRadius: '12px',
-  margin: '10px',
-  textAlign: 'center',
+  textAlign: 'left', 
   boxShadow: theme.shadows[3],
   display: 'flex',
   justifyContent: 'flex-start',
-  alignItems: 'flex-start'
+  alignItems: 'flex-start',
+  cursor: 'pointer',
+  minHeight: '220px', 
+  overflow: 'visible', 
 }));
 
 const JobAppliedApplications = () => {
@@ -28,7 +29,7 @@ const JobAppliedApplications = () => {
   const itemsPerPage = 6;
 
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +37,7 @@ const JobAppliedApplications = () => {
       try {
         await dispatch(getAllAppliedJobPostsPostedByEmployer(currentPage, itemsPerPage, navigate));
       } catch (error) {
-        throw new Error(error.message)
+        throw new Error(error.message);
       } finally {
         setLoading(false);
       }
@@ -61,32 +62,36 @@ const JobAppliedApplications = () => {
   // Pagination total
   const totalJobs = jobAppliedUsers?.length;
 
+  const handleCardClick = (employeeId) => {
+    navigate(`${employeeId}`); 
+  };
+
   return (
     <>
-      <Typography variant="h4" sx={{  mb: 3 }}>
+      <Typography variant="h4" sx={{ mb: 3 }}>
         All Applicants!
       </Typography>
-      <Typography variant="body2" sx={{ mb: 3 , color:'#0557A2'}}>
+      <Typography variant="body2" sx={{ mb: 3, color: '#0557A2' }}>
         Ready to jump back in?
       </Typography>
 
       <Paper sx={{ padding: '30px', borderRadius: '10px' }}>
-        <Typography variant='h5' sx={{  mb: 3 }}>Applicant</Typography>
+        <Typography variant='h5' sx={{ mb: 3 }}>Applicant</Typography>
 
         {
           loading ? (
             <LoadingSpinner />
           ) : (
             <>
-              <Typography variant='h6' sx={{ mb: 3 , color:'#0557A2'}}>
-                {hasApplicants ? ` show ${indexOfFirstPost + 1} - ${Math.min(indexOfLastPost, totalJobs)} of ${totalJobs} jobs` : "0 jobs"}
+              <Typography variant='h6' sx={{ mb: 3, color: '#0557A2' }}>
+                {hasApplicants ? `Show ${currentJobPosts.length} of ${totalJobs} jobs` : "0 jobs"}
               </Typography>
 
               <Grid container spacing={3}>
                 {hasApplicants ? (
                   currentJobPosts.map((data, id) => (
-                    <Grid item xs={12} sm={12} md={6} key={id}>
-                      <JobCard elevation={3}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} key={id}>
+                      <JobCard elevation={3} onClick={() => handleCardClick(data.employee_id)}>
                         <Avatar
                           alt=''
                           src={data.employee_profileImage}
@@ -96,18 +101,15 @@ const JobAppliedApplications = () => {
                           <Typography variant="h5" gutterBottom>
                             {data.employee_firstName || "-"} {data.employee_lastName || "-"}
                           </Typography>
-                          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5, mb: 1.5, flexDirection: { xs: 'column', md: 'row' } }}>
-                            <Typography variant="body1" color="textSecondary" gutterBottom>
+                          <Typography variant="body1" color="textSecondary" gutterBottom>
                               {data.employee_position || "-"}
                             </Typography>
-
-                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', paddingBottom:'10px' }} >
                               <LocationOnOutlinedIcon />
-                              <Typography variant="body1" color="textSecondary" gutterBottom>
+                              <Typography variant="body2" color="textSecondary" gutterBottom>
                                 {data.employee_location || "-"}
                               </Typography>
                             </Box>
-                          </Box>
                           <Typography variant="body2" color="textSecondary">
                             Applied on: {data.employee_jobAppliedDate ? formatDate(data.employee_jobAppliedDate) : "-"}
                           </Typography>
@@ -144,3 +146,4 @@ const JobAppliedApplications = () => {
 };
 
 export default JobAppliedApplications;
+

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, TextField, Typography, InputAdornment, IconButton } from '@mui/material';
 import AuthCoverPage from '../authCoverPage/AuthCoverPage';
 import { useNavigate } from 'react-router-dom';
 import { forgotPassword } from '../../api\'s/authApi\'s';
 import LoadingSpinner from '../spinner/LoadingSpinner';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -22,6 +23,10 @@ const ForgotPassword = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleClearEmail = () => {
+        setEmail('');
     };
 
     return (
@@ -70,6 +75,15 @@ const ForgotPassword = () => {
                                             required
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
+                                            InputProps={{
+                                                endAdornment: (
+                                                  <InputAdornment position='end'>
+                                                    <IconButton onClick={handleClearEmail}>
+                                                      {email ? <ClearIcon sx={{color:'black'}} /> : null} 
+                                                    </IconButton>
+                                                  </InputAdornment>
+                                                )
+                                              }}
                                         />
                                         <Button type="submit" variant="contained" sx={{ marginTop: '40px' }}>
                                             Send OTP

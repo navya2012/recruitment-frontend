@@ -10,7 +10,7 @@ const JobSearchContent = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'start',
-        margin: '50px 0',
+        margin: '30px 0',
         borderRadius:'15px'
       }}
     >

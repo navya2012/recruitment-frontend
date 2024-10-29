@@ -2,9 +2,41 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import '../CSSModules/formStyles/formPageStyles.css'
 import { loginSuccess } from '../redux/slices/authSlice'
-import { setAddJobAppliedPosts, setAllExperienceData, setAllJobPosts, setExperienceSuccess, setAllUsersAppliedJobPosts, setAllAppliedJobs } from '../redux/slices/employeeSlice'
+import { setAddJobAppliedPosts, setAllJobPosts, setAllUsersAppliedJobPosts, setAllAppliedJobs, setEmployeeFullDetails, setAddExperience, setUpdateExperience, setExperienceData } from '../redux/slices/employeeSlice'
 import { checkTokenAndProceed } from '../utils/accessToken'
 
+
+//employee full details
+export const getEmployeeFullDetails = (employeeId) => async (dispatch) => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_CANDIDATE_URL}/employee-full-details/${employeeId}`)
+        if (response && response.data && response.status === 200) {
+            const result = response.data.fullDetails
+            dispatch(setEmployeeFullDetails(result))
+            // toast.success(response.data.message, {
+            //     position: "top-center",
+            //     autoClose: 3000,
+            //     className: 'custom-toast'
+            // });
+            return {
+                success: true,
+                data: response.data
+            };
+        }
+    }
+    catch (error) {
+        const errors = error.response.data.error
+        toast.error(errors, {
+            position: "top-center",
+            autoClose: 3000,
+            className: 'custom-toast'
+        });
+        return {
+            success: false,
+            errors: errors
+        };
+    }
+}
 
 //update details
 export const updateEmployeeDetails = (formData, navigate) => async (dispatch) => {
@@ -67,7 +99,8 @@ export const updateEmployeeDetails = (formData, navigate) => async (dispatch) =>
     }
 }
 
-export const getWorkingExperience = (navigate) => async (dispatch) => {
+// working experience
+export const getWorkingExperienceData = (navigate) => async (dispatch) => {
     try {
         const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return; 
@@ -80,7 +113,7 @@ export const getWorkingExperience = (navigate) => async (dispatch) => {
             }
         )
         if (response && response.data && response.status === 200) {
-            dispatch(setAllExperienceData(response.data.experienceData))
+            dispatch(setExperienceData(response.data.experienceData))
             return {
                 success: true,
                 data: response.data
@@ -108,15 +141,15 @@ export const getWorkingExperience = (navigate) => async (dispatch) => {
     }
 }
 
-//working experience
-export const addAndUpdateWorkingExperience = (experienceData, navigate) => async (dispatch) => {
+//add working experience
+export const addWorkingExperience = (experienceData, navigate) => async (dispatch) => {
     try {
         const token = checkTokenAndProceed(dispatch,navigate);
         if (!token) return; 
         
         const employeeId = JSON.parse(localStorage.getItem('employeeId'));
         const data = { ...experienceData, employee_id: employeeId };
-        const response = await axios.post(`${process.env.REACT_APP_BASE_CANDIDATE_URL}/working-experience`, data,
+        const response = await axios.post(`${process.env.REACT_APP_BASE_CANDIDATE_URL}/add-working-experience`, data,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -124,7 +157,42 @@ export const addAndUpdateWorkingExperience = (experienceData, navigate) => async
             }
         )
         if (response && response.data && response.status === 200) {
-            dispatch(setExperienceSuccess(data))
+            dispatch(setAddExperience(response?.data?.addWorkingExperience))
+            return {
+                success: true,
+                data: response.data
+            };
+        }
+    }
+    catch (error) {
+        const errors = error.response.data.error
+        toast.error(errors, {
+            position: "top-center",
+            autoClose: 3000,
+            className: 'custom-toast'
+        });
+        return {
+            success: false,
+            errors: errors
+        };
+    }
+}
+
+//update working experience
+export const updateWorkingExperience = (experienceData, navigate) => async (dispatch) => {
+    try {
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return; 
+        
+        const response = await axios.patch(`${process.env.REACT_APP_BASE_CANDIDATE_URL}/update-working-experience`, experienceData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        )
+        if (response && response.data && response.status === 200) {
+            dispatch(setUpdateExperience(response.data.updatedWorkingExperience))
             return {
                 success: true,
                 data: response.data

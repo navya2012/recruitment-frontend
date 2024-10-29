@@ -26,6 +26,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   width: '130px',
   backgroundColor: '#0557a2',
   color: '#fff',
+  margin:'0'
 }));
 
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -34,7 +35,12 @@ const StyledCard = styled(Card)(({ theme }) => ({
   position: 'relative',
   border: '2px solid #0557A2',
   borderRadius: '15px',
+  display: 'flex', 
+  flexDirection: 'column',
+  height: '100%', 
+  minHeight: '300px',
 }));
+
 
 const FindJobPosts = () => {
   const { allJobPosts, allUsersAppliedJobPosts } = useSelector((state) => state?.employeeReducer);
@@ -83,10 +89,7 @@ const FindJobPosts = () => {
 
   return (
     <>
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-
-          {
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',flexDirection: 'column' }}>{
             loading ? (
               <LoadingSpinner />
             ) : (
@@ -95,62 +98,62 @@ const FindJobPosts = () => {
                   Show {jobsToDisplay.length} of {totalJobs} jobs
                 </Typography>
 
-                <Grid container spacing={5}>
-                  {jobsToDisplay.length > 0 ? (
-                    jobsToDisplay.map((job) => (
-                      <Grid item xs={12} sm={6} md={4} key={job._id}>
-                        <StyledCard>
-                          <CardContent>
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                              <Typography variant="h6" fontWeight="bold">
-                                {job.companyName}
-                              </Typography>
-                              <Typography variant="subtitle1" sx={{ margin: '15px 0', fontSize: '18px' }}>
-                                {job.role}
-                              </Typography>
+                <Grid container spacing={5} justifyContent="center">
+            {jobsToDisplay.length > 0 ? (
+              jobsToDisplay.map((job) => (
+                <Grid item xs={12} sm={6} md={4} lg={4} key={job._id}>
+                  <StyledCard>
+                    <CardContent sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                      <Box sx={{ flexGrow: 1 }}>
+                        <Typography variant="h6" fontWeight="bold">
+                          {job.companyName}
+                        </Typography>
+                        <Typography variant="subtitle1" sx={{ margin: '15px 0', fontSize: '18px' }}>
+                          {job.role}
+                        </Typography>
 
-                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginBottom: '30px' }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <CodeIcon sx={{ marginRight: '8px' }} />
-                                  <Typography>
-                                    {Array.isArray(job.technologies) && job.technologies.length > 0
-                                      ? job.technologies.join(', ')
-                                      : job.technologies || 'N/A'}
-                                  </Typography>
-                                </Box>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <SchoolIcon sx={{ marginRight: '8px' }} />
-                                  <Typography>{job.experience}</Typography>
-                                </Box>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <LocationOnIcon sx={{ marginRight: '8px' }} />
-                                  <Typography>{job.location}</Typography>
-                                </Box>
-                              </Box>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginBottom: '30px' }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <CodeIcon sx={{ marginRight: '8px' }} />
+                            <Typography>
+                              {Array.isArray(job.technologies) && job.technologies.length > 0
+                                ? job.technologies.join(', ')
+                                : job.technologies || 'N/A'}
+                            </Typography>
+                          </Box>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <SchoolIcon sx={{ marginRight: '8px' }} />
+                            <Typography>{job.experience}</Typography>
+                          </Box>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <LocationOnIcon sx={{ marginRight: '8px' }} />
+                            <Typography>{job.location}</Typography>
+                          </Box>
+                        </Box>
 
-                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <SchoolIcon sx={{ marginRight: '8px' }} />
-                                  <Typography>{job.graduation}</Typography>
-                                </Box>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                  <LanguageIcon sx={{ marginRight: '8px' }} />
-                                  <Typography>{job.languages.join(', ')}</Typography>
-                                </Box>
-                              </Box>
-                            </Box>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <SchoolIcon sx={{ marginRight: '8px' }} />
+                            <Typography>{job.graduation}</Typography>
+                          </Box>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <LanguageIcon sx={{ marginRight: '8px' }} />
+                            <Typography>{job.languages.join(', ')}</Typography>
+                          </Box>
+                        </Box>
+                      </Box>
 
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
-                              <StyledButton
-                                onClick={() => handleJobApply(job._id)}
-                                variant="contained"
-                              >
-                                Apply Now
-                              </StyledButton>
-                            </Box>
-                          </CardContent>
-                        </StyledCard>
-                      </Grid>
+                      <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+                        <StyledButton
+                          onClick={() => handleJobApply(job._id)}
+                          variant="contained"
+                        >
+                          Apply Now
+                        </StyledButton>
+                      </Box>
+                    </CardContent>
+                  </StyledCard>
+                </Grid>
                     ))
                   ) : (
                     <Box
@@ -194,8 +197,6 @@ const FindJobPosts = () => {
                 </Stack>
               </>
             )}
-
-        </Box>
       </Box>
     </>
   );

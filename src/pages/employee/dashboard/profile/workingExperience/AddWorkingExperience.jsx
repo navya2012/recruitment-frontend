@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, FormControl, InputLabel, Select, MenuItem, Button, Typography, Paper } from '@mui/material';
 import { experienceOptions, graduationOptions, languageOptions, locationOptions, noticePeriodOptions, technologiesOptions } from './MenuOptions';
 import { useDispatch } from 'react-redux';
-import { addAndUpdateWorkingExperience } from '../../../../../api\'s/employeeApi\'s';
+import {  addWorkingExperience } from '../../../../../api\'s/employeeApi\'s';
 import { useExperienceContextData } from '../../../../../context/ExperienceProvider';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ const AddWorkingExperience = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const response = await dispatch(addAndUpdateWorkingExperience(experienceData, navigate));
+        const response = await dispatch(addWorkingExperience(experienceData, navigate));
         if (response.success) {
             setExperienceData({
                 technologies: [],

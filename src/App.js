@@ -34,6 +34,8 @@ import JobPostsList from './pages/employer/dashboard/jobPosts/JobPostsList';
 import AppliedJobs from './pages/employee/dashboard/jobPosts/AppliedJobs';
 import MainPage from './components/mainPage/MainPage';
 import PageNotFound from './common/errorPage/PageNotFound';
+import AppliedEmployeeDetails from './pages/employer/dashboard/jobPosts/AppliedEmployeeDetails';
+
 
 
 function App() {
@@ -59,12 +61,12 @@ function App() {
                   <Route path='/home-page' element={<PrivatePath><Home /></PrivatePath>} />
                   <Route path='/find-jobs' element={<PrivatePath><JobsPage /></PrivatePath>} />
 
-
                   <Route element={<EmployerSidebarLayout />}>
                     <Route path={`/employer-dashboard`}>
                       <Route path='home' element={<PrivatePath><EmployerDashboard /></PrivatePath>} />
                       <Route path='change-password' element={<PrivatePath><ChangePassword /></PrivatePath>} />
                       <Route path='applied-job-posts' element={<PrivatePath><JobAppliedApplications /></PrivatePath>} />
+                      <Route path='applied-job-posts/:id' element={<PrivatePath><AppliedEmployeeDetails /></PrivatePath>} />
                       <Route path='add-new-jobs' element={<PrivatePath><AddJobPosts /></PrivatePath>} />
                       <Route path='edit-jobs/:id' element={<PrivatePath><EditJobPosts /></PrivatePath>} />
                       <Route path='manage-jobs' element={<PrivatePath><JobPostsList /></PrivatePath>} />
