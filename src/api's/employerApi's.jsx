@@ -2,7 +2,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import '../CSSModules/formStyles/formPageStyles.css'
 import { loginSuccess } from '../redux/slices/authSlice'
-import { addJobPost, setDeleteJobPosts, setJobAppliedUsers, setJobPosts, setUpdateJobPost } from '../redux/slices/employerSlice'
+import { addJobPost, setApproveAppliedJobPosts, setDeleteAppliedJobPosts, setDeleteJobPosts, setJobAppliedUsers, setJobPosts, setRejectAppliedJobPosts, setUpdateJobPost } from '../redux/slices/employerSlice'
 import { checkTokenAndProceed } from '../utils/accessToken'
 
 
@@ -268,3 +268,122 @@ export const getAllAppliedJobPostsPostedByEmployer = (navigate) => async (dispat
     }
 }
 
+//delete applied job posts by employer
+export const deleteAppliedJobPostsByEmployer = (employeeId, jobId,navigate) => async (dispatch) => {
+    try {
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return;
+
+        const response = await axios.delete(`${process.env.REACT_APP_BASE_EMPLOYER_URL}/delete-job-applied-posts/${employeeId}/${jobId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }
+        )
+        if (response && response.data && response.status === 200) {
+            dispatch(setDeleteAppliedJobPosts({ jobId, employeeId }))
+            toast.success(response.data.message, {
+                position: "top-center",
+                autoClose: 3000,
+                className: 'custom-toast'
+            });
+            return {
+                success: true,
+                data: response.data
+            };
+        }
+    }
+    catch (error) {
+        const errors = error.response.data.error
+        toast.error(errors, {
+            position: "top-center",
+            autoClose: 3000,
+            className: 'custom-toast'
+        });
+        return {
+            success: false,
+            errors: errors
+        };
+    }
+}
+
+//approve applied job posts by employer
+export const approveAppliedJobPostsByEmployer = (employeeId, jobId, navigate) => async (dispatch) => {
+    try {
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return;
+
+        const response = await axios.patch(`${process.env.REACT_APP_BASE_EMPLOYER_URL}/approve-job-applied-posts/${employeeId}/${jobId}`,{},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }
+        )
+        if (response && response.data && response.status === 200) {
+            dispatch(setApproveAppliedJobPosts({ jobId, employeeId }))
+            toast.success(response.data.message, {
+                position: "top-center",
+                autoClose: 3000,
+                className: 'custom-toast'
+            });
+            return {
+                success: true,
+                data: response.data
+            };
+        }
+    }
+    catch (error) {
+        const errors = error.response.data.error
+        toast.error(errors, {
+            position: "top-center",
+            autoClose: 3000,
+            className: 'custom-toast'
+        });
+        return {
+            success: false,
+            errors: errors
+        };
+    }
+}
+
+//approve applied job posts by employer
+export const rejectAppliedJobPostsByEmployer = (employeeId, jobId, navigate) => async (dispatch) => {
+    try {
+        const token = checkTokenAndProceed(dispatch,navigate);
+        if (!token) return;
+
+        const response = await axios.patch(`${process.env.REACT_APP_BASE_EMPLOYER_URL}/reject-job-applied-posts/${employeeId}/${jobId}`,{},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }
+        )
+        if (response && response.data && response.status === 200) {
+            dispatch(setRejectAppliedJobPosts({ jobId, employeeId }))
+            toast.success(response.data.message, {
+                position: "top-center",
+                autoClose: 3000,
+                className: 'custom-toast'
+            });
+            return {
+                success: true,
+                data: response.data
+            };
+        }
+    }
+    catch (error) {
+        const errors = error.response.data.error
+        toast.error(errors, {
+            position: "top-center",
+            autoClose: 3000,
+            className: 'custom-toast'
+        });
+        return {
+            success: false,
+            errors: errors
+        };
+    }
+}

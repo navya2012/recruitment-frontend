@@ -45,6 +45,36 @@ const employerSlice = createSlice({
                 error: null
             }
         },
+        setDeleteAppliedJobPosts: (state, action) => {
+            const { jobId, employeeId } = action.payload;
+            return {
+                ...state,
+                jobAppliedUsers: state.jobAppliedUsers.filter(
+                    job => !(job.jobId === jobId && job.employee_id === employeeId)
+                ),
+                error: null
+            };
+        },
+        setApproveAppliedJobPosts: (state, action) => {
+            const { jobId, employeeId } = action.payload;
+            const job = state.jobAppliedUsers.find(
+                job => job.jobId === jobId && job.employee_id === employeeId
+            );
+            if (job) {
+                job.jobStatus = 'Approved';
+            }
+            state.error = null;
+        },
+        setRejectAppliedJobPosts: (state, action) => {
+            const { jobId, employeeId } = action.payload;
+            const job = state.jobAppliedUsers.find(
+                job => job.jobId === jobId && job.employee_id === employeeId
+            );
+            if (job) {
+                job.jobStatus = 'Rejected';
+            }
+            state.error = null;
+        },
         clearError: (state) => {
             state.error = null;
         },
@@ -58,6 +88,9 @@ export const {
     setDeleteJobPosts,
     addJobPost,
     setUpdateJobPost,
+    setDeleteAppliedJobPosts,
+    setApproveAppliedJobPosts,
+    setRejectAppliedJobPosts,
     clearError
 }
 

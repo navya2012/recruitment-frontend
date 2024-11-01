@@ -4,7 +4,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
 const SideBarContext = createContext();
 
@@ -31,6 +31,11 @@ export const SideBarProvider = ({ children }) => {
           menuItem: 'All Applications',
           path: '/employer-dashboard/applied-job-posts',
           icon: <AssignmentIcon />
+        },
+        {
+          menuItem: 'Application Outcomes',
+          path: '/employer-dashboard/review-job-applications',
+          icon: <AssignmentTurnedInIcon />
         }
       ];
 
