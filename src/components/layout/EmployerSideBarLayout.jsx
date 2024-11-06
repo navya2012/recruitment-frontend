@@ -3,13 +3,14 @@ import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import { useSideBarContextData } from '../../context/SideBarProvider';
 import SidebarFooter from '../footer/SidebarFooter';
-import SideBar from '../sidebar/Sidebar';
+import SideBarLayout from '../sidebar/SideBarLayout';
+
 
 const EmployerSidebarLayout = () => {
   const {employerMenuList} = useSideBarContextData()
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-      <SideBar menuItems={employerMenuList} />
+      <SideBarLayout menuItems={employerMenuList} />
       <Box 
         component="main" 
         sx={{ 

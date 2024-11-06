@@ -103,7 +103,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function SideBar({ menuItems }) {
+export default function SideBarLayout({ menuItems }) {
     const theme = useTheme();
     const navigate = useNavigate()
 
