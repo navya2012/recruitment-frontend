@@ -7,37 +7,37 @@ import { getAllAppliedJobPostsPostedByEmployer } from '../../../../api\'s/employ
 
 
 const ApplicationOutcomes = () => {
-    const [loading, setLoading] = useState(false)
-    const [value, setValue] = React.useState('one');
+  const [loading, setLoading] = useState(false)
+  const [value, setValue] = React.useState('one');
 
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const { jobAppliedUsers } = useSelector((state) => state?.employerReducer);
+  console.log(jobAppliedUsers)
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        await dispatch(getAllAppliedJobPostsPostedByEmployer(navigate));
+      } catch (error) {
+        throw new Error(error.message);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const { jobAppliedUsers } = useSelector((state) => state?.employerReducer);
-    console.log(jobAppliedUsers)
-
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        const fetchData = async () => {
-          setLoading(true);
-          try {
-            await dispatch(getAllAppliedJobPostsPostedByEmployer( navigate));
-          } catch (error) {
-            throw new Error(error.message);
-          } finally {
-            setLoading(false);
-          }
-        };
-    
-        fetchData();
-      }, [dispatch, navigate]);
+    fetchData();
+  }, [dispatch, navigate]);
 
   return (
     <>
-          <Typography variant="h4" sx={{ mb: 3 }}>
+      <Typography variant="h4" sx={{ mb: 3 }}>
         Reviewed Applications!
       </Typography>
       <Typography variant="body2" sx={{ mb: 3, color: '#0557A2' }}>
@@ -52,29 +52,29 @@ const ApplicationOutcomes = () => {
             <LoadingSpinner />
           ) : (
             <>
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        aria-label="secondary tabs example"
-        sx={{ width: '50%', '& .MuiTabs-indicator': { backgroundColor: '#0557A2' } }} 
-      >
-        <Tab 
-          value="one" 
-          label="Approved Applications" 
-          sx={{ flex: 1, color: '#0557A2', '&.Mui-selected': { color: '#0557A2' } }} 
-        />
-        <Tab 
-          value="two" 
-          label="Rejected Applications" 
-          sx={{ flex: 1, color: '#0557A2', '&.Mui-selected': { color: '#0557A2' } }}
-        />
-      </Tabs>
-    </Box>
+              <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="secondary tabs example"
+                  sx={{ width: '50%', '& .MuiTabs-indicator': { backgroundColor: '#0557A2' } }}
+                >
+                  <Tab
+                    value="one"
+                    label="Approved Applications"
+                    sx={{ flex: 1, color: '#0557A2', '&.Mui-selected': { color: '#0557A2' } }}
+                  />
+                  <Tab
+                    value="two"
+                    label="Rejected Applications"
+                    sx={{ flex: 1, color: '#0557A2', '&.Mui-selected': { color: '#0557A2' } }}
+                  />
+                </Tabs>
+              </Box>
             </>
           )
         }
-        </Paper>
+      </Paper>
     </>
   )
 }

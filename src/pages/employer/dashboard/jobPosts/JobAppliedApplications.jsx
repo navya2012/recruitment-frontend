@@ -30,7 +30,6 @@ const JobAppliedApplications = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { jobAppliedUsers } = useSelector((state) => state?.employerReducer);
-  console.log(jobAppliedUsers)
 
   const itemsPerPage = 6;
 
@@ -86,7 +85,6 @@ const JobAppliedApplications = () => {
   const totalJobs = jobAppliedUsers?.length;
 
   const handleCardClick = (employeeId) => {
-    console.log(employeeId)
     navigate(`${employeeId}`);
   };
 

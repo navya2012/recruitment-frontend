@@ -8,12 +8,10 @@ import { checkTokenAndProceed } from '../utils/accessToken'
 
 //employee full details
 export const getEmployeeFullDetails = (employeeId) => async (dispatch) => {
-    console.log('api', employeeId)
     try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_CANDIDATE_URL}/employee-full-details/${employeeId}`)
         if (response && response.data && response.status === 200) {
             const result = response.data.fullDetails
-            console.log(result)
             dispatch(setEmployeeFullDetails(result))
             // toast.success(response.data.message, {
             //     position: "top-center",
